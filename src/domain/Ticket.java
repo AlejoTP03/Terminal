@@ -16,16 +16,22 @@ public class Ticket {
     private String apellidoPasajero;
     private String ciPasajero;
     private Date fechaSalida;
+    private String destino;
     private String matricula;
 
-    public Ticket(String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String matricula) {
+    Omnibus omnibus = new Omnibus();
+            
+    public Ticket(String idTicket, String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
+        this.idTicket = idTicket;
         this.nombePasajero = nombePasajero;
         this.apellidoPasajero = apellidoPasajero;
         this.ciPasajero = ciPasajero;
         this.fechaSalida = fechaSalida;
-        this.matricula = matricula;
+        this.destino = destino;
+        this.matricula = omnibus.getMatricula();
     }
 
+    
     public String getIdTicket() {
         return idTicket;
     }

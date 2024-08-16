@@ -32,6 +32,10 @@ public class Omnibus {
         this.idTaller = taller.getIdTaller();
     }
 
+    public Omnibus() {
+    }
+    
+    
     public String getMatricula() {
         return matricula;
     }
