@@ -4,6 +4,8 @@
  */
 package domain;
 
+import persistence.ConexionDataBase;
+
 /**
  *
  * @author PC
@@ -13,5 +15,13 @@ public class Main {
         Taller taller = new Taller();
         
         System.out.println(taller.getIdTaller());
+        
+        
+        ConexionDataBase conectar = new ConexionDataBase();
+        conectar.getConnection();
+//        conectar.closeConnection();;
+        conectar.comprobarConexion();
     }
+    
+    
 }

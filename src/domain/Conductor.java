@@ -16,13 +16,14 @@ public class Conductor {
     private String telefono;
     private String matricula;
 
-
+    
+    Omnibus omnibus = new Omnibus();
     public Conductor(String nombre, String apellido, String direccion, String telefono, String matricula, int idTaller) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.matricula = matricula;
+        this.matricula = omnibus.getMatricula();
     }
     
 

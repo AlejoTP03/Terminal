@@ -41,6 +41,8 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButtonAceptar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
+        jLabelDestino = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Ticket");
@@ -86,32 +88,41 @@ public class FormAgregarTicket extends javax.swing.JDialog {
             }
         });
 
+        jLabelDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelDestino.setText("Destino:");
+
+        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelApellidoPasajero)
-                    .addComponent(jLabelNombreDelPasajero)
-                    .addComponent(jLabelCiPasajero, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelFechaDeSalida, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelMatricula, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldApellidoPasajero)
-                    .addComponent(jTextFieldCiPasajero)
-                    .addComponent(jTextFieldFechasalida)
-                    .addComponent(jComboBox1, 0, 200, Short.MAX_VALUE)
-                    .addComponent(jTextFieldNombrePasajero))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(351, Short.MAX_VALUE)
                 .addComponent(jButtonCancelar)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonAceptar)
                 .addGap(18, 18, 18))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelDestino)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabelApellidoPasajero)
+                        .addComponent(jLabelNombreDelPasajero)
+                        .addComponent(jLabelCiPasajero, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabelFechaDeSalida, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabelMatricula, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextFieldApellidoPasajero)
+                    .addComponent(jTextFieldCiPasajero)
+                    .addComponent(jTextFieldFechasalida)
+                    .addComponent(jComboBox1, 0, 200, Short.MAX_VALUE)
+                    .addComponent(jTextFieldNombrePasajero)
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,9 +145,13 @@ public class FormAgregarTicket extends javax.swing.JDialog {
                     .addComponent(jTextFieldFechasalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelDestino)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMatricula)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAceptar)
                     .addComponent(jButtonCancelar))
@@ -222,9 +237,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelApellidoPasajero;
     private javax.swing.JLabel jLabelCiPasajero;
+    private javax.swing.JLabel jLabelDestino;
     private javax.swing.JLabel jLabelFechaDeSalida;
     private javax.swing.JLabel jLabelMatricula;
     private javax.swing.JLabel jLabelNombreDelPasajero;

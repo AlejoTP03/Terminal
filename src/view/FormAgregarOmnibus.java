@@ -4,6 +4,9 @@
  */
 package view;
 
+import java.awt.Color;
+import utils.VerificarEntradaDeHora;
+
 /**
  *
  * @author PC
@@ -13,6 +16,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
     /**
      * Creates new form FormAgregarOmnibus
      */
+    VerificarEntradaDeHora entradaHora = new VerificarEntradaDeHora();
     public FormAgregarOmnibus(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -44,7 +48,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jTextFieldHoraSalida = new javax.swing.JTextField();
         jTextFieldPaisProcedencia = new javax.swing.JTextField();
         jButtonAceptar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Ómnibus");
@@ -73,14 +77,37 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jLabelPaisProcedencia.setText("País de Procedencia:");
 
         jTextFieldMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldMatriculaKeyTyped(evt);
+            }
+        });
 
         jTextFieldMarca.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jTextFieldModelo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jTextFieldCapacidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldCapacidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldCapacidadKeyTyped(evt);
+            }
+        });
+
+        jComboBoxDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+        jComboBoxDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDestinoActionPerformed(evt);
+            }
+        });
 
         jTextFieldHoraSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldHoraSalida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldHoraSalidaKeyTyped(evt);
+            }
+        });
 
         jTextFieldPaisProcedencia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -88,7 +115,14 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
         jButtonAceptar.setText("Aceptar");
 
-        jButton2.setText("jButton2");
+        jButtonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forceexit_103817.png"))); // NOI18N
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,7 +151,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
                 .addContainerGap(238, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(jButtonCancelar)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonAceptar)
                 .addGap(18, 18, 18))
@@ -125,11 +159,11 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMatricula)
                     .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMarca)
                     .addComponent(jTextFieldMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -153,10 +187,10 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPaisProcedencia)
                     .addComponent(jTextFieldPaisProcedencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAceptar)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonCancelar))
                 .addGap(27, 27, 27))
         );
 
@@ -187,6 +221,45 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBoxDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDestinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxDestinoActionPerformed
+
+    private void jTextFieldMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMatriculaKeyTyped
+        // TODO add your handling code here:
+        if (jTextFieldMatricula.getText().length() >= 7) {
+        evt.consume(); // No permite más de 7 caracteres
+        }
+    
+        // Cambiar color a rojo si no tiene exactamente 7 caracteres
+        if (jTextFieldMatricula.getText().length() != 7) {
+            jTextFieldMatricula.setBackground(Color.pink);
+        } else {
+            jTextFieldMatricula.setBackground(Color.WHITE); // O el color por defecto
+        }
+    }//GEN-LAST:event_jTextFieldMatriculaKeyTyped
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jTextFieldHoraSalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHoraSalidaKeyTyped
+        // TODO add your handling code here:
+        jTextFieldHoraSalida.setInputVerifier(entradaHora);
+        
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && car != ':') 
+            evt.consume();
+    }//GEN-LAST:event_jTextFieldHoraSalidaKeyTyped
+
+    private void jTextFieldCapacidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCapacidadKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if((car<'0' || car>'9')) 
+            evt.consume();
+    }//GEN-LAST:event_jTextFieldCapacidadKeyTyped
 
     /**
      * @param args the command line arguments
@@ -231,8 +304,8 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JComboBox<String> jComboBoxDestino;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelCapacidad;
