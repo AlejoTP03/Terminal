@@ -118,6 +118,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Conductor"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonConductorActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonTaller">
           <Properties>
@@ -126,6 +129,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Taller"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonTallerActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

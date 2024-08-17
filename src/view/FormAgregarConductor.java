@@ -13,7 +13,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
     /**
      * Creates new form FormAgregarConductor
      */
-    public FormAgregarConductor(java.awt.Frame parent, boolean modal) {
+    public FormAgregarConductor(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -44,6 +44,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Agregar Conductor");
 
         jPanel1.setOpaque(false);
 
@@ -119,7 +120,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNombre)
                     .addComponent(jLabelNombreConductor)
@@ -140,7 +141,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMatricula)
                     .addComponent(jComboBoxMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAceptar)
                     .addComponent(jButtonCancelar))
@@ -172,6 +173,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -209,7 +211,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormAgregarConductor dialog = new FormAgregarConductor(new javax.swing.JFrame(), true);
+                FormAgregarConductor dialog = new FormAgregarConductor(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

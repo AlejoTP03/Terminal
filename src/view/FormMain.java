@@ -64,9 +64,19 @@ public class FormMain extends javax.swing.JFrame {
 
         jButtonConductor.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButtonConductor.setText("Conductor");
+        jButtonConductor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConductorActionPerformed(evt);
+            }
+        });
 
         jButtonTaller.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButtonTaller.setText("Taller");
+        jButtonTaller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTallerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,6 +139,18 @@ public class FormMain extends javax.swing.JFrame {
         FormOmnibus formOmnibus = new FormOmnibus(new javax.swing.JDialog(), true);
         formOmnibus.setVisible(true);
     }//GEN-LAST:event_jButtonOmnibusActionPerformed
+
+    private void jButtonConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConductorActionPerformed
+        // TODO add your handling code here:
+        FormConductor formConductor = new FormConductor(new javax.swing.JDialog(), true);
+        formConductor.setVisible(true);
+    }//GEN-LAST:event_jButtonConductorActionPerformed
+
+    private void jButtonTallerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTallerActionPerformed
+        // TODO add your handling code here:
+        FormTaller formTaller = new FormTaller(new javax.swing.JDialog(), true);
+        formTaller.setVisible(true);
+    }//GEN-LAST:event_jButtonTallerActionPerformed
 
     /**
      * @param args the command line arguments

@@ -13,7 +13,7 @@ public class FormConductor extends javax.swing.JDialog {
     /**
      * Creates new form FormConductor
      */
-    public FormConductor(java.awt.Frame parent, boolean modal) {
+    public FormConductor(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -84,6 +84,11 @@ public class FormConductor extends javax.swing.JDialog {
         jButtonAgregarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAgregarConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
         jButtonAgregarConductor.setText("Agregar");
+        jButtonAgregarConductor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAgregarConductorActionPerformed(evt);
+            }
+        });
 
         jButtonEliminarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonEliminarConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
@@ -147,6 +152,12 @@ public class FormConductor extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonAgregarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarConductorActionPerformed
+        // TODO add your handling code here:
+        FormAgregarConductor formAgregarConductor = new FormAgregarConductor(new javax.swing.JDialog(), true);
+        formAgregarConductor.setVisible(true);
+    }//GEN-LAST:event_jButtonAgregarConductorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -177,7 +188,7 @@ public class FormConductor extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormConductor dialog = new FormConductor(new javax.swing.JFrame(), true);
+                FormConductor dialog = new FormConductor(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
