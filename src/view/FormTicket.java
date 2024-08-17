@@ -82,12 +82,15 @@ public class FormTicket extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jButtonAgregarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonAgregarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
         jButtonAgregarTicket.setText("Agregar");
 
         jButtonEliminarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEliminarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
         jButtonEliminarTicket.setText("Eliminar");
 
         jButtonReporteTickets.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonReporteTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteTickets.setText("Reporte");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -108,12 +111,13 @@ public class FormTicket extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonAgregarTicket)
-                    .addComponent(jButtonEliminarTicket)
-                    .addComponent(jButtonReporteTickets))
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonEliminarTicket)
+                        .addComponent(jButtonReporteTickets))
+                    .addComponent(jButtonAgregarTicket))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);

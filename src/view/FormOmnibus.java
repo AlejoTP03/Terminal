@@ -81,12 +81,20 @@ public class FormOmnibus extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jButtonAgregarOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonAgregarOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
         jButtonAgregarOmnibus.setText("Agregar");
 
         jButtonEliminarOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEliminarOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
         jButtonEliminarOmnibus.setText("Eliminar");
+        jButtonEliminarOmnibus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarOmnibusActionPerformed(evt);
+            }
+        });
 
         jButtonReporteOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonReporteOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteOmnibus.setText("Reporte");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -107,12 +115,12 @@ public class FormOmnibus extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAgregarOmnibus)
                     .addComponent(jButtonEliminarOmnibus)
                     .addComponent(jButtonReporteOmnibus))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -142,6 +150,10 @@ public class FormOmnibus extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonEliminarOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarOmnibusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonEliminarOmnibusActionPerformed
 
     /**
      * @param args the command line arguments

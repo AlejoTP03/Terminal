@@ -79,6 +79,7 @@ public class FormTaller extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jButtonReporteTaller.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonReporteTaller.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteTaller.setText("Reporte");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -95,9 +96,9 @@ public class FormTaller extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonReporteTaller)
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);

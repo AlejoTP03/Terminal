@@ -11,7 +11,7 @@ import domain.Omnibus;
  * @author PC
  */
 public interface IServiciosOmnibus {
-    public int agregarOmnibus(Omnibus omnibus);
+    public boolean agregarOmnibus(Omnibus omnibus);
     public boolean eliminarOmnibus();
     public boolean actualizarTicket(Omnibus omnibus);
 }

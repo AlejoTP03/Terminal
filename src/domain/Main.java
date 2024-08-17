@@ -23,5 +23,8 @@ public class Main {
         conectar.comprobarConexion();
     }
     
+    Taller taller = new Taller();
+//    Omnibus omnibus = new Omnibus("P222222", "Youtong", "EX50H0", "Cienfuegos", 42, 12:30:00, "China", 2430);
+    
     
 }

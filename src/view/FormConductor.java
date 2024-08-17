@@ -82,12 +82,15 @@ public class FormConductor extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jButtonAgregarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonAgregarConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
         jButtonAgregarConductor.setText("Agregar");
 
         jButtonEliminarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEliminarConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
         jButtonEliminarConductor.setText("Eliminar");
 
         jButtonReporteConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonReporteConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteConductor.setText("Reporte");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -108,12 +111,12 @@ public class FormConductor extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAgregarConductor)
                     .addComponent(jButtonEliminarConductor)
                     .addComponent(jButtonReporteConductor))
-                .addGap(0, 28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
