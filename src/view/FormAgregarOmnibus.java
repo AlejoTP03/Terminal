@@ -17,7 +17,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
      * Creates new form FormAgregarOmnibus
      */
     VerificarEntradaDeHora entradaHora = new VerificarEntradaDeHora();
-    public FormAgregarOmnibus(java.awt.Frame parent, boolean modal) {
+    public FormAgregarOmnibus(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -291,7 +291,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormAgregarOmnibus dialog = new FormAgregarOmnibus(new javax.swing.JFrame(), true);
+                FormAgregarOmnibus dialog = new FormAgregarOmnibus(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -13,7 +13,7 @@ public class FormTicket extends javax.swing.JDialog {
     /**
      * Creates new form FormTicket
      */
-    public FormTicket(java.awt.Frame parent, boolean modal) {
+    public FormTicket(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -84,6 +84,11 @@ public class FormTicket extends javax.swing.JDialog {
         jButtonAgregarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAgregarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
         jButtonAgregarTicket.setText("Agregar");
+        jButtonAgregarTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAgregarTicketActionPerformed(evt);
+            }
+        });
 
         jButtonEliminarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonEliminarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
@@ -148,6 +153,12 @@ public class FormTicket extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonAgregarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarTicketActionPerformed
+        // TODO add your handling code here:
+        FormAgregarTicket formAgregarTicket = new FormAgregarTicket(new javax.swing.JDialog(), true);
+        formAgregarTicket.setVisible(true);
+    }//GEN-LAST:event_jButtonAgregarTicketActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -178,7 +189,7 @@ public class FormTicket extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormTicket dialog = new FormTicket(new javax.swing.JFrame(), true);
+                FormTicket dialog = new FormTicket(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

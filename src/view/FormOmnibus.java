@@ -13,7 +13,7 @@ public class FormOmnibus extends javax.swing.JDialog {
     /**
      * Creates new form FormOmnibus
      */
-    public FormOmnibus(java.awt.Frame parent, boolean modal) {
+    public FormOmnibus(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -83,6 +83,11 @@ public class FormOmnibus extends javax.swing.JDialog {
         jButtonAgregarOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAgregarOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
         jButtonAgregarOmnibus.setText("Agregar");
+        jButtonAgregarOmnibus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAgregarOmnibusActionPerformed(evt);
+            }
+        });
 
         jButtonEliminarOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonEliminarOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
@@ -155,6 +160,12 @@ public class FormOmnibus extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonEliminarOmnibusActionPerformed
 
+    private void jButtonAgregarOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarOmnibusActionPerformed
+        // TODO add your handling code here:
+        FormAgregarOmnibus formAgregarOmnibus = new FormAgregarOmnibus(new javax.swing.JDialog(), true);
+        formAgregarOmnibus.setVisible(true);
+    }//GEN-LAST:event_jButtonAgregarOmnibusActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -185,7 +196,7 @@ public class FormOmnibus extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormOmnibus dialog = new FormOmnibus(new javax.swing.JFrame(), true);
+                FormOmnibus dialog = new FormOmnibus(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

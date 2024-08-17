@@ -44,14 +44,23 @@ public class FormMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion Terminal de Omnibus");
-        setPreferredSize(new java.awt.Dimension(1000, 500));
         setResizable(false);
 
         jButtonTicket.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButtonTicket.setText("Ticket");
+        jButtonTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTicketActionPerformed(evt);
+            }
+        });
 
         jButtonOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButtonOmnibus.setText("Ómnibus");
+        jButtonOmnibus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOmnibusActionPerformed(evt);
+            }
+        });
 
         jButtonConductor.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButtonConductor.setText("Conductor");
@@ -108,6 +117,18 @@ public class FormMain extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTicketActionPerformed
+        // TODO add your handling code here:
+        FormTicket formTicket = new FormTicket(new javax.swing.JDialog(), true);
+        formTicket.setVisible(true);
+    }//GEN-LAST:event_jButtonTicketActionPerformed
+
+    private void jButtonOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOmnibusActionPerformed
+        // TODO add your handling code here:
+        FormOmnibus formOmnibus = new FormOmnibus(new javax.swing.JDialog(), true);
+        formOmnibus.setVisible(true);
+    }//GEN-LAST:event_jButtonOmnibusActionPerformed
 
     /**
      * @param args the command line arguments
