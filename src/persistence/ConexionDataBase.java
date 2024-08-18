@@ -20,44 +20,44 @@ public class ConexionDataBase {
 
     // Método para obtener la conexión
     public static Connection getConnection() {
-        if (connection == null) {
-            try {
+        try {
+            if (connection == null || connection.isClosed()) {
                 // Registrar el driver de PostgreSQL
                 Class.forName("org.postgresql.Driver");
                 
                 // Establecer la conexión
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 System.out.println("Conexión establecida con éxito");
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-                System.out.println("Error al conectar con la base de datos");
             }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error al conectar con la base de datos");
         }
         return connection;
     }
 
-    // Método para cerrar la conexión
-    public static void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-                System.out.println("Conexión cerrada");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    
-    // Método para comprobar la conexión a la base de datos
-    public static boolean comprobarConexion() {
-        try {
-            Connection testConnection = DriverManager.getConnection(URL, USER, PASSWORD);
-            testConnection.close(); // Cerrar la conexión de prueba inmediatamente
-            return true; // La conexión fue exitosa
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // La conexión falló
-        }
-    }
+//    // Método para cerrar la conexión
+//    public static void closeConnection() {
+//        if (connection != null) {
+//            try {
+//                connection.close();
+//                System.out.println("Conexión cerrada");
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//    
+//    
+//    // Método para comprobar la conexión a la base de datos
+//    public static boolean comprobarConexion() {
+//        try {
+//            Connection testConnection = DriverManager.getConnection(URL, USER, PASSWORD);
+//            testConnection.close(); // Cerrar la conexión de prueba inmediatamente
+//            return true; // La conexión fue exitosa
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false; // La conexión falló
+//        }
+//    }
 }

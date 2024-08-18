@@ -5,6 +5,11 @@
 package domain;
 
 import persistence.ConexionDataBase;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import utils.TraerIdTaller;
 
 /**
  *
@@ -19,12 +24,16 @@ public class Main {
         
         ConexionDataBase conectar = new ConexionDataBase();
         conectar.getConnection();
-//        conectar.closeConnection();;
-        conectar.comprobarConexion();
+        //conectar.closeConnection();;
+//        conectar.comprobarConexion();
+        
+        
+        TraerIdTaller pepe = new TraerIdTaller();
+        int consulta = pepe.obtenerIdTaller();
+        System.out.println(consulta);
     }
-    
-    Taller taller = new Taller();
-//    Omnibus omnibus = new Omnibus("P222222", "Youtong", "EX50H0", "Cienfuegos", 42, 12:30:00, "China", 2430);
-    
+       
     
 }
+
+ 

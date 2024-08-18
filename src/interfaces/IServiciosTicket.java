@@ -11,7 +11,7 @@ import domain.Ticket;
  * @author PC
  */
 public interface IServiciosTicket {
-    public int agregarTicket(Ticket ticket);
+    public boolean agregarTicket(Ticket ticket);
     public boolean eliminarTicket();
     public boolean actualizarTicket(Ticket ticket);
 }

@@ -4,6 +4,16 @@
  */
 package view;
 
+import domain.Ticket;
+import interfaces.IServiciosTicket;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+import javax.swing.JOptionPane;
+import persistence.ConexionDataBase;
+import services.ServiciosTicket;
+
 /**
  *
  * @author PC
@@ -78,6 +88,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forceexit_103817.png"))); // NOI18N
@@ -190,6 +205,58 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        // TODO add your handling code here:
+        // Genera un ID único para el ticket usando UUID (Universally Unique Identifier).
+        // Esto asegura que cada ticket tenga un identificador único.
+        String idTicket = UUID.randomUUID().toString(); 
+
+        // Obtiene el texto ingresado en el campo de texto para el nombre del pasajero.
+        String nombrePasajero = jTextFieldNombrePasajero.getText();
+        // Obtiene el texto ingresado en el campo de texto para el apellido del pasajero.
+        String apellidoPasajero = jTextFieldApellidoPasajero.getText();
+        // Obtiene el texto ingresado en el campo de texto para el CI del pasajero.
+        String ciPasajero = jTextFieldCiPasajero.getText();
+    
+        // Declara una variable para almacenar la fecha de salida.
+        Date fechaSalida = null;
+        try {
+            // Define el formato de fecha esperado (AAAA-MM-DD).
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            // Intenta analizar el texto ingresado en el campo de fecha y convertirlo a un objeto Date.
+            fechaSalida = dateFormat.parse(jTextFieldFechasalida.getText());
+        } catch (ParseException e) {
+            // Si ocurre una excepción al analizar la fecha, muestra un mensaje de error al usuario.
+            // El formato esperado es "AAAA-MM-DD".
+            JOptionPane.showMessageDialog(this, "Fecha de salida inválida, la fecha debe cumplir el formato AAAA-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+            // Sale del método sin continuar con la inserción del ticket.
+            return;
+        }
+    
+        // Obtiene el destino seleccionado en el JComboBox.
+        String destino = jComboBox2.getSelectedItem().toString();
+        // Obtiene la matrícula seleccionada en el JComboBox.
+        String matricula = jComboBox1.getSelectedItem().toString();
+
+        // Crea un nuevo objeto Ticket con los valores ingresados y el ID generado.
+        Ticket ticket = new Ticket(idTicket, nombrePasajero, apellidoPasajero, ciPasajero, fechaSalida, destino, matricula);
+
+        // Crea una instancia de IServiciosTicket para interactuar con la capa de servicios.
+        IServiciosTicket iServiciosTicket = new ServiciosTicket();
+        // Llama al método agregarTicket para insertar el ticket en la base de datos y almacena el resultado.
+        boolean resultado = iServiciosTicket.agregarTicket(ticket);
+
+        // Muestra un mensaje de confirmación si el ticket fue agregado exitosamente.
+        // De lo contrario, muestra un mensaje de error.
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "Ticket agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            // Cierra el formulario actual después de agregar el ticket.
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al agregar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
      * @param args the command line arguments

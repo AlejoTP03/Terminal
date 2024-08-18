@@ -17,25 +17,14 @@ public class Conductor {
     private String matricula;
 
     
-    Omnibus omnibus = new Omnibus();
-    public Conductor(String nombre, String apellido, String direccion, String telefono, String matricula, int idTaller) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.matricula = omnibus.getMatricula();
-    }
-    
-
-    public Conductor(int idConductor, String nombre, String apellido, String direccion, String telefono, String matricula) {
-        this.idConductor = idConductor;
+    public Conductor(String nombre, String apellido, String direccion, String telefono, String matricula) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
         this.telefono = telefono;
         this.matricula = matricula;
     }
-
+    
     public int getIdConductor() {
         return idConductor;
     }

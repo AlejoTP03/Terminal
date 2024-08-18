@@ -4,7 +4,13 @@
  */
 package view;
 
+import domain.Omnibus;
+import domain.Taller;
+import interfaces.IServiciosOmnibus;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import services.ServiciosOmnibus;
+import utils.TraerIdTaller;
 import utils.VerificarEntradaDeHora;
 
 /**
@@ -17,6 +23,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
      * Creates new form FormAgregarOmnibus
      */
     VerificarEntradaDeHora entradaHora = new VerificarEntradaDeHora();
+    TraerIdTaller traerIdTaller = new TraerIdTaller();
     public FormAgregarOmnibus(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -114,6 +121,11 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forceexit_103817.png"))); // NOI18N
@@ -260,6 +272,54 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         if((car<'0' || car>'9')) 
             evt.consume();
     }//GEN-LAST:event_jTextFieldCapacidadKeyTyped
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        // TODO add your handling code here:
+        // Obtiene el texto del campo de texto jTextFieldMatricula y lo asigna a la variable 'matricula'.
+        String matricula = jTextFieldMatricula.getText();
+
+        // Obtiene el texto del campo de texto jTextFieldMarca y lo asigna a la variable 'marca'.
+        String marca = jTextFieldMarca.getText();
+
+        // Obtiene el texto del campo de texto jTextFieldModelo y lo asigna a la variable 'modelo'.
+        String modelo = jTextFieldModelo.getText();
+
+        // Obtiene el texto del campo de texto jTextFieldCapacidad, lo convierte a entero y lo asigna a la variable 'capacidad'.
+        int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
+
+        // Obtiene el ítem seleccionado en el JComboBox jComboBoxDestino y lo convierte a cadena. Lo asigna a la variable 'destino'.
+        String destino = jComboBoxDestino.getSelectedItem().toString();
+
+        // Convierte el texto del campo de texto jTextFieldHoraSalida a un objeto java.sql.Time. Lo asigna a la variable 'horaSalida'.
+        java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
+
+        // Obtiene el texto del campo de texto jTextFieldPaisProcedencia y lo asigna a la variable 'paisProcedencia'.
+        String paisProcedencia = jTextFieldPaisProcedencia.getText();
+
+        
+        // Obtiene el idTaller desde el objeto Taller. Este valor se usará como referencia para el ómnibus.
+        int idTaller = traerIdTaller.obtenerIdTaller();
+
+        // Crea un nuevo objeto Omnibus usando los valores obtenidos de los campos de entrada.
+        Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller);
+
+        // Crea una instancia de ServiciosOmnibus (que implementa IServiciosOmnibus) para manejar la lógica de negocio.
+        IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+
+        // Llama al método agregarOmnibus del objeto iServiciosOmnibus para intentar agregar el ómnibus a la base de datos.
+        boolean success = iServiciosOmnibus.agregarOmnibus(omnibus);
+
+        // Muestra un mensaje de diálogo indicando el resultado de la operación de inserción.
+        if (success) {
+            // Si la operación fue exitosa, muestra un mensaje de éxito.
+            JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
+            // Se puede llamar al método clear() para limpiar el formulario (comentado aquí).
+            // clear();
+        } else {
+            // Si la operación falló, muestra un mensaje de error.
+            JOptionPane.showMessageDialog(this, "Error al insertar el ómnibus.");
+        }
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
      * @param args the command line arguments

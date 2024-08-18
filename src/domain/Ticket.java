@@ -19,8 +19,6 @@ public class Ticket {
     private String destino;
     private String matricula;
 
-    Omnibus omnibus = new Omnibus();
-            
     public Ticket(String idTicket, String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
         this.idTicket = idTicket;
         this.nombePasajero = nombePasajero;
@@ -28,10 +26,10 @@ public class Ticket {
         this.ciPasajero = ciPasajero;
         this.fechaSalida = fechaSalida;
         this.destino = destino;
-        this.matricula = omnibus.getMatricula();
+        this.matricula = matricula;
     }
 
-    
+        
     public String getIdTicket() {
         return idTicket;
     }
@@ -70,6 +68,14 @@ public class Ticket {
 
     public void setFechaSalida(Date fechaSalida) {
         this.fechaSalida = fechaSalida;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 
     public String getMatricula() {

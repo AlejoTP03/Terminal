@@ -107,7 +107,7 @@
                         <Column editable="true" title="Apellido" type="java.lang.String"/>
                         <Column editable="true" title="CI " type="java.lang.String"/>
                         <Column editable="true" title="Fecha de Salida" type="java.lang.String"/>
-                        <Column editable="true" title="Matricula" type="java.lang.String"/>
+                        <Column editable="true" title="Matricula" type="java.lang.Object"/>
                       </Table>
                     </Property>
                   </Properties>

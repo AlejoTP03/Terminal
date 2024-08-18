@@ -4,16 +4,34 @@
  */
 package domain;
 
+import java.util.List;
+
 /**
  *
  * @author PC
  */
 public class Taller {
-    private int idTaller = 2430;
-    private String nombre = "Mechanical Solution";
-    private String direccion = "";
-    private String telefono = "";
+    private int idTaller;
+    private String nombre;
+    private String direccion;
+    private String telefono;
+    private List<Omnibus> listadoOmnibus;
 
+    public Taller() {
+        this.idTaller = 2430;
+        this.nombre = "Mechanical Solution";
+        this.direccion = "Carretera Central #500";
+        this.telefono = "41331211";
+    }
+
+    public Taller(List<Omnibus> listadoOmnibus) {
+        this.idTaller = 2430;
+        this.nombre = "Mechanical Solution";
+        this.direccion = "Carretera Central #500";
+        this.telefono = "41331211";
+        this.listadoOmnibus = listadoOmnibus;
+    }
+    
     
     public int getIdTaller() {
         return idTaller;
@@ -45,6 +63,14 @@ public class Taller {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public List<Omnibus> getListadoOmnibus() {
+        return listadoOmnibus;
+    }
+
+    public void setListadoOmnibus(List<Omnibus> listadoOmnibus) {
+        this.listadoOmnibus = listadoOmnibus;
     }
     
     
