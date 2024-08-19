@@ -264,6 +264,12 @@ public class FormAgregarTicket extends javax.swing.JDialog {
             return;
         }
 
+        // Verifica que se haya seleccionado un destino y una matrícula antes de continuar
+        if (jComboBoxDestino.getSelectedItem() == null || jComboBoxMatricula.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un destino y una matrícula", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String destino = jComboBoxDestino.getSelectedItem().toString();
         String matricula = jComboBoxMatricula.getSelectedItem().toString();
 
@@ -376,17 +382,13 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     
     public boolean emptyFields() {
     // Verifica que los JTextField no estén vacíos
-    if (!jTextFieldNombrePasajero.getText().equals("")
+    return !jTextFieldNombrePasajero.getText().equals("")
         && !jTextFieldApellidoPasajero.getText().equals("")
         && !jTextFieldCiPasajero.getText().equals("")
         && !jTextFieldFechasalida.getText().equals("")
         // Verifica que se haya seleccionado un valor en los JComboBox
         && jComboBoxDestino.getSelectedItem() != null
-        && jComboBoxMatricula.getSelectedItem() != null) {
-        return true; // Todos los campos están completos
-    } else {
-        return false; // Falta completar algún campo
-    }
+        && jComboBoxMatricula.getSelectedItem() != null;
 }
      
     public void clear(){
