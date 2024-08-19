@@ -58,7 +58,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jLabelNombreDelPasajero = new javax.swing.JLabel();
-        jLabelApellidoPasajero = new javax.swing.JLabel();
+        jLabelApellidosPasajero = new javax.swing.JLabel();
         jLabelCiPasajero = new javax.swing.JLabel();
         jLabelFechaDeSalida = new javax.swing.JLabel();
         jLabelMatricula = new javax.swing.JLabel();
@@ -81,8 +81,8 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jLabelNombreDelPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelNombreDelPasajero.setText("Nombre del Pasajero:");
 
-        jLabelApellidoPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelApellidoPasajero.setText("Apellido del Pasajero:");
+        jLabelApellidosPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelApellidosPasajero.setText("Apellidos del Pasajero:");
 
         jLabelCiPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelCiPasajero.setText("CI:");
@@ -94,8 +94,18 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jLabelMatricula.setText("Matrícula:");
 
         jTextFieldNombrePasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldNombrePasajero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldNombrePasajeroKeyTyped(evt);
+            }
+        });
 
         jTextFieldApellidoPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldApellidoPasajero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldApellidoPasajeroKeyTyped(evt);
+            }
+        });
 
         jTextFieldCiPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldCiPasajero.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +151,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
 
         jComboBoxDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+        jComboBoxDestino.setSelectedIndex(-1);
         jComboBoxDestino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxDestinoActionPerformed(evt);
@@ -161,12 +172,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelDestino)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabelApellidoPasajero)
-                        .addComponent(jLabelNombreDelPasajero)
-                        .addComponent(jLabelCiPasajero, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabelFechaDeSalida, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabelMatricula, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(jLabelCiPasajero)
+                    .addComponent(jLabelFechaDeSalida)
+                    .addComponent(jLabelMatricula)
+                    .addComponent(jLabelApellidosPasajero)
+                    .addComponent(jLabelNombreDelPasajero))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldApellidoPasajero)
@@ -186,7 +196,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
                     .addComponent(jTextFieldNombrePasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelApellidoPasajero)
+                    .addComponent(jLabelApellidosPasajero)
                     .addComponent(jTextFieldApellidoPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -314,9 +324,39 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         if((car<'0' || car>'9')) 
             evt.consume();
         
-        if(jTextFieldCiPasajero.getText().length() > 11)
+        if(jTextFieldCiPasajero.getText().length() > 10)
             evt.consume();
     }//GEN-LAST:event_jTextFieldCiPasajeroKeyTyped
+
+    private void jTextFieldNombrePasajeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombrePasajeroKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+
+        // Permitir solo letras y espacios
+        if (!Character.isLetter(car) && car != ' ') {
+            evt.consume();
+        }
+
+        // Evitar espacios al final
+        if (car == ' ' && jTextFieldCiPasajero.getText().endsWith(" ")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextFieldNombrePasajeroKeyTyped
+
+    private void jTextFieldApellidoPasajeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldApellidoPasajeroKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+
+        // Permitir solo letras y espacios
+        if (!Character.isLetter(car) && car != ' ') {
+            evt.consume();
+        }
+
+        // Evitar espacios al final
+        if (car == ' ' && jTextFieldCiPasajero.getText().endsWith(" ")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextFieldApellidoPasajeroKeyTyped
 
     /**
      * @param args the command line arguments
@@ -366,7 +406,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jComboBoxDestino;
     private javax.swing.JComboBox<String> jComboBoxMatricula;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabelApellidoPasajero;
+    private javax.swing.JLabel jLabelApellidosPasajero;
     private javax.swing.JLabel jLabelCiPasajero;
     private javax.swing.JLabel jLabelDestino;
     private javax.swing.JLabel jLabelFechaDeSalida;
@@ -382,6 +422,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     
     public boolean emptyFields() {
     // Verifica que los JTextField no estén vacíos
+    
     return !jTextFieldNombrePasajero.getText().equals("")
         && !jTextFieldApellidoPasajero.getText().equals("")
         && !jTextFieldCiPasajero.getText().equals("")
@@ -396,7 +437,6 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jTextFieldApellidoPasajero.setText("");
         jTextFieldCiPasajero.setText("");
         jTextFieldFechasalida.setText("");
-        jComboBoxDestino.setSelectedIndex(0);
         jComboBoxMatricula.setSelectedIndex(-1);
      
     }

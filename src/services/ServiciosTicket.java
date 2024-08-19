@@ -27,14 +27,14 @@ public class ServiciosTicket implements IServiciosTicket{
     @Override
     public boolean agregarTicket(Ticket ticket) {
         // Consulta SQL para insertar un nuevo ticket en la tabla "Ticket"
-        String sql = "INSERT INTO \"Ticket\" (nombre_pasajero, apellido_pasajero, ci_pasajero, fecha_salida, destino, matricula) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO \"Ticket\" (nombre_pasajero, apellidos_pasajero, ci_pasajero, fecha_salida, destino, matricula) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conexion.getConnection(); // Obtener la conexión a la base de datos
              PreparedStatement pstmt = conn.prepareStatement(sql)) { // Preparar la declaración SQL
 
             // Establecer los valores de los parámetros en la consulta SQL
             pstmt.setString(1, ticket.getNombePasajero());
-            pstmt.setString(2, ticket.getApellidoPasajero());
+            pstmt.setString(2, ticket.getApellidosPasajero());
             pstmt.setString(3, ticket.getCiPasajero());
             pstmt.setDate(4, new java.sql.Date(ticket.getFechaSalida().getTime()));
             pstmt.setString(5, ticket.getDestino());

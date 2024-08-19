@@ -13,7 +13,7 @@ import java.util.Date;
 public class Ticket {
     private int idTicket;
     private String nombePasajero;
-    private String apellidoPasajero;
+    private String apellidosPasajero;
     private String ciPasajero;
     private Date fechaSalida;
     private String destino;
@@ -22,7 +22,7 @@ public class Ticket {
     public Ticket(int idTicket, String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
         this.idTicket = idTicket;
         this.nombePasajero = nombePasajero;
-        this.apellidoPasajero = apellidoPasajero;
+        this.apellidosPasajero = apellidoPasajero;
         this.ciPasajero = ciPasajero;
         this.fechaSalida = fechaSalida;
         this.destino = destino;
@@ -31,7 +31,7 @@ public class Ticket {
 
     public Ticket(String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
         this.nombePasajero = nombePasajero;
-        this.apellidoPasajero = apellidoPasajero;
+        this.apellidosPasajero = apellidoPasajero;
         this.ciPasajero = ciPasajero;
         this.fechaSalida = fechaSalida;
         this.destino = destino;
@@ -55,12 +55,12 @@ public class Ticket {
         this.nombePasajero = nombePasajero;
     }
 
-    public String getApellidoPasajero() {
-        return apellidoPasajero;
+    public String getApellidosPasajero() {
+        return apellidosPasajero;
     }
 
-    public void setApellidoPasajero(String apellidoPasajero) {
-        this.apellidoPasajero = apellidoPasajero;
+    public void setApellidosPasajero(String apellidoPasajero) {
+        this.apellidosPasajero = apellidosPasajero;
     }
 
     public String getCiPasajero() {

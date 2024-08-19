@@ -69,13 +69,11 @@
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLabelDestino" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelApellidoPasajero" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelNombreDelPasajero" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelCiPasajero" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelFechaDeSalida" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelMatricula" alignment="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jLabelCiPasajero" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelFechaDeSalida" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMatricula" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelApellidosPasajero" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelNombreDelPasajero" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -100,7 +98,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelApellidoPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelApellidosPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldApellidoPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -142,12 +140,12 @@
                 <Property name="text" type="java.lang.String" value="Nombre del Pasajero:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabelApellidoPasajero">
+            <Component class="javax.swing.JLabel" name="jLabelApellidosPasajero">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Apellido del Pasajero:"/>
+                <Property name="text" type="java.lang.String" value="Apellidos del Pasajero:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelCiPasajero">
@@ -180,6 +178,9 @@
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldNombrePasajeroKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldApellidoPasajero">
               <Properties>
@@ -187,6 +188,9 @@
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldApellidoPasajeroKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldCiPasajero">
               <Properties>
@@ -283,6 +287,7 @@
                     <StringItem index="15" value="Guant&#xe1;namo"/>
                   </StringArray>
                 </Property>
+                <Property name="selectedIndex" type="int" value="-1"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxDestinoActionPerformed"/>
