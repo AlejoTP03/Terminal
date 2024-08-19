@@ -4,6 +4,11 @@
  */
 package view;
 
+import persistence.ConexionDataBase;
+import utils.MostrarTablaTicket;
+import java.sql.Connection;
+import javax.swing.table.DefaultTableModel;
+
 
 
 /**
@@ -15,9 +20,13 @@ public class FormTicket extends javax.swing.JDialog {
     /**
      * Creates new form FormTicket
      */
+    private MostrarTablaTicket mostrarTablaTicket;
+    private Connection conectar = ConexionDataBase.getConnection();
     public FormTicket(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mostrarTablaTicket = new MostrarTablaTicket(conectar);
+        llenarTablaTickets();
     }
 
     /**
@@ -32,7 +41,7 @@ public class FormTicket extends javax.swing.JDialog {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableMostrarTicket = new javax.swing.JTable();
         jButtonAgregarTicket = new javax.swing.JButton();
         jButtonEliminarTicket = new javax.swing.JButton();
         jButtonReporteTickets = new javax.swing.JButton();
@@ -43,8 +52,8 @@ public class FormTicket extends javax.swing.JDialog {
 
         jPanel2.setOpaque(false);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMostrarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableMostrarTicket.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -81,7 +90,8 @@ public class FormTicket extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jTableMostrarTicket.setToolTipText("");
+        jScrollPane1.setViewportView(jTableMostrarTicket);
 
         jButtonAgregarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAgregarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
@@ -210,6 +220,12 @@ public class FormTicket extends javax.swing.JDialog {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableMostrarTicket;
     // End of variables declaration//GEN-END:variables
+
+
+    private void llenarTablaTickets() {
+        DefaultTableModel modelo = mostrarTablaTicket.obtenerTickets();
+        jTableMostrarTicket.setModel(modelo);
+    }
 }
