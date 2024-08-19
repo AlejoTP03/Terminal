@@ -103,6 +103,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
                 jTextFieldCiPasajeroActionPerformed(evt);
             }
         });
+        jTextFieldCiPasajero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldCiPasajeroKeyTyped(evt);
+            }
+        });
 
         jTextFieldFechasalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldFechasalida.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -241,17 +246,10 @@ public class FormAgregarTicket extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
-        // Genera un ID único para el ticket usando UUID (Universally Unique Identifier).
-        // Esto asegura que cada ticket tenga un identificador único.
-        int idTicket = UUID.randomUUID().toString(); 
-
-        // Obtiene el texto ingresado en el campo de texto para el nombre del pasajero.
         String nombrePasajero = jTextFieldNombrePasajero.getText();
-        // Obtiene el texto ingresado en el campo de texto para el apellido del pasajero.
         String apellidoPasajero = jTextFieldApellidoPasajero.getText();
-        // Obtiene el texto ingresado en el campo de texto para el CI del pasajero.
         String ciPasajero = jTextFieldCiPasajero.getText();
-    
+
         // Declara una variable para almacenar la fecha de salida.
         Date fechaSalida = null;
         try {
@@ -261,34 +259,34 @@ public class FormAgregarTicket extends javax.swing.JDialog {
             fechaSalida = dateFormat.parse(jTextFieldFechasalida.getText());
         } catch (ParseException e) {
             // Si ocurre una excepción al analizar la fecha, muestra un mensaje de error al usuario.
-            // El formato esperado es "AAAA-MM-DD".
             JOptionPane.showMessageDialog(this, "Fecha de salida inválida, la fecha debe cumplir el formato AAAA-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
             // Sale del método sin continuar con la inserción del ticket.
             return;
         }
-    
-        // Obtiene el destino seleccionado en el JComboBox.
+
         String destino = jComboBoxDestino.getSelectedItem().toString();
-        // Obtiene la matrícula seleccionada en el JComboBox.
         String matricula = jComboBoxMatricula.getSelectedItem().toString();
 
-        // Crea un nuevo objeto Ticket con los valores ingresados y el ID generado.
-        Ticket ticket = new Ticket(idTicket, nombrePasajero, apellidoPasajero, ciPasajero, fechaSalida, destino, matricula);
+        if(emptyFields()){
+            Ticket ticket = new Ticket(nombrePasajero, apellidoPasajero, ciPasajero, fechaSalida, destino, matricula);
 
-        // Crea una instancia de IServiciosTicket para interactuar con la capa de servicios.
-        IServiciosTicket iServiciosTicket = new ServiciosTicket();
-        // Llama al método agregarTicket para insertar el ticket en la base de datos y almacena el resultado.
-        boolean resultado = iServiciosTicket.agregarTicket(ticket);
+            // Crea una instancia de IServiciosTicket para interactuar con la capa de servicios.
+            IServiciosTicket iServiciosTicket = new ServiciosTicket();
+            // Llama al método agregarTicket para insertar el ticket en la base de datos y almacena el resultado.
+            boolean resultado = iServiciosTicket.agregarTicket(ticket);
 
-        // Muestra un mensaje de confirmación si el ticket fue agregado exitosamente.
-        // De lo contrario, muestra un mensaje de error.
-        if (resultado) {
-            JOptionPane.showMessageDialog(this, "Ticket agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            // Cierra el formulario actual después de agregar el ticket.
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al agregar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
+            // Muestra un mensaje de confirmación si el ticket fue agregado exitosamente.
+            // De lo contrario, muestra un mensaje de error.
+            if (resultado) {
+                JOptionPane.showMessageDialog(this, "Ticket agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                clear();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos");
         }
+        
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jTextFieldCiPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroActionPerformed
@@ -303,6 +301,16 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private void jTextFieldFechasalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFechasalidaKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldFechasalidaKeyTyped
+
+    private void jTextFieldCiPasajeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if((car<'0' || car>'9')) 
+            evt.consume();
+        
+        if(jTextFieldCiPasajero.getText().length() > 11)
+            evt.consume();
+    }//GEN-LAST:event_jTextFieldCiPasajeroKeyTyped
 
     /**
      * @param args the command line arguments
@@ -366,17 +374,20 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     
-//    public boolean emptyFields(){
-//         
-//        if(!jTextFieldNombrePasajero.getText().equals("")
-//            &&!jTextFieldApellidoPasajero.getText().equals("")
-//            &&!jTextFieldCiPasajero.getText().equals("")
-//            &&!jTextFieldFechasalida.getText().equals("")
-//            &&!jComboBoxMatricula)
-//            return true;
-//        else 
-//            return false;
-//    }
+    public boolean emptyFields() {
+    // Verifica que los JTextField no estén vacíos
+    if (!jTextFieldNombrePasajero.getText().equals("")
+        && !jTextFieldApellidoPasajero.getText().equals("")
+        && !jTextFieldCiPasajero.getText().equals("")
+        && !jTextFieldFechasalida.getText().equals("")
+        // Verifica que se haya seleccionado un valor en los JComboBox
+        && jComboBoxDestino.getSelectedItem() != null
+        && jComboBoxMatricula.getSelectedItem() != null) {
+        return true; // Todos los campos están completos
+    } else {
+        return false; // Falta completar algún campo
+    }
+}
      
     public void clear(){
         jTextFieldNombrePasajero.setText("");

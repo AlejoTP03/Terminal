@@ -29,6 +29,15 @@ public class Ticket {
         this.matricula = matricula;
     }
 
+    public Ticket(String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
+        this.nombePasajero = nombePasajero;
+        this.apellidoPasajero = apellidoPasajero;
+        this.ciPasajero = ciPasajero;
+        this.fechaSalida = fechaSalida;
+        this.destino = destino;
+        this.matricula = matricula;
+    }
+
         
     public int getIdTicket() {
         return idTicket;

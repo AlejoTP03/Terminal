@@ -40,6 +40,7 @@ public class FormMain extends javax.swing.JFrame {
         jButtonTaller = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,10 +103,26 @@ public class FormMain extends javax.swing.JFrame {
                     .addComponent(jButtonOmnibus, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonTaller, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(373, Short.MAX_VALUE))
+                .addContainerGap(364, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        jMenuItemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        jMenuItemSalir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItemSalir.setText("Salir");
+        jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemSalir);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -152,6 +169,15 @@ public class FormMain extends javax.swing.JFrame {
         formTaller.setVisible(true);
     }//GEN-LAST:event_jButtonTallerActionPerformed
 
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItemSalirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -195,20 +221,21 @@ public class FormMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
 
-    class ImagenFondo extends JPanel{
-        //Atributos
-        private Image imagen;
+    public class ImagenFondo extends JPanel{
+    //Atributos
+    private Image imagen;
                 
-        //Metodos
-        public void paint(Graphics g){
-            imagen = new ImageIcon(getClass().getResource("fondoPrincipal.jpg")).getImage();
-            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
-            setOpaque(false);
-            super.paint(g);
-        }
+    //Metodos
+    public void paint(Graphics g){
+        imagen = new ImageIcon(getClass().getResource("fondoPrincipal.jpg")).getImage();
+        g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+        setOpaque(false);
+        super.paint(g);
     }
+}
 }
