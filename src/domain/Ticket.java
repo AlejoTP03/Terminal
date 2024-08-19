@@ -11,7 +11,7 @@ import java.util.Date;
  * @author PC
  */
 public class Ticket {
-    private String idTicket;
+    private int idTicket;
     private String nombePasajero;
     private String apellidoPasajero;
     private String ciPasajero;
@@ -19,7 +19,7 @@ public class Ticket {
     private String destino;
     private String matricula;
 
-    public Ticket(String idTicket, String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
+    public Ticket(int idTicket, String nombePasajero, String apellidoPasajero, String ciPasajero, Date fechaSalida, String destino, String matricula) {
         this.idTicket = idTicket;
         this.nombePasajero = nombePasajero;
         this.apellidoPasajero = apellidoPasajero;
@@ -30,11 +30,11 @@ public class Ticket {
     }
 
         
-    public String getIdTicket() {
+    public int getIdTicket() {
         return idTicket;
     }
 
-    public void setId(String idTicket) {
+    public void setId(int idTicket) {
         this.idTicket = idTicket;
     }
 

@@ -4,12 +4,18 @@
  */
 package services;
 
+import domain.Omnibus;
 import domain.Ticket;
 import interfaces.IServiciosTicket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import persistence.ConexionDataBase;
+import java.sql.Time;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -22,7 +28,7 @@ public class ServiciosTicket implements IServiciosTicket{
     public boolean agregarTicket(Ticket ticket) {
         // Define la sentencia SQL para insertar un nuevo registro en la tabla Ticket.
         // Los signos de interrogación (?) son parámetros que se establecerán más adelante.
-        String sql = "INSERT INTO Ticket (idTicket, nombre_pasajero, apellido_pasajero, ci_pasajero, fecha_salida, destino, matricula) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO \"Ticket\" (id_ticket, nombre_pasajero, apellido_pasajero, ci_pasajero, fecha_salida, destino, matricula) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // Intenta realizar la operación de inserción dentro de un bloque try-with-resources.
         // Esto asegura que los recursos (Connection y PreparedStatement) se cierren automáticamente al final del bloque.
@@ -30,7 +36,7 @@ public class ServiciosTicket implements IServiciosTicket{
             PreparedStatement stmt = connection.prepareStatement(sql)) {  // Prepara la sentencia SQL para la ejecución.
 
             // Establece el valor del primer parámetro en la sentencia SQL con el id del ticket.
-            stmt.setString(1, ticket.getIdTicket());
+            stmt.setInt(1, ticket.getIdTicket());
             // Establece el valor del segundo parámetro en la sentencia SQL con el nombre del pasajero.
             stmt.setString(2, ticket.getNombePasajero());
             // Establece el valor del tercer parámetro en la sentencia SQL con el apellido del pasajero.
@@ -66,5 +72,35 @@ public class ServiciosTicket implements IServiciosTicket{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    
+    @Override
+    // Método para obtener los ómnibus que cumplen con destino y hora de salida
+    public List<Omnibus> obtenerOmnibusPorDestino(String destino){
+    List<Omnibus> omnibusList = new ArrayList<>();
+    String sql = "SELECT * FROM \"Omnibus\" WHERE destino = ?";
+
+    try (Connection conn = ConexionDataBase.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setString(1, destino);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Omnibus omnibus = new Omnibus();
+                omnibus.setMatricula(rs.getString("matricula"));
+                omnibus.setMarca(rs.getString("marca"));
+                omnibus.setModelo(rs.getString("modelo"));
+                omnibus.setCapacidad(rs.getInt("capacidad"));
+                omnibus.setDestino(rs.getString("destino"));
+                omnibus.setPaisProcedencia(rs.getString("pais_procedencia"));
+                omnibus.setIdTaller(rs.getInt("id_taller"));
+                omnibusList.add(omnibus);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return omnibusList;
+    }
+
     
 }

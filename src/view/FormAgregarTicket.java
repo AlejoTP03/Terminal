@@ -4,15 +4,25 @@
  */
 package view;
 
+import domain.Omnibus;
 import domain.Ticket;
 import interfaces.IServiciosTicket;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.swing.JOptionPane;
 import persistence.ConexionDataBase;
+import services.ServiciosOmnibus;
 import services.ServiciosTicket;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -26,6 +36,14 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     public FormAgregarTicket(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        jComboBoxDestino.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            String destinoSeleccionado = jComboBoxDestino.getSelectedItem().toString();
+            llenarComboBoxMatricula(jComboBoxMatricula, destinoSeleccionado);
+            }
+            
+        });
     }
 
     /**
@@ -48,11 +66,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jTextFieldApellidoPasajero = new javax.swing.JTextField();
         jTextFieldCiPasajero = new javax.swing.JTextField();
         jTextFieldFechasalida = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBoxMatricula = new javax.swing.JComboBox<>();
         jButtonAceptar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jLabelDestino = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBoxDestino = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Ticket");
@@ -80,10 +98,20 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jTextFieldApellidoPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jTextFieldCiPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldCiPasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCiPasajeroActionPerformed(evt);
+            }
+        });
 
         jTextFieldFechasalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldFechasalida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldFechasalidaKeyTyped(evt);
+            }
+        });
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBoxMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
@@ -106,8 +134,13 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jLabelDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelDestino.setText("Destino:");
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+        jComboBoxDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+        jComboBoxDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDestinoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,9 +167,9 @@ public class FormAgregarTicket extends javax.swing.JDialog {
                     .addComponent(jTextFieldApellidoPasajero)
                     .addComponent(jTextFieldCiPasajero)
                     .addComponent(jTextFieldFechasalida)
-                    .addComponent(jComboBox1, 0, 200, Short.MAX_VALUE)
+                    .addComponent(jComboBoxMatricula, 0, 200, Short.MAX_VALUE)
                     .addComponent(jTextFieldNombrePasajero)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBoxDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,11 +194,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDestino)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMatricula)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAceptar)
@@ -210,7 +243,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         // TODO add your handling code here:
         // Genera un ID único para el ticket usando UUID (Universally Unique Identifier).
         // Esto asegura que cada ticket tenga un identificador único.
-        String idTicket = UUID.randomUUID().toString(); 
+        int idTicket = UUID.randomUUID().toString(); 
 
         // Obtiene el texto ingresado en el campo de texto para el nombre del pasajero.
         String nombrePasajero = jTextFieldNombrePasajero.getText();
@@ -235,9 +268,9 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         }
     
         // Obtiene el destino seleccionado en el JComboBox.
-        String destino = jComboBox2.getSelectedItem().toString();
+        String destino = jComboBoxDestino.getSelectedItem().toString();
         // Obtiene la matrícula seleccionada en el JComboBox.
-        String matricula = jComboBox1.getSelectedItem().toString();
+        String matricula = jComboBoxMatricula.getSelectedItem().toString();
 
         // Crea un nuevo objeto Ticket con los valores ingresados y el ID generado.
         Ticket ticket = new Ticket(idTicket, nombrePasajero, apellidoPasajero, ciPasajero, fechaSalida, destino, matricula);
@@ -257,6 +290,19 @@ public class FormAgregarTicket extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Error al agregar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jTextFieldCiPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCiPasajeroActionPerformed
+
+    private void jComboBoxDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDestinoActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jComboBoxDestinoActionPerformed
+
+    private void jTextFieldFechasalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFechasalidaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFechasalidaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -303,8 +349,8 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButtonCancelar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBoxDestino;
+    private javax.swing.JComboBox<String> jComboBoxMatricula;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelApellidoPasajero;
     private javax.swing.JLabel jLabelCiPasajero;
@@ -318,4 +364,36 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldFechasalida;
     private javax.swing.JTextField jTextFieldNombrePasajero;
     // End of variables declaration//GEN-END:variables
+
+    
+//    public boolean emptyFields(){
+//         
+//        if(!jTextFieldNombrePasajero.getText().equals("")
+//            &&!jTextFieldApellidoPasajero.getText().equals("")
+//            &&!jTextFieldCiPasajero.getText().equals("")
+//            &&!jTextFieldFechasalida.getText().equals("")
+//            &&!jComboBoxMatricula)
+//            return true;
+//        else 
+//            return false;
+//    }
+     
+    public void clear(){
+        jTextFieldNombrePasajero.setText("");
+        jTextFieldApellidoPasajero.setText("");
+        jTextFieldCiPasajero.setText("");
+        jTextFieldFechasalida.setText("");
+        jComboBoxDestino.setSelectedIndex(0);
+        jComboBoxMatricula.setSelectedIndex(-1);
+     
+    }
+    
+    public void llenarComboBoxMatricula(JComboBox<String> comboBox, String destino) {
+    IServiciosTicket iServiciosTicket = new ServiciosTicket();
+    comboBox.removeAllItems();
+    List<Omnibus> listaOmnibus = iServiciosTicket.obtenerOmnibusPorDestino(destino);
+    for (Omnibus omnibus : listaOmnibus) {
+        comboBox.addItem(omnibus.getMatricula());
+    }
+    }
 }

@@ -4,7 +4,11 @@
  */
 package interfaces;
 
+import domain.Omnibus;
 import domain.Ticket;
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -14,4 +18,5 @@ public interface IServiciosTicket {
     public boolean agregarTicket(Ticket ticket);
     public boolean eliminarTicket();
     public boolean actualizarTicket(Ticket ticket);
+    public List<Omnibus> obtenerOmnibusPorDestino(String destino);
 }

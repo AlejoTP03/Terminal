@@ -84,6 +84,11 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jLabelPaisProcedencia.setText("País de Procedencia:");
 
         jTextFieldMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldMatricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMatriculaActionPerformed(evt);
+            }
+        });
         jTextFieldMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldMatriculaKeyTyped(evt);
@@ -91,6 +96,11 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldMarca.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldMarcaKeyTyped(evt);
+            }
+        });
 
         jTextFieldModelo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -245,7 +255,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         }
     
         // Cambiar color a rojo si no tiene exactamente 7 caracteres
-        if (jTextFieldMatricula.getText().length() != 7) {
+        if (jTextFieldMatricula.getText().length() < 6) {
             jTextFieldMatricula.setBackground(Color.pink);
         } else {
             jTextFieldMatricula.setBackground(Color.WHITE); // O el color por defecto
@@ -274,52 +284,46 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldCapacidadKeyTyped
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-        // TODO add your handling code here:
-        // Obtiene el texto del campo de texto jTextFieldMatricula y lo asigna a la variable 'matricula'.
-        String matricula = jTextFieldMatricula.getText();
+        if (emptyFields()) {
+            String matricula = jTextFieldMatricula.getText();
+            String marca = jTextFieldMarca.getText();
+            String modelo = jTextFieldModelo.getText();
+            int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
+            String destino = jComboBoxDestino.getSelectedItem().toString();
+            java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
+            String paisProcedencia = jTextFieldPaisProcedencia.getText();
 
-        // Obtiene el texto del campo de texto jTextFieldMarca y lo asigna a la variable 'marca'.
-        String marca = jTextFieldMarca.getText();
+            int idTaller = traerIdTaller.obtenerIdTaller();
+            
+            if(jTextFieldMatricula.getText().length() == 7){
+                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller);
 
-        // Obtiene el texto del campo de texto jTextFieldModelo y lo asigna a la variable 'modelo'.
-        String modelo = jTextFieldModelo.getText();
-
-        // Obtiene el texto del campo de texto jTextFieldCapacidad, lo convierte a entero y lo asigna a la variable 'capacidad'.
-        int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
-
-        // Obtiene el ítem seleccionado en el JComboBox jComboBoxDestino y lo convierte a cadena. Lo asigna a la variable 'destino'.
-        String destino = jComboBoxDestino.getSelectedItem().toString();
-
-        // Convierte el texto del campo de texto jTextFieldHoraSalida a un objeto java.sql.Time. Lo asigna a la variable 'horaSalida'.
-        java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
-
-        // Obtiene el texto del campo de texto jTextFieldPaisProcedencia y lo asigna a la variable 'paisProcedencia'.
-        String paisProcedencia = jTextFieldPaisProcedencia.getText();
-
-        
-        // Obtiene el idTaller desde el objeto Taller. Este valor se usará como referencia para el ómnibus.
-        int idTaller = traerIdTaller.obtenerIdTaller();
-
-        // Crea un nuevo objeto Omnibus usando los valores obtenidos de los campos de entrada.
-        Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller);
-
-        // Crea una instancia de ServiciosOmnibus (que implementa IServiciosOmnibus) para manejar la lógica de negocio.
-        IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
-
-        // Llama al método agregarOmnibus del objeto iServiciosOmnibus para intentar agregar el ómnibus a la base de datos.
-        boolean success = iServiciosOmnibus.agregarOmnibus(omnibus);
-
-        // Muestra un mensaje de diálogo indicando el resultado de la operación de inserción.
-        if (success) {
-            // Si la operación fue exitosa, muestra un mensaje de éxito.
-            JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
-            // Se puede llamar al método clear() para limpiar el formulario (comentado aquí).
-            // clear();
+                IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+                
+                boolean success = iServiciosOmnibus.agregarOmnibus(omnibus);
+                
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
+                    clear();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al insertar el ómnibus.");
+                }
+            }else
+              JOptionPane.showMessageDialog(this, "Falta caracteres a la matricula");
+            
         } else {
-            // Si la operación falló, muestra un mensaje de error.
-            JOptionPane.showMessageDialog(this, "Error al insertar el ómnibus.");
+            // Muestra un mensaje si alguno de los campos está vacío
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jTextFieldMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMatriculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMatriculaActionPerformed
+
+    private void jTextFieldMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMarcaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMarcaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -383,4 +387,29 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldModelo;
     private javax.swing.JTextField jTextFieldPaisProcedencia;
     // End of variables declaration//GEN-END:variables
+
+
+    public boolean emptyFields(){
+         
+        if(!jTextFieldMatricula.getText().equals("")
+            &&!jTextFieldMarca.getText().equals("")
+            &&!jTextFieldModelo.getText().equals("")
+            &&!jTextFieldCapacidad.getText().equals("")
+            &&!jTextFieldHoraSalida.getText().equals("")
+            &&!jTextFieldPaisProcedencia.getText().equals(""))
+            return true;
+        else 
+            return false;
+    }
+     
+    public void clear(){
+        jTextFieldMatricula.setText("");
+        jTextFieldMarca.setText("");
+        jTextFieldModelo.setText("");
+        jComboBoxDestino.setSelectedIndex(0);
+        jTextFieldCapacidad.setText("");
+        jTextFieldHoraSalida.setText("");
+        jTextFieldPaisProcedencia.setText("");
+     
+    }
 }
