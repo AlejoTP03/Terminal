@@ -4,10 +4,13 @@
  */
 package view;
 
+import interfaces.IServiciosTicket;
 import persistence.ConexionDataBase;
 import utils.MostrarTablaTicket;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import services.ServiciosTicket;
 
 
 
@@ -22,6 +25,7 @@ public class FormTicket extends javax.swing.JDialog {
      */
     private MostrarTablaTicket mostrarTablaTicket;
     private Connection conectar = ConexionDataBase.getConnection();
+    IServiciosTicket iServiciosTicket = new ServiciosTicket();
     public FormTicket(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -43,8 +47,8 @@ public class FormTicket extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableMostrarTicket = new javax.swing.JTable();
         jButtonAgregarTicket = new javax.swing.JButton();
-        jButtonEliminarTicket = new javax.swing.JButton();
         jButtonReporteTickets = new javax.swing.JButton();
+        jButtonEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion Ticket");
@@ -102,13 +106,17 @@ public class FormTicket extends javax.swing.JDialog {
             }
         });
 
-        jButtonEliminarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButtonEliminarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
-        jButtonEliminarTicket.setText("Eliminar");
-
         jButtonReporteTickets.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteTickets.setText("Reporte");
+
+        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
+        jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -119,7 +127,7 @@ public class FormTicket extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonReporteTickets)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonEliminarTicket)
+                .addComponent(jButtonEliminar)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonAgregarTicket)
                 .addGap(18, 18, 18))
@@ -129,11 +137,10 @@ public class FormTicket extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonEliminarTicket)
-                        .addComponent(jButtonReporteTickets))
-                    .addComponent(jButtonAgregarTicket))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAgregarTicket)
+                    .addComponent(jButtonEliminar)
+                    .addComponent(jButtonReporteTickets))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -170,6 +177,35 @@ public class FormTicket extends javax.swing.JDialog {
         FormAgregarTicket formAgregarTicket = new FormAgregarTicket(new javax.swing.JDialog(), true);
         formAgregarTicket.setVisible(true);
     }//GEN-LAST:event_jButtonAgregarTicketActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // TODO add your handling code here:
+        // Depuración inicial
+        System.out.println("Botón Eliminar presionado"); // Mensaje de depuración
+
+        int selectedRow = jTableMostrarTicket.getSelectedRow(); 
+        System.out.println("Fila seleccionada: " + selectedRow); // Depuración
+
+        if (selectedRow != -1) {
+            int ticketId = Integer.parseInt(jTableMostrarTicket.getValueAt(selectedRow, 0).toString()); 
+            System.out.println("ID del ticket: " + ticketId); // Depuración
+
+            int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ticket?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                boolean eliminado = iServiciosTicket.eliminarTicket(ticketId);
+
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(this, "El ticket ha sido eliminado correctamente.");
+                    llenarTablaTickets(); 
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al eliminar el ticket.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ticket para eliminar.");
+        }
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,7 +251,7 @@ public class FormTicket extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAgregarTicket;
-    private javax.swing.JButton jButtonEliminarTicket;
+    private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonReporteTickets;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel2;

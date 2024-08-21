@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import persistence.ConexionDataBase;
 
 /**
  *
@@ -25,15 +26,17 @@ public class MostrarTablaTicket {
     public DefaultTableModel obtenerTickets() {
         DefaultTableModel modelo = new DefaultTableModel();
         String sql = "SELECT id_ticket AS \"ID Ticket\", \n" +
-                    "nombre_pasajero AS \"Nombre del Pasajero\",\n" +
-                    "apellidos_pasajero AS \"Apellidos del Pasajero\",\n" +
-                    "ci_pasajero AS \"Carnet de Identidad\",\n" +
-                    "fecha_salida AS \"Fecha de Salida\",\n" +
-                    "destino AS \"Destino\",\n" +
-                    "matricula AS \"Matricula\"\n" +
-                    "FROM \"Ticket\"";
+                     "nombre_pasajero AS \"Nombre del Pasajero\",\n" +
+                     "apellidos_pasajero AS \"Apellidos del Pasajero\",\n" +
+                     "ci_pasajero AS \"Carnet de Identidad\",\n" +
+                     "fecha_salida AS \"Fecha de Salida\",\n" +
+                     "destino AS \"Destino\",\n" +
+                     "matricula AS \"Matricula\"\n" +
+                     "FROM \"Ticket\"";
 
-        try (Statement stmt = conexion.createStatement();
+        // Abre una nueva conexión
+        try (Connection conexion = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
+             Statement stmt = conexion.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             // Obtén el número de columnas y sus nombres

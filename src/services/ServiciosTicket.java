@@ -51,8 +51,20 @@ public class ServiciosTicket implements IServiciosTicket{
     }
 
     @Override
-    public boolean eliminarTicket() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarTicket(int idTicket) {
+        String sql = "DELETE FROM \"Ticket\" WHERE id_ticket = ?"; // Asumiendo que la columna ID en la tabla se llama "id"
+    
+        try (Connection conn = conexion.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idTicket);
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
