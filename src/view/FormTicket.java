@@ -174,7 +174,7 @@ public class FormTicket extends javax.swing.JDialog {
 
     private void jButtonAgregarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarTicketActionPerformed
         // TODO add your handling code here:
-        FormAgregarTicket formAgregarTicket = new FormAgregarTicket(new javax.swing.JDialog(), true);
+        FormAgregarTicket formAgregarTicket = new FormAgregarTicket(this, this, true);
         formAgregarTicket.setVisible(true);
     }//GEN-LAST:event_jButtonAgregarTicketActionPerformed
 
@@ -260,8 +260,10 @@ public class FormTicket extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
-    private void llenarTablaTickets() {
+    public void llenarTablaTickets() {
         DefaultTableModel modelo = mostrarTablaTicket.obtenerTickets();
         jTableMostrarTicket.setModel(modelo);
     }
+    
+    
 }

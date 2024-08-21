@@ -33,9 +33,13 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     /**
      * Creates new form FormAgregarTicket
      */
-    public FormAgregarTicket(javax.swing.JDialog parent, boolean modal) {
+    
+    private FormTicket formTicket;
+    
+    public FormAgregarTicket(FormTicket formTicket, javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.formTicket = formTicket;
         jComboBoxDestino.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -296,6 +300,8 @@ public class FormAgregarTicket extends javax.swing.JDialog {
             if (resultado) {
                 JOptionPane.showMessageDialog(this, "Ticket agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 clear();
+                formTicket.llenarTablaTickets();
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -388,7 +394,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormAgregarTicket dialog = new FormAgregarTicket(new javax.swing.JDialog(), true);
+                FormTicket dialog = new FormTicket(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
