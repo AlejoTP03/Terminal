@@ -9,6 +9,7 @@ import persistence.ConexionDataBase;
 import utils.MostrarTablaTicket;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -34,22 +35,34 @@ public class FormTicket extends javax.swing.JDialog {
         mostrarTablaTicket = new MostrarTablaTicket(conectar);
         llenarTablaTickets();
         // Agregar el TableModelListener para actualizar la base de datos al modificar una celda
-        DefaultTableModel tableModel = (DefaultTableModel) jTableMostrarTicket.getModel();
+        jTableMostrarTicket.getModel().addTableModelListener(e -> {
+        if (e.getType() == TableModelEvent.UPDATE) {
+            int row = e.getFirstRow();
+            int column = e.getColumn();
 
-        tableModel.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
-                    int column = e.getColumn();
-                    Object dato = tableModel.getValueAt(row, column);
-                    String nombreColumna = tableModel.getColumnName(column);
-                    int idTicket = (int) tableModel.getValueAt(row, 0); // Asumiendo que la columna 0 es 'id_ticket'
+            DefaultTableModel model = (DefaultTableModel) jTableMostrarTicket.getModel();
+            String nombreColumna = model.getColumnName(column);
+            Object dato = model.getValueAt(row, column);
 
-                    // Llamar al método para actualizar la base de datos
+            // Obtén el ID del ticket de la primera columna de la fila
+            int idTicket = (int) model.getValueAt(row, 0); // Asegúrate de que la primera columna es 'id_ticket'
+
+            // Usa SwingWorker para actualizar la base de datos en un hilo separado
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
                     iServiciosTicket.actualizarTicket(idTicket, nombreColumna, dato);
+                    return null;
                 }
-            }
+
+                @Override
+                protected void done() {
+                    // Si es necesario, puedes hacer algo aquí después de que la base de datos haya sido actualizada.
+                }
+            };
+
+            worker.execute();
+        }
         });
     }
 

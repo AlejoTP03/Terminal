@@ -32,7 +32,7 @@ public class MostrarTablaTicket {
                      "fecha_salida AS \"Fecha de Salida\",\n" +
                      "destino AS \"Destino\",\n" +
                      "matricula AS \"Matricula\"\n" +
-                     "FROM \"Ticket\"";
+                     "FROM \"Ticket\" ORDER BY id_ticket ASC";
 
         // Abre una nueva conexión
         try (Connection conexion = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
