@@ -68,8 +68,53 @@ public class ServiciosTicket implements IServiciosTicket{
     }
 
     @Override
-    public boolean actualizarTicket(Ticket ticket) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actualizarTicket(int idTicket, String nombreColumna, Object dato) {
+        // Mapeo de los nombres de columnas del JTable a los nombres reales en la base de datos
+        String dbColumnName;
+        switch (nombreColumna) {
+            case "ID Ticket":
+                dbColumnName = "id_ticket";
+                break;
+            case "Nombre del Pasajero":
+                dbColumnName = "nombre_pasajero";
+                break;
+            case "Apellidos del Pasajero":
+                dbColumnName = "apellidos_pasajero";
+                break;
+            case "Carnet de Identidad":
+                dbColumnName = "ci_pasajero";
+                break;
+            case "Fecha de Salida":
+                dbColumnName = "fecha_salida";
+                break;
+            case "Destino":
+                dbColumnName = "destino";
+                break;
+            case "Matricula":
+                dbColumnName = "matricula";
+                break;
+            default:
+                throw new IllegalArgumentException("Columna desconocida: " + nombreColumna);
+        }
+
+        String sql = "UPDATE \"Ticket\" SET " + dbColumnName + " = ? WHERE id_ticket = ?";
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            // Establece el valor del nuevo dato
+            pstmt.setObject(1, dato);
+            pstmt.setInt(2, idTicket);
+
+            // Ejecuta la actualización
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("El registro con id_ticket " + idTicket + " fue actualizado.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     

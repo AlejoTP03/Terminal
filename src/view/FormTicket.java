@@ -9,6 +9,8 @@ import persistence.ConexionDataBase;
 import utils.MostrarTablaTicket;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import services.ServiciosTicket;
 
@@ -31,6 +33,24 @@ public class FormTicket extends javax.swing.JDialog {
         initComponents();
         mostrarTablaTicket = new MostrarTablaTicket(conectar);
         llenarTablaTickets();
+        // Agregar el TableModelListener para actualizar la base de datos al modificar una celda
+        DefaultTableModel tableModel = (DefaultTableModel) jTableMostrarTicket.getModel();
+
+        tableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    int row = e.getFirstRow();
+                    int column = e.getColumn();
+                    Object dato = tableModel.getValueAt(row, column);
+                    String nombreColumna = tableModel.getColumnName(column);
+                    int idTicket = (int) tableModel.getValueAt(row, 0); // Asumiendo que la columna 0 es 'id_ticket'
+
+                    // Llamar al método para actualizar la base de datos
+                    iServiciosTicket.actualizarTicket(idTicket, nombreColumna, dato);
+                }
+            }
+        });
     }
 
     /**
@@ -95,6 +115,11 @@ public class FormTicket extends javax.swing.JDialog {
             }
         });
         jTableMostrarTicket.setToolTipText("");
+        jTableMostrarTicket.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMostrarTicketMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableMostrarTicket);
 
         jButtonAgregarTicket.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -206,6 +231,10 @@ public class FormTicket extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un ticket para eliminar.");
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jTableMostrarTicketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMostrarTicketMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableMostrarTicketMouseClicked
 
     /**
      * @param args the command line arguments

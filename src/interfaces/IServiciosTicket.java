@@ -17,6 +17,6 @@ import java.util.List;
 public interface IServiciosTicket {
     public boolean agregarTicket(Ticket ticket);
     public boolean eliminarTicket(int idTicket);
-    public boolean actualizarTicket(Ticket ticket);
+    public void actualizarTicket(int idTicket, String nombreColumna, Object dato);
     public List<Omnibus> obtenerOmnibusPorDestino(String destino);
 }
