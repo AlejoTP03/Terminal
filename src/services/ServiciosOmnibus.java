@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import javax.swing.JTextField;
 import persistence.ConexionDataBase;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -72,9 +74,63 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
     }
 
     
+    @Override
+    public void actualizarOmnibus(String matricula, String nombreColumna, Object dato) {
+        String dbColumnName;
+        switch (nombreColumna) {
+            case "Marca":
+                dbColumnName = "marca";
+                break;
+            case "Modelo":
+                dbColumnName = "modelo";
+                break;
+            case "Capacidad":
+                dbColumnName = "capacidad";
+                break;
+            case "Destino":
+                dbColumnName = "destino";
+                break;
+            case "Hora de Salida":
+                dbColumnName = "hora_salida";
+                break;
+            case "País de Procedencia":
+                dbColumnName = "pais_procedencia";
+                break;
+            case "Número de Taller":
+                dbColumnName = "numero_taller";
+                break;
+            default:
+                System.err.println("Columna desconocida: " + nombreColumna);
+                return;
+        }
+
+        // Construye la consulta SQL
+        String sql = "UPDATE \"Omnibus\" SET " + dbColumnName + " = ? WHERE matricula = ?";
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            // Establece el valor del dato
+            pstmt.setObject(1, dato);
+
+            // Establece la matrícula
+            pstmt.setString(2, matricula);
+
+            // Ejecuta la actualización
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("El registro con matrícula " + matricula + " fue actualizado.");
+            } else {
+                System.out.println("No se encontró el registro con matrícula " + matricula + ".");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     
-    
+
     
     private boolean isMatriculaExists(String matricula) {
         String sql = "SELECT COUNT(*) FROM \"Omnibus\" WHERE matricula = ?";
@@ -93,4 +149,7 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
         
         return false;
     }
+    
+    
+    
 }

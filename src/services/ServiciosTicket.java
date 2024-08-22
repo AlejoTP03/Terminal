@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import persistence.ConexionDataBase;
 import java.sql.Time;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,4 +149,68 @@ public class ServiciosTicket implements IServiciosTicket{
     }
 
     
+    
+    @Override
+    public boolean verificarCapacidadOmnibus(Date fechaSalida, String matricula) {
+        String sql = "SELECT COUNT(*) FROM \"Ticket\" WHERE \"fecha_salida\" = TO_DATE(?, 'YYYY-MM-DD') AND \"matricula\" = ?";
+    
+        try (Connection conn = conexion.getConnection(); 
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Configurar los parámetros
+            pstmt.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(fechaSalida));
+            pstmt.setString(2, matricula);
+
+            // Ejecutar la consulta
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int cantidadTickets = rs.getInt(1);
+
+                // Aquí debes obtener la capacidad del ómnibus para comparar
+                int capacidadOmnibus = obtenerCapacidadOmnibus(matricula);
+
+                // Comparar cantidad de tickets con la capacidad del ómnibus
+                return cantidadTickets < capacidadOmnibus;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    
+
+    public int obtenerCapacidadOmnibus(String matricula) {
+        int capacidad = 0;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = conexion.getConnection();
+            String sql = "SELECT capacidad FROM \"Omnibus\" WHERE matricula = ?";
+
+            ps = con.prepareStatement(sql);
+            ps.setString(1, matricula);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                capacidad = rs.getInt("capacidad");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return capacidad;
+    }
 }

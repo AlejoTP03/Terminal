@@ -279,4 +279,7 @@ public class FormOmnibus extends javax.swing.JDialog {
         DefaultTableModel modelo = mostrarTablaOmnibus.obtenerOmnibus();
         jTableMostrarOmnibus.setModel(modelo);
     }
+    
+    
+    
 }

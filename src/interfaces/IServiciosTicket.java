@@ -19,4 +19,5 @@ public interface IServiciosTicket {
     public boolean eliminarTicket(int idTicket);
     public void actualizarTicket(int idTicket, String nombreColumna, Object dato);
     public List<Omnibus> obtenerOmnibusPorDestino(String destino);
+    public boolean verificarCapacidadOmnibus(Date fechaSalida, String matricula);
 }

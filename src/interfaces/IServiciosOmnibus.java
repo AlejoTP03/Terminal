@@ -5,6 +5,7 @@
 package interfaces;
 
 import domain.Omnibus;
+import java.util.Date;
 
 /**
  *
@@ -13,5 +14,6 @@ import domain.Omnibus;
 public interface IServiciosOmnibus {
     public boolean agregarOmnibus(Omnibus omnibus);
     public boolean eliminarOmnibus(String matricula);
-//    public boolean actualizarOmnibus();
+    public void actualizarOmnibus(String matricula, String nombreColumna, Object dato);
+    
 }

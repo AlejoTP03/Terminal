@@ -35,7 +35,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
      */
     
     private FormTicket formTicket;
-    
+    IServiciosTicket iServiciosTicket = new ServiciosTicket();
     public FormAgregarTicket(FormTicket formTicket, javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -264,21 +264,15 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         String apellidoPasajero = jTextFieldApellidoPasajero.getText();
         String ciPasajero = jTextFieldCiPasajero.getText();
 
-        // Declara una variable para almacenar la fecha de salida.
         Date fechaSalida = null;
         try {
-            // Define el formato de fecha esperado (AAAA-MM-DD).
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            // Intenta analizar el texto ingresado en el campo de fecha y convertirlo a un objeto Date.
             fechaSalida = dateFormat.parse(jTextFieldFechasalida.getText());
         } catch (ParseException e) {
-            // Si ocurre una excepción al analizar la fecha, muestra un mensaje de error al usuario.
             JOptionPane.showMessageDialog(this, "Fecha de salida inválida, la fecha debe cumplir el formato AAAA-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
-            // Sale del método sin continuar con la inserción del ticket.
             return;
         }
 
-        // Verifica que se haya seleccionado un destino y una matrícula antes de continuar
         if (jComboBoxDestino.getSelectedItem() == null || jComboBoxMatricula.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un destino y una matrícula", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -287,25 +281,26 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         String destino = jComboBoxDestino.getSelectedItem().toString();
         String matricula = jComboBoxMatricula.getSelectedItem().toString();
 
-        if(emptyFields()){
+        // Verifica si la cantidad de tickets no supera la capacidad del ómnibus
+        if (!iServiciosTicket.verificarCapacidadOmnibus(fechaSalida, matricula)) {
+            JOptionPane.showMessageDialog(this, "La cantidad de tickets emitidos para este día excede la capacidad del ómnibus", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (emptyFields()) {
             Ticket ticket = new Ticket(nombrePasajero, apellidoPasajero, ciPasajero, fechaSalida, destino, matricula);
 
-            // Crea una instancia de IServiciosTicket para interactuar con la capa de servicios.
             IServiciosTicket iServiciosTicket = new ServiciosTicket();
-            // Llama al método agregarTicket para insertar el ticket en la base de datos y almacena el resultado.
             boolean resultado = iServiciosTicket.agregarTicket(ticket);
 
-            // Muestra un mensaje de confirmación si el ticket fue agregado exitosamente.
-            // De lo contrario, muestra un mensaje de error.
             if (resultado) {
                 JOptionPane.showMessageDialog(this, "Ticket agregado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 clear();
                 formTicket.llenarTablaTickets();
-                
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos");
         }
         
