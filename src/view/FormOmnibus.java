@@ -4,6 +4,15 @@
  */
 package view;
 
+import interfaces.IServiciosOmnibus;
+import java.sql.Connection;
+import javax.swing.SwingWorker;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableModel;
+import persistence.ConexionDataBase;
+import services.ServiciosOmnibus;
+import utils.MostrarTablaOmnibus;
+
 /**
  *
  * @author PC
@@ -13,9 +22,14 @@ public class FormOmnibus extends javax.swing.JDialog {
     /**
      * Creates new form FormOmnibus
      */
+    private MostrarTablaOmnibus mostrarTablaOmnibus;
+    private Connection conectar = ConexionDataBase.getConnection();
+    IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
     public FormOmnibus(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mostrarTablaOmnibus = new MostrarTablaOmnibus(conectar);
+        llenarTablaOmnibus();
     }
 
     /**
@@ -30,7 +44,7 @@ public class FormOmnibus extends javax.swing.JDialog {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableMostrarOmnibus = new javax.swing.JTable();
         jButtonAgregarOmnibus = new javax.swing.JButton();
         jButtonEliminarOmnibus = new javax.swing.JButton();
         jButtonReporteOmnibus = new javax.swing.JButton();
@@ -40,8 +54,8 @@ public class FormOmnibus extends javax.swing.JDialog {
 
         jPanel1.setOpaque(false);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMostrarOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableMostrarOmnibus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -78,7 +92,7 @@ public class FormOmnibus extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableMostrarOmnibus);
 
         jButtonAgregarOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAgregarOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
@@ -162,7 +176,7 @@ public class FormOmnibus extends javax.swing.JDialog {
 
     private void jButtonAgregarOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarOmnibusActionPerformed
         // TODO add your handling code here:
-        FormAgregarOmnibus formAgregarOmnibus = new FormAgregarOmnibus(new javax.swing.JDialog(), true);
+        FormAgregarOmnibus formAgregarOmnibus = new FormAgregarOmnibus(this, this, true);
         formAgregarOmnibus.setVisible(true);
     }//GEN-LAST:event_jButtonAgregarOmnibusActionPerformed
 
@@ -215,6 +229,12 @@ public class FormOmnibus extends javax.swing.JDialog {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableMostrarOmnibus;
     // End of variables declaration//GEN-END:variables
+
+
+    public void llenarTablaOmnibus() {
+        DefaultTableModel modelo = mostrarTablaOmnibus.obtenerOmnibus();
+        jTableMostrarOmnibus.setModel(modelo);
+    }
 }

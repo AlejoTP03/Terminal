@@ -22,11 +22,13 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
     /**
      * Creates new form FormAgregarOmnibus
      */
+    private FormOmnibus formOmnibus;
     VerificarEntradaDeHora entradaHora = new VerificarEntradaDeHora();
     TraerIdTaller traerIdTaller = new TraerIdTaller();
-    public FormAgregarOmnibus(javax.swing.JDialog parent, boolean modal) {
+    public FormAgregarOmnibus(FormOmnibus formOmnibus, javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.formOmnibus = formOmnibus;
     }
 
     /**
@@ -285,32 +287,31 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         if (emptyFields()) {
-            String matricula = jTextFieldMatricula.getText();
-            String marca = jTextFieldMarca.getText();
-            String modelo = jTextFieldModelo.getText();
-            int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
-            String destino = jComboBoxDestino.getSelectedItem().toString();
-            java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
-            String paisProcedencia = jTextFieldPaisProcedencia.getText();
+        String matricula = jTextFieldMatricula.getText();
+        String marca = jTextFieldMarca.getText();
+        String modelo = jTextFieldModelo.getText();
+        int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
+        String destino = jComboBoxDestino.getSelectedItem().toString();
+        java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
+        String paisProcedencia = jTextFieldPaisProcedencia.getText();
 
-            int idTaller = traerIdTaller.obtenerIdTaller();
-            
-            if(jTextFieldMatricula.getText().length() == 7){
+        int idTaller = traerIdTaller.obtenerIdTaller();
+        
+            if (jTextFieldMatricula.getText().length() == 7) {
                 Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller);
 
                 IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
-                
-                boolean success = iServiciosOmnibus.agregarOmnibus(omnibus);
-                
-                if (success) {
+
+                if (iServiciosOmnibus.agregarOmnibus(omnibus)) {
                     JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
                     clear();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error al insertar el ómnibus.");
-                }
-            }else
-              JOptionPane.showMessageDialog(this, "Falta caracteres a la matricula");
-            
+                    formOmnibus.llenarTablaOmnibus();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "La matrícula ya está en uso.");
+                    }
+            } else {
+                JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
+            }
         } else {
             // Muestra un mensaje si alguno de los campos está vacío
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
@@ -355,7 +356,7 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormAgregarOmnibus dialog = new FormAgregarOmnibus(new javax.swing.JDialog(), true);
+                FormOmnibus dialog = new FormOmnibus(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

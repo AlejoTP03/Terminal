@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/view/FormAgregarOmnibus.java</file>
             <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/view/FormAgregarTicket.java</file>
-            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/interfaces/IServiciosTicket.java</file>
-            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/domain/Ticket.java</file>
+            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/interfaces/IServiciosOmnibus.java</file>
+            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/domain/Omnibus.java</file>
             <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/utils/MostrarTablaTicket.java</file>
-            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/persistence/ConexionDataBase.java</file>
+            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/view/FormOmnibus.java</file>
+            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/utils/MostrarTablaOmnibus.java</file>
             <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/services/ServiciosTicket.java</file>
             <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/view/FormTicket.java</file>
+            <file>file:/E:/Alejandro/Proyecto%20Practica%20Laboral%20Terminal%20de%20Omnibus/Terminal/src/services/ServiciosOmnibus.java</file>
         </group>
     </open-files>
 </project-private>
