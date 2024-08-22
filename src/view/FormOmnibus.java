@@ -5,7 +5,10 @@
 package view;
 
 import interfaces.IServiciosOmnibus;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +25,7 @@ public class FormOmnibus extends javax.swing.JDialog {
     /**
      * Creates new form FormOmnibus
      */
+    private String selectedMatricula = null;
     private MostrarTablaOmnibus mostrarTablaOmnibus;
     private Connection conectar = ConexionDataBase.getConnection();
     IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
@@ -30,6 +34,17 @@ public class FormOmnibus extends javax.swing.JDialog {
         initComponents();
         mostrarTablaOmnibus = new MostrarTablaOmnibus(conectar);
         llenarTablaOmnibus();
+        jTableMostrarOmnibus.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = jTableMostrarOmnibus.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Asumiendo que la matrícula del ómnibus está en la primera columna de la tabla
+                    selectedMatricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0);
+                }
+            }
+            
+        });
     }
 
     /**
@@ -87,9 +102,16 @@ public class FormOmnibus extends javax.swing.JDialog {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTableMostrarOmnibus);
@@ -172,6 +194,26 @@ public class FormOmnibus extends javax.swing.JDialog {
 
     private void jButtonEliminarOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarOmnibusActionPerformed
         // TODO add your handling code here:
+        int selectedRow = jTableMostrarOmnibus.getSelectedRow();
+        if (selectedRow != -1) {
+            // Obtén la matrícula del ómnibus seleccionado
+            String selectedMatricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0); // Suponiendo que la matrícula está en la primera columna
+
+            int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ómnibus?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                boolean exito = iServiciosOmnibus.eliminarOmnibus(selectedMatricula);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Ómnibus eliminado exitosamente.");
+                    // Opcional: Actualiza la tabla después de la eliminación
+                    llenarTablaOmnibus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo un problema al eliminar el ómnibus. Inténtalo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ómnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonEliminarOmnibusActionPerformed
 
     private void jButtonAgregarOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarOmnibusActionPerformed

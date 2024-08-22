@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import javax.swing.JTextField;
 import persistence.ConexionDataBase;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,63 +53,28 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
     }
 
     @Override
-    public boolean eliminarOmnibus() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public boolean eliminarOmnibus(String matricula) {
+        String sql = "DELETE FROM \"Omnibus\" WHERE matricula = ?";
+        try (Connection conn = conexion.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-    @Override
-    public void actualizarTicket(String matricula, String nombreColumna, Object dato) {
-        // Mapeo de los nombres de columnas del JTable a los nombres reales en la base de datos
-        String dbColumnName;
-        switch (nombreColumna) {
-            case "Matricula":
-                dbColumnName = "matricula";
-                break;
-            case "Marca":
-                dbColumnName = "marca";
-                break;
-            case "Modelo":
-                dbColumnName = "modelo";
-                break;
-            case "Destino":
-                dbColumnName = "destino";
-                break;
-            case "Capacidad":
-                dbColumnName = "capacidad";
-                break;
-            case "Hora Salida":
-                dbColumnName = "hora_salida";
-                break;
-            case "Pais Procedencia":
-                dbColumnName = "pais_procedencia";
-                break;
-            case "ID Taller":
-                dbColumnName = "id_taller";
-                break;    
-            
-            default:
-                throw new IllegalArgumentException("Columna desconocida: " + nombreColumna);
-        }
+            pstmt.setString(1, matricula);
 
-        String sql = "UPDATE \"Omnibus\" SET " + dbColumnName + " = ? WHERE matricula = ?";
+            int rowsAffected = pstmt.executeUpdate();
 
-        try (Connection conexion = ConexionDataBase.getConnection();
-             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
-            // Establece el valor del nuevo dato
-            pstmt.setObject(1, dato);
-            pstmt.setString(2, matricula);
-
-            // Ejecuta la actualización
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("El registro con matriculat " + matricula + " fue actualizado.");
-            }
+            // Si se afectó al menos una fila, significa que la eliminación fue exitosa
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
+
+    
+
+    
+    
     
     private boolean isMatriculaExists(String matricula) {
         String sql = "SELECT COUNT(*) FROM \"Omnibus\" WHERE matricula = ?";

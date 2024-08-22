@@ -12,6 +12,6 @@ import domain.Omnibus;
  */
 public interface IServiciosOmnibus {
     public boolean agregarOmnibus(Omnibus omnibus);
-    public boolean eliminarOmnibus();
-    public void actualizarTicket(String matricula, String nombreColumna, Object dato);
+    public boolean eliminarOmnibus(String matricula);
+//    public boolean actualizarOmnibus();
 }
