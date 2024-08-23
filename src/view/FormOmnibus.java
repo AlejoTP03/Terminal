@@ -11,10 +11,12 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
 import services.ServiciosOmnibus;
 import utils.MostrarTablaOmnibus;
+import java.sql.Time;
 
 /**
  *
@@ -34,6 +36,7 @@ public class FormOmnibus extends javax.swing.JDialog {
         initComponents();
         mostrarTablaOmnibus = new MostrarTablaOmnibus(conectar);
         llenarTablaOmnibus();
+        configurarTabla();
         jTableMostrarOmnibus.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -43,8 +46,8 @@ public class FormOmnibus extends javax.swing.JDialog {
                     selectedMatricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0);
                 }
             }
-            
         });
+        
     }
 
     /**
@@ -281,5 +284,59 @@ public class FormOmnibus extends javax.swing.JDialog {
     }
     
     
+    private void configurarTabla() {
+        jTableMostrarOmnibus.getModel().addTableModelListener(new TableModelListener() {
+        @Override
+        public void tableChanged(TableModelEvent e) {
+        int row = e.getFirstRow();
+        int column = e.getColumn();
+
+        if (column != -1) { // Si la columna es válida
+            try {
+                // Obtén los valores de la fila que fue editada
+                String matricula = jTableMostrarOmnibus.getValueAt(row, 0).toString();
+                String marca = jTableMostrarOmnibus.getValueAt(row, 1).toString();
+                String modeloOmnibus = jTableMostrarOmnibus.getValueAt(row, 2).toString();
+
+                int capacidad = Integer.parseInt(jTableMostrarOmnibus.getValueAt(row, 3).toString());
+                String destino = jTableMostrarOmnibus.getValueAt(row, 4).toString();
+
+                // Validación y conversión del campo de hora
+                Time horaSalida = Time.valueOf(jTableMostrarOmnibus.getValueAt(row, 5).toString());
+                String paisProcedencia = jTableMostrarOmnibus.getValueAt(row, 6).toString();
+
+                int idTaller = Integer.parseInt(jTableMostrarOmnibus.getValueAt(row, 7).toString());
+
+                // Actualiza la base de datos con los valores nuevos
+                iServiciosOmnibus.actualizarOmnibus(matricula, marca, modeloOmnibus, capacidad, destino, horaSalida, paisProcedencia, idTaller);
+
+            } catch (NumberFormatException ex) {
+                // Manejar error de formato numérico
+                System.err.println("Error en la conversión de datos numéricos: " + ex.getMessage());
+            } catch (IllegalArgumentException ex) {
+                // Manejar error de formato de tiempo
+                System.err.println("Error en la conversión de la hora: " + ex.getMessage());
+            }
+        }
+    }
+    });
+    }
     
+    private void actualizarRegistroOmnibus(int row, int column) {
+        // Obtener la matrícula del ómnibus, que es un String
+        String matricula = (String) jTableMostrarOmnibus.getValueAt(row, 0);
+
+        // Obtener el nuevo valor de la celda editada
+        Object newValue = jTableMostrarOmnibus.getValueAt(row, column);
+
+        // Determinar el nombre de la columna en la base de datos que corresponde a la columna editada
+        String columnName = jTableMostrarOmnibus.getColumnName(column);
+
+        // Llamar al método del servicio para actualizar la base de datos
+//        iServiciosOmnibus.actualizarOmnibus(matricula, columnName, newValue);
+
+        // Refrescar la tabla para mostrar los cambios
+        llenarTablaOmnibus();
+
+    }
 }

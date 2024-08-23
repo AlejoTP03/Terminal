@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import java.sql.Time;
 
 /**
  *
@@ -75,57 +76,27 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
 
     
     @Override
-    public void actualizarOmnibus(String matricula, String nombreColumna, Object dato) {
-        String dbColumnName;
-        switch (nombreColumna) {
-            case "Marca":
-                dbColumnName = "marca";
-                break;
-            case "Modelo":
-                dbColumnName = "modelo";
-                break;
-            case "Capacidad":
-                dbColumnName = "capacidad";
-                break;
-            case "Destino":
-                dbColumnName = "destino";
-                break;
-            case "Hora de Salida":
-                dbColumnName = "hora_salida";
-                break;
-            case "País de Procedencia":
-                dbColumnName = "pais_procedencia";
-                break;
-            case "Número de Taller":
-                dbColumnName = "numero_taller";
-                break;
-            default:
-                System.err.println("Columna desconocida: " + nombreColumna);
-                return;
-        }
+    public boolean actualizarOmnibus(String matricula, String marca, String modelo, int capacidad, String destino, Time horaSalida, String paisProcedencia, int idTaller) {
+        String sql = "UPDATE \"Omnibus\" SET matricula = ?, marca = ?, modelo = ?, capacidad = ?, destino = ?, hora_salida = ?, pais_procedencia = ?, id_taller = ? WHERE matricula = ?";
+    
+        try (Connection con = conexion.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        // Construye la consulta SQL
-        String sql = "UPDATE \"Omnibus\" SET " + dbColumnName + " = ? WHERE matricula = ?";
+            ps.setString(1, matricula);
+            ps.setString(2, marca);
+            ps.setString(3, modelo);
+            ps.setInt(4, capacidad);
+            ps.setString(5, destino);
+            ps.setTime(6, horaSalida);
+            ps.setString(7, paisProcedencia);
+            ps.setInt(8, idTaller);
+            
 
-        try (Connection conexion = ConexionDataBase.getConnection();
-             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
-            // Establece el valor del dato
-            pstmt.setObject(1, dato);
-
-            // Establece la matrícula
-            pstmt.setString(2, matricula);
-
-            // Ejecuta la actualización
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("El registro con matrícula " + matricula + " fue actualizado.");
-            } else {
-                System.out.println("No se encontró el registro con matrícula " + matricula + ".");
-            }
-
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -150,6 +121,5 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
         return false;
     }
     
-    
-    
+  
 }

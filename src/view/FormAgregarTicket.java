@@ -131,6 +131,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         });
 
         jComboBoxMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBoxMatricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMatriculaActionPerformed(evt);
+            }
+        });
 
         jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
@@ -359,6 +364,10 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jTextFieldApellidoPasajeroKeyTyped
 
+    private void jComboBoxMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMatriculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxMatriculaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -443,7 +452,6 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     }
     
     public void llenarComboBoxMatricula(JComboBox<String> comboBox, String destino) {
-    IServiciosTicket iServiciosTicket = new ServiciosTicket();
     comboBox.removeAllItems();
     List<Omnibus> listaOmnibus = iServiciosTicket.obtenerOmnibusPorDestino(destino);
     for (Omnibus omnibus : listaOmnibus) {

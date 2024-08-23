@@ -4,6 +4,13 @@
  */
 package view;
 
+import domain.Conductor;
+import interfaces.IServiciosConductor;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import services.ServiciosConductor;
+
 /**
  *
  * @author PC
@@ -13,9 +20,11 @@ public class FormAgregarConductor extends javax.swing.JDialog {
     /**
      * Creates new form FormAgregarConductor
      */
+    IServiciosConductor iServiciosConductor = new ServiciosConductor();
     public FormAgregarConductor(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        actualizarComboBoxMatricula();
     }
 
     /**
@@ -70,6 +79,11 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         jTextFieldDireccion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jTextFieldTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldTelefonoKeyTyped(evt);
+            }
+        });
 
         jComboBoxMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -188,8 +202,49 @@ public class FormAgregarConductor extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
+        // Verificar si los campos están vacíos
+        
+
+        // Obtener los datos del formulario
+        String nombre = jTextFieldNombre.getText().trim();
+        String apellido = jTextFieldApellido.getText().trim();
+        String direccion = jTextFieldDireccion.getText().trim();
+        String telefono = jTextFieldTelefono.getText().trim();
+        String matricula = jComboBoxMatricula.getSelectedItem().toString().trim();
+
+        if (emptyFields()) {
+            Conductor conductor = new Conductor(nombre, apellido, direccion, telefono, matricula);
+            // Crear instancia de la clase de servicios
+            IServiciosConductor iServiciosConductor = new ServiciosConductor();
+
+            // Llamar al método para agregar el conductor
+            boolean exito = iServiciosConductor.agregarConductor(conductor);
+
+            // Mostrar mensaje de éxito o error
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Conductor agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Limpiar campos o cerrar el formulario si es necesario
+                clear();
+                actualizarComboBoxMatricula();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        
+        }else{
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jTextFieldTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if((car<'0' || car>'9')) 
+            evt.consume();
+        
+        if(jTextFieldTelefono.getText().length() > 7)
+            evt.consume();
+    }//GEN-LAST:event_jTextFieldTelefonoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -250,4 +305,31 @@ public class FormAgregarConductor extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldTelefono;
     // End of variables declaration//GEN-END:variables
+
+
+    private void actualizarComboBoxMatricula() {
+        List<String> matriculas = iServiciosConductor.obtenerMatriculasDisponibles();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(matriculas.toArray(new String[0]));
+        jComboBoxMatricula.setModel(model);
+    }
+    
+    
+    private void clear() {
+        jTextFieldNombre.setText("");
+        jTextFieldApellido.setText("");
+        jTextFieldDireccion.setText("");
+        jTextFieldTelefono.setText("");
+        jComboBoxMatricula.setSelectedIndex(-1);
+    }
+    
+    public boolean emptyFields() {
+        return !jTextFieldNombre.getText().equals("")
+            && !jTextFieldApellido.getText().equals("")
+            && !jTextFieldDireccion.getText().equals("")
+            && !jTextFieldTelefono.getText().equals("")
+            && jComboBoxMatricula.getSelectedItem() != null;
+    }
+    
+    
 }
+

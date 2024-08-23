@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import persistence.ConexionDataBase;
 
 /**
@@ -19,37 +21,33 @@ import persistence.ConexionDataBase;
  */
 public class ServiciosConductor implements IServiciosConductor{
 
-    @Override
-    public int agregarConductor(Conductor conductor) {
-        String sql = "INSERT INTO Conductor (nombre, apellido, direccion, telefono, matricula) VALUES (?, ?, ?, ?, ?)";
+    ConexionDataBase conexion = new ConexionDataBase();
     
-        try (Connection conn = ConexionDataBase.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-         
-            stmt.setString(1, conductor.getNombre());
-            stmt.setString(2, conductor.getApellido());
-            stmt.setString(3, conductor.getDireccion());
-            stmt.setString(4, conductor.getTelefono());
-            stmt.setString(5, conductor.getMatricula());
+    @Override
+    public boolean agregarConductor(Conductor conductor) {
+        // Definir la consulta SQL
+        String sql = "INSERT INTO \"Conductor\" (nombre, apellido, direccion, telefono, matricula) VALUES (?, ?, ?, ?, ?)";
+        
+        // Usar try-with-resources para asegurar el cierre de recursos
+        try (Connection conn = conexion.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            int rowsAffected = stmt.executeUpdate();
+            // Configurar los parámetros del PreparedStatement
+            pstmt.setString(1, conductor.getNombre());
+            pstmt.setString(2, conductor.getApellido());
+            pstmt.setString(3, conductor.getDireccion());
+            pstmt.setString(4, conductor.getTelefono());
+            pstmt.setString(5, conductor.getMatricula());
 
-            if (rowsAffected > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int generatedId = generatedKeys.getInt(1);
-                        conductor.setIdConductor(generatedId);
-                     return generatedId;
-                    } else {
-                        throw new SQLException("Error al insertar el conductor, no se encontró el ID.");
-                    }
-                }
-            } else {
-                throw new SQLException("Error al insertar el conductor, no se afectaron filas.");
-            }
+            // Ejecutar la inserción
+            int filasAfectadas = pstmt.executeUpdate();
+
+            // Verificar si se insertó al menos una fila
+            return filasAfectadas > 0;
+
         } catch (SQLException e) {
-            System.err.println("Error al insertar conductor: " + e.getMessage());
-            return 0;
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -63,5 +61,28 @@ public class ServiciosConductor implements IServiciosConductor{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    
+    @Override
+    public List<String> obtenerMatriculasDisponibles() {
+    List<String> matriculas = new ArrayList<>();
+    String query = "SELECT o.matricula " +
+                   "FROM \"Omnibus\" o " +
+                   "LEFT JOIN \"Conductor\" c ON o.matricula = c.matricula " +
+                   "GROUP BY o.matricula " +
+                   "HAVING COUNT(c.matricula) < 2";
+
+    try (Connection conn = conexion.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(query)) {
+
+        while (rs.next()) {
+            matriculas.add(rs.getString("matricula"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return matriculas;
+    }
     
 }

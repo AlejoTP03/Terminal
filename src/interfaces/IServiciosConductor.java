@@ -5,13 +5,15 @@
 package interfaces;
 
 import domain.Conductor;
+import java.util.List;
 
 /**
  *
  * @author PC
  */
 public interface IServiciosConductor {
-    public int agregarConductor(Conductor conductor);
+    public boolean agregarConductor(Conductor conductor);
     public boolean eliminarConductor(Conductor conductor);
     public boolean actualizarConductor(Conductor conductor);
+    public List<String> obtenerMatriculasDisponibles();
 }
