@@ -20,10 +20,12 @@ public class FormAgregarConductor extends javax.swing.JDialog {
     /**
      * Creates new form FormAgregarConductor
      */
+    private FormConductor formConductor;
     IServiciosConductor iServiciosConductor = new ServiciosConductor();
-    public FormAgregarConductor(javax.swing.JDialog parent, boolean modal) {
+    public FormAgregarConductor(FormConductor formConductor, javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.formConductor = formConductor;
         actualizarComboBoxMatricula();
     }
 
@@ -202,9 +204,6 @@ public class FormAgregarConductor extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
-        // Verificar si los campos están vacíos
-        
-
         // Obtener los datos del formulario
         String nombre = jTextFieldNombre.getText().trim();
         String apellido = jTextFieldApellido.getText().trim();
@@ -226,6 +225,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
                 // Limpiar campos o cerrar el formulario si es necesario
                 clear();
                 actualizarComboBoxMatricula();
+                formConductor.llenarTablaConductor();
             } else {
                 JOptionPane.showMessageDialog(this, "Error al agregar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -276,7 +276,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormAgregarConductor dialog = new FormAgregarConductor(new javax.swing.JDialog(), true);
+                FormConductor dialog = new FormConductor(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

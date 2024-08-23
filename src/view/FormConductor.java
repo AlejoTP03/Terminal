@@ -4,6 +4,13 @@
  */
 package view;
 
+import interfaces.IServiciosConductor;
+import java.sql.Connection;
+import javax.swing.table.DefaultTableModel;
+import persistence.ConexionDataBase;
+import services.ServiciosConductor;
+import utils.MostrarTablaConductor;
+
 /**
  *
  * @author PC
@@ -13,9 +20,14 @@ public class FormConductor extends javax.swing.JDialog {
     /**
      * Creates new form FormConductor
      */
+    MostrarTablaConductor mostrarTablaConductor;
+    private Connection conectar = ConexionDataBase.getConnection();
+    IServiciosConductor iserviciosConductor = new ServiciosConductor();
     public FormConductor(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mostrarTablaConductor = new MostrarTablaConductor(conectar);
+        llenarTablaConductor();
     }
 
     /**
@@ -30,7 +42,7 @@ public class FormConductor extends javax.swing.JDialog {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableMostrarConductor = new javax.swing.JTable();
         jButtonAgregarConductor = new javax.swing.JButton();
         jButtonEliminarConductor = new javax.swing.JButton();
         jButtonReporteConductor = new javax.swing.JButton();
@@ -41,8 +53,8 @@ public class FormConductor extends javax.swing.JDialog {
 
         jPanel1.setOpaque(false);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMostrarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableMostrarConductor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -79,7 +91,7 @@ public class FormConductor extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableMostrarConductor);
 
         jButtonAgregarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAgregarConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus_insert_add_new_icon_181537.png"))); // NOI18N
@@ -154,7 +166,7 @@ public class FormConductor extends javax.swing.JDialog {
 
     private void jButtonAgregarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarConductorActionPerformed
         // TODO add your handling code here:
-        FormAgregarConductor formAgregarConductor = new FormAgregarConductor(new javax.swing.JDialog(), true);
+        FormAgregarConductor formAgregarConductor = new FormAgregarConductor(this, this, true);
         formAgregarConductor.setVisible(true);
     }//GEN-LAST:event_jButtonAgregarConductorActionPerformed
 
@@ -207,6 +219,12 @@ public class FormConductor extends javax.swing.JDialog {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableMostrarConductor;
     // End of variables declaration//GEN-END:variables
+
+
+    public void llenarTablaConductor() {
+        DefaultTableModel modelo = mostrarTablaConductor.obtenerConductores();
+        jTableMostrarConductor.setModel(modelo);
+    }
 }

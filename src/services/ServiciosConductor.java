@@ -25,12 +25,12 @@ public class ServiciosConductor implements IServiciosConductor{
     
     @Override
     public boolean agregarConductor(Conductor conductor) {
+        Connection conn = conexion.getConnection();
         // Definir la consulta SQL
         String sql = "INSERT INTO \"Conductor\" (nombre, apellido, direccion, telefono, matricula) VALUES (?, ?, ?, ?, ?)";
-        
-        // Usar try-with-resources para asegurar el cierre de recursos
-        try (Connection conn = conexion.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        // Usar el PreparedStatement para ejecutar la inserción
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // Configurar los parámetros del PreparedStatement
             pstmt.setString(1, conductor.getNombre());
@@ -64,25 +64,38 @@ public class ServiciosConductor implements IServiciosConductor{
     
     @Override
     public List<String> obtenerMatriculasDisponibles() {
-    List<String> matriculas = new ArrayList<>();
-    String query = "SELECT o.matricula " +
-                   "FROM \"Omnibus\" o " +
-                   "LEFT JOIN \"Conductor\" c ON o.matricula = c.matricula " +
-                   "GROUP BY o.matricula " +
-                   "HAVING COUNT(c.matricula) < 2";
+        List<String> matriculas = new ArrayList<>();
+        String query = "SELECT o.matricula " +
+                       "FROM \"Omnibus\" o " +
+                       "LEFT JOIN \"Conductor\" c ON o.matricula = c.matricula " +
+                       "GROUP BY o.matricula " +
+                       "HAVING COUNT(c.matricula) < 2";
 
-    try (Connection conn = conexion.getConnection();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(query)) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
 
-        while (rs.next()) {
-            matriculas.add(rs.getString("matricula"));
+        try {
+            conn = conexion.getConnection(); // Obtén la conexión
+            stmt = conn.createStatement();   // Crea el Statement
+            rs = stmt.executeQuery(query);   // Ejecuta la consulta
+
+            while (rs.next()) {
+                matriculas.add(rs.getString("matricula"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cierra los recursos en el bloque finally para garantizar que se cierren incluso si ocurre una excepción
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                // No cerramos la conexión aquí
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
 
-    return matriculas;
+        return matriculas;
     }
-    
 }
