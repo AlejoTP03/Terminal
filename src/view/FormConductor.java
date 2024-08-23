@@ -6,6 +6,7 @@ package view;
 
 import interfaces.IServiciosConductor;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
 import services.ServiciosConductor;
@@ -28,6 +29,12 @@ public class FormConductor extends javax.swing.JDialog {
         initComponents();
         mostrarTablaConductor = new MostrarTablaConductor(conectar);
         llenarTablaConductor();
+        
+        jButtonEliminarConductor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarConductorActionPerformed(evt);
+            }
+        });
     }
 
     /**
@@ -105,6 +112,11 @@ public class FormConductor extends javax.swing.JDialog {
         jButtonEliminarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonEliminarConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
         jButtonEliminarConductor.setText("Eliminar");
+        jButtonEliminarConductor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarConductorActionPerformed(evt);
+            }
+        });
 
         jButtonReporteConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
@@ -169,6 +181,38 @@ public class FormConductor extends javax.swing.JDialog {
         FormAgregarConductor formAgregarConductor = new FormAgregarConductor(this, this, true);
         formAgregarConductor.setVisible(true);
     }//GEN-LAST:event_jButtonAgregarConductorActionPerformed
+
+    private void jButtonEliminarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarConductorActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Botón presionado"); // Línea de depuración
+
+        DefaultTableModel modelo = (DefaultTableModel) jTableMostrarConductor.getModel();
+        int selectedRow = jTableMostrarConductor.getSelectedRow();
+
+        System.out.println("Fila seleccionada: " + selectedRow); // Línea de depuración
+
+        if (selectedRow != -1) {
+            // Obtén el ID del conductor de la fila seleccionada
+            Object idConductor = modelo.getValueAt(selectedRow, 0); // Ajusta el índice de la columna si es necesario
+
+            // Elimina el conductor de la base de datos usando el servicio
+            boolean exito = iserviciosConductor.eliminarConductor(idConductor);
+
+            System.out.println("Eliminación exitosa: " + exito); // Línea de depuración
+
+            if (exito) {
+                // Elimina la fila del modelo de datos
+                modelo.removeRow(selectedRow);
+                JOptionPane.showMessageDialog(this, "Conductor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Este mensaje solo aparecerá si realmente no hay nada seleccionado
+            System.out.println("No se seleccionó ninguna fila"); // Línea de depuración
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione algún conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonEliminarConductorActionPerformed
 
     /**
      * @param args the command line arguments

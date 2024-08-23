@@ -52,8 +52,17 @@ public class ServiciosConductor implements IServiciosConductor{
     }
 
     @Override
-    public boolean eliminarConductor(Conductor conductor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarConductor(Object idConductor) {
+        String sql = "DELETE FROM \"Conductor\" WHERE id_conductor = ?";
+        Connection conn = conexion.getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1, idConductor);
+            int filasAfectadas = pstmt.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
