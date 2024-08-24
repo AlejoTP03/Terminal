@@ -7,11 +7,13 @@ package view;
 import interfaces.IServiciosConductor;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
 import services.ServiciosConductor;
+import utils.GenerarPdf;
 import utils.MostrarTablaConductor;
 
 /**
@@ -153,6 +155,11 @@ public class FormConductor extends javax.swing.JDialog {
         jButtonReporteConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteConductor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteConductor.setText("Reporte");
+        jButtonReporteConductor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReporteConductorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -236,6 +243,14 @@ public class FormConductor extends javax.swing.JDialog {
 //            JOptionPane.showMessageDialog(this, "Por favor, seleccione algún conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonEliminarConductorActionPerformed
+
+    private void jButtonReporteConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReporteConductorActionPerformed
+        // TODO add your handling code here:
+        JTable tabla = jTableMostrarConductor;
+        GenerarPdf generarPDF = new GenerarPdf();
+        generarPDF.generarPDFConductor(tabla);
+        JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
+    }//GEN-LAST:event_jButtonReporteConductorActionPerformed
 
     /**
      * @param args the command line arguments

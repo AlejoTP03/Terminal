@@ -17,6 +17,8 @@ import persistence.ConexionDataBase;
 import services.ServiciosOmnibus;
 import utils.MostrarTablaOmnibus;
 import java.sql.Time;
+import javax.swing.JTable;
+import utils.GenerarPdf;
 
 /**
  *
@@ -52,15 +54,14 @@ public class FormOmnibus extends javax.swing.JDialog {
         if (e.getType() == TableModelEvent.UPDATE) {
             int row = e.getFirstRow();
             int column = e.getColumn();
+            System.out.println("Se ha actualizado la fila " + row + " en la columna " + column);
 
             DefaultTableModel model = (DefaultTableModel) jTableMostrarOmnibus.getModel();
             String nombreColumna = model.getColumnName(column);
             Object dato = model.getValueAt(row, column);
 
-            // Obtén la matrícula del ómnibus de la primera columna de la fila
             String matricula = (String) model.getValueAt(row, 0); // Asegúrate de que la primera columna es 'matricula'
 
-            // Usa SwingWorker para actualizar la base de datos en un hilo separado
             SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
@@ -169,6 +170,11 @@ public class FormOmnibus extends javax.swing.JDialog {
         jButtonReporteOmnibus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteOmnibus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteOmnibus.setText("Reporte");
+        jButtonReporteOmnibus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReporteOmnibusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -253,6 +259,14 @@ public class FormOmnibus extends javax.swing.JDialog {
         FormAgregarOmnibus formAgregarOmnibus = new FormAgregarOmnibus(this, this, true);
         formAgregarOmnibus.setVisible(true);
     }//GEN-LAST:event_jButtonAgregarOmnibusActionPerformed
+
+    private void jButtonReporteOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReporteOmnibusActionPerformed
+        // TODO add your handling code here:
+        JTable tabla = jTableMostrarOmnibus;
+        GenerarPdf generarPDF = new GenerarPdf();
+        generarPDF.generarPDFOmnibus(tabla);
+        JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
+    }//GEN-LAST:event_jButtonReporteOmnibusActionPerformed
 
     /**
      * @param args the command line arguments

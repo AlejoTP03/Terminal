@@ -9,11 +9,13 @@ import persistence.ConexionDataBase;
 import utils.MostrarTablaTicket;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import services.ServiciosTicket;
+import utils.GenerarPdf;
 
 
 
@@ -123,7 +125,7 @@ public class FormTicket extends javax.swing.JDialog {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, false
+                false, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -154,6 +156,11 @@ public class FormTicket extends javax.swing.JDialog {
         jButtonReporteTickets.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteTickets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteTickets.setText("Reporte");
+        jButtonReporteTickets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReporteTicketsActionPerformed(evt);
+            }
+        });
 
         jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
         jButtonEliminar.setText("Eliminar");
@@ -255,6 +262,14 @@ public class FormTicket extends javax.swing.JDialog {
     private void jTableMostrarTicketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMostrarTicketMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jTableMostrarTicketMouseClicked
+
+    private void jButtonReporteTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReporteTicketsActionPerformed
+        // TODO add your handling code here:
+        JTable tabla = jTableMostrarTicket;
+        GenerarPdf generarPDF = new GenerarPdf();
+        generarPDF.generarPDFTicket(tabla);
+        JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
+    }//GEN-LAST:event_jButtonReporteTicketsActionPerformed
 
     /**
      * @param args the command line arguments
