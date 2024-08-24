@@ -84,6 +84,7 @@ public class FormTicket extends javax.swing.JDialog {
         jButtonAgregarTicket = new javax.swing.JButton();
         jButtonReporteTickets = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
+        jButtonBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion Ticket");
@@ -170,6 +171,15 @@ public class FormTicket extends javax.swing.JDialog {
             }
         });
 
+        jButtonBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/48search_locate_find_icon-icons.com_67287.png"))); // NOI18N
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -177,6 +187,8 @@ public class FormTicket extends javax.swing.JDialog {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonBuscar)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonReporteTickets)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonEliminar)
@@ -192,7 +204,8 @@ public class FormTicket extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAgregarTicket)
                     .addComponent(jButtonEliminar)
-                    .addComponent(jButtonReporteTickets))
+                    .addComponent(jButtonReporteTickets)
+                    .addComponent(jButtonBuscar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -271,6 +284,12 @@ public class FormTicket extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
     }//GEN-LAST:event_jButtonReporteTicketsActionPerformed
 
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        // TODO add your handling code here:
+        FormBuscarTicket formbuscarticket = new FormBuscarTicket(this, true);
+        formbuscarticket.setVisible(true);
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -315,6 +334,7 @@ public class FormTicket extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAgregarTicket;
+    private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonReporteTickets;
     private javax.swing.JDesktopPane jDesktopPane1;

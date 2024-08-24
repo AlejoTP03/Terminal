@@ -4,6 +4,17 @@
  */
 package view;
 
+import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import persistence.ConexionDataBase;
+import utils.GenerarPdf;
+import utils.MostrarTablaTicket;
+
 /**
  *
  * @author PC
@@ -13,7 +24,9 @@ public class FormBuscarTicket extends javax.swing.JDialog {
     /**
      * Creates new form FormModificarTicket
      */
-    public FormBuscarTicket(java.awt.Frame parent, boolean modal) {
+    private Connection conectar = ConexionDataBase.getConnection();
+    MostrarTablaTicket mostrarTablaTicket = new MostrarTablaTicket(conectar);
+    public FormBuscarTicket(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -29,20 +42,29 @@ public class FormBuscarTicket extends javax.swing.JDialog {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
-        jButtonAceptar = new javax.swing.JButton();
+        jButtonReporte = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jTableMostrarTicketsBuscados = new javax.swing.JTable();
+        jLabelDestino = new javax.swing.JLabel();
+        jComboBoxDestino = new javax.swing.JComboBox<>();
+        jLabelFecha = new javax.swing.JLabel();
+        jTextFieldFecha = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Actualizar Ticket");
+        setTitle("Buscar Ticket");
 
         jPanel1.setOpaque(false);
 
-        jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
-        jButtonAceptar.setText("Aceptar");
+        jButtonReporte.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/32folder_archive_icon_181539.png"))); // NOI18N
+        jButtonReporte.setText("Reporte");
+        jButtonReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReporteActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forceexit_103817.png"))); // NOI18N
@@ -53,50 +75,118 @@ public class FormBuscarTicket extends javax.swing.JDialog {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMostrarTicketsBuscados.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableMostrarTicketsBuscados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "idTicket", "Nombre", "Apellido", "Ci", "Fecha de Salida", "Matricula"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Destino");
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableMostrarTicketsBuscados);
+
+        jLabelDestino.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelDestino.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDestino.setText("Destino:");
+
+        jComboBoxDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBoxDestino.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+
+        jLabelFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelFecha.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelFecha.setText("Fecha");
+
+        jTextFieldFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldFecha.setForeground(new java.awt.Color(0, 0, 0));
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/32search_locate_find_icon-icons.com_67287.png"))); // NOI18N
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(351, Short.MAX_VALUE)
+                .addContainerGap(350, Short.MAX_VALUE)
                 .addComponent(jButtonCancelar)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonAceptar)
+                .addComponent(jButtonReporte)
                 .addGap(18, 18, 18))
             .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabelDestino)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(jLabelFecha)
+                .addGap(18, 18, 18)
+                .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelDestino)
+                    .addComponent(jComboBoxDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelFecha)
+                    .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAceptar)
+                    .addComponent(jButtonReporte)
                     .addComponent(jButtonCancelar))
                 .addGap(18, 18, 18))
         );
@@ -126,12 +216,44 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         // Obtener los valores del JComboBox y JTextField
+        String destino = (String) jComboBoxDestino.getSelectedItem();
+        String fechaTexto = jTextFieldFecha.getText();
+
+        // Convertir el texto de la fecha a un objeto Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = null;
+        try {
+            fecha = dateFormat.parse(fechaTexto);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use AAAA-MM-DD.");
+            return;
+        }
+
+        // Crear una instancia de MostrarTablaTicket y obtener el modelo de datos
+        DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha);
+
+        // Actualizar el JTable con el modelo de datos
+        jTableMostrarTicketsBuscados.setModel(modelo);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReporteActionPerformed
+        // TODO add your handling code here:
+        JTable tabla = jTableMostrarTicketsBuscados;
+        GenerarPdf generarPDF = new GenerarPdf();
+        generarPDF.generarPDFTicket(tabla);
+    }//GEN-LAST:event_jButtonReporteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,7 +286,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormBuscarTicket dialog = new FormBuscarTicket(new javax.swing.JFrame(), true);
+                FormBuscarTicket dialog = new FormBuscarTicket(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -177,12 +299,19 @@ public class FormBuscarTicket extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonReporte;
+    private javax.swing.JComboBox<String> jComboBoxDestino;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelDestino;
+    private javax.swing.JLabel jLabelFecha;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableMostrarTicketsBuscados;
+    private javax.swing.JTextField jTextFieldFecha;
     // End of variables declaration//GEN-END:variables
+
+
+    
 }
