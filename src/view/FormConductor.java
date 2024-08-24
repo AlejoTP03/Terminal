@@ -7,6 +7,8 @@ package view;
 import interfaces.IServiciosConductor;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
 import services.ServiciosConductor;
@@ -23,7 +25,7 @@ public class FormConductor extends javax.swing.JDialog {
      */
     MostrarTablaConductor mostrarTablaConductor;
     private Connection conectar = ConexionDataBase.getConnection();
-    IServiciosConductor iserviciosConductor = new ServiciosConductor();
+    IServiciosConductor iServiciosConductor = new ServiciosConductor();
     public FormConductor(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -35,6 +37,36 @@ public class FormConductor extends javax.swing.JDialog {
                 jButtonEliminarConductorActionPerformed(evt);
             }
         });
+        
+        jTableMostrarConductor.getModel().addTableModelListener(e -> {
+        if (e.getType() == TableModelEvent.UPDATE) {
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+
+            DefaultTableModel model = (DefaultTableModel) jTableMostrarConductor.getModel();
+            String nombreColumna = model.getColumnName(column);
+            Object dato = model.getValueAt(row, column);
+
+            // Obtén el ID del conductor de la primera columna de la fila
+            int idConductor = (int) model.getValueAt(row, 0); // Asegúrate de que la primera columna es 'idConductor'
+
+            // Usa SwingWorker para actualizar la base de datos en un hilo separado
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    iServiciosConductor.actualizarConductor(idConductor, nombreColumna, dato);
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    // Si es necesario, puedes hacer algo aquí después de que la base de datos haya sido actualizada.
+                }
+            };
+
+            worker.execute();
+        }
+    });
     }
 
     /**
@@ -184,33 +216,24 @@ public class FormConductor extends javax.swing.JDialog {
 
     private void jButtonEliminarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarConductorActionPerformed
         // TODO add your handling code here:
-        System.out.println("Botón presionado"); // Línea de depuración
-
         DefaultTableModel modelo = (DefaultTableModel) jTableMostrarConductor.getModel();
         int selectedRow = jTableMostrarConductor.getSelectedRow();
 
         System.out.println("Fila seleccionada: " + selectedRow); // Línea de depuración
 
         if (selectedRow != -1) {
-            // Obtén el ID del conductor de la fila seleccionada
             Object idConductor = modelo.getValueAt(selectedRow, 0); // Ajusta el índice de la columna si es necesario
 
-            // Elimina el conductor de la base de datos usando el servicio
-            boolean exito = iserviciosConductor.eliminarConductor(idConductor);
-
-            System.out.println("Eliminación exitosa: " + exito); // Línea de depuración
-
+            boolean exito = iServiciosConductor.eliminarConductor(idConductor);
+            
             if (exito) {
-                // Elimina la fila del modelo de datos
                 modelo.removeRow(selectedRow);
                 JOptionPane.showMessageDialog(this, "Conductor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Error al eliminar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            // Este mensaje solo aparecerá si realmente no hay nada seleccionado
-            System.out.println("No se seleccionó ninguna fila"); // Línea de depuración
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione algún conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+//            JOptionPane.showMessageDialog(this, "Por favor, seleccione algún conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonEliminarConductorActionPerformed
 

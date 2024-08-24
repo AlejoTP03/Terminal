@@ -66,8 +66,50 @@ public class ServiciosConductor implements IServiciosConductor{
     }
 
     @Override
-    public boolean actualizarConductor(Conductor conductor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actualizarConductor(int idConductor, String nombreColumna, Object dato) {
+        // Mapeo de los nombres de columnas del JTable a los nombres reales en la base de datos
+        String dbColumnName;
+        switch (nombreColumna) {
+            case "ID Conductor":
+                dbColumnName = "id_conductor";
+                break;
+            case "Nombre":
+                dbColumnName = "nombre";
+                break;
+            case "Apellido":
+                dbColumnName = "apellido";
+                break;
+            case "Dirección":
+                dbColumnName = "direccion";
+                break;
+            case "Teléfono":
+                dbColumnName = "telefono";
+                break;
+            case "Matricula":
+                dbColumnName = "matricula";
+                break;
+            default:
+                throw new IllegalArgumentException("Columna desconocida: " + nombreColumna);
+        }
+
+        String sql = "UPDATE \"Conductor\" SET " + dbColumnName + " = ? WHERE id_conductor = ?";
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            // Establece el valor del nuevo dato
+            pstmt.setObject(1, dato);
+            pstmt.setInt(2, idConductor);
+
+            // Ejecuta la actualización
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("El registro con id_conductor " + idConductor + " fue actualizado.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     

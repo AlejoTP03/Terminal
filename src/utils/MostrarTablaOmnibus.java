@@ -20,22 +20,23 @@ public class MostrarTablaOmnibus {
     public MostrarTablaOmnibus(Connection conexion) {
         this.conexion = conexion;
     }
-    
+
     public DefaultTableModel obtenerOmnibus() {
         DefaultTableModel modelo = new DefaultTableModel();
-        String sql = "SELECT matricula AS \"Matricula\",\n" +
-                             "marca AS \"Marca\",\n" +
-                             "modelo AS \"Modelo\",\n" +
-                             "destino AS \"Destino\",\n" +
-                             "capacidad AS \"Capacidad\",\n" +
-                             "hora_salida AS \"Hora Salida\",\n" +
-                             "pais_procedencia AS \"Pais Procedencia\",\n" +
-                             "id_taller AS \"ID Taller\"\n" +
-                             "FROM \"Omnibus\" Order BY matricula ASC";
-        
+        String sql = "SELECT matricula AS \"Matrícula\", \n" +
+                     "marca AS \"Marca\",\n" +
+                     "modelo AS \"Modelo\",\n" +
+                     "destino AS \"Destino\",\n" +
+                     "capacidad AS \"Capacidad\",\n" +
+                     "hora_salida AS \"Hora de Salida\",\n" +
+                     "pais_procedencia AS \"País de Procedencia\",\n" +
+                     "id_taller AS \"ID Taller\"\n" +
+                     "FROM \"Omnibus\" ORDER BY matricula ASC";
+
         // Abre una nueva conexión
-        try (Connection conexion = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
-             Statement stmt = conexion.createStatement();
+        Connection conexion = ConexionDataBase.getConnection();
+        
+        try (Statement stmt = conexion.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             // Obtén el número de columnas y sus nombres
