@@ -4,10 +4,18 @@
  */
 package view;
 
+import interfaces.IServiciosTaller;
 import utils.MostrarTablaTaller;
 import java.sql.Connection;
+import java.time.LocalDate;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
+import services.ServiciosTaller;
+import utils.GenerarPdf;
 
 /**
  *
@@ -20,11 +28,13 @@ public class FormTaller extends javax.swing.JDialog {
      */
     private MostrarTablaTaller mostrarTablaTaller;
     private Connection conectar = ConexionDataBase.getConnection();
+    IServiciosTaller iServiciosTaller = new ServiciosTaller();
     public FormTaller(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
         mostrarTablaTaller = new MostrarTablaTaller(conectar);
         llenarTablaTaller();
+        createPopupMenu();
     }
 
     /**
@@ -93,6 +103,11 @@ public class FormTaller extends javax.swing.JDialog {
         jButtonReporteTaller.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteTaller.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
         jButtonReporteTaller.setText("Reporte");
+        jButtonReporteTaller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReporteTallerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,6 +189,14 @@ public class FormTaller extends javax.swing.JDialog {
         formInformacionTaller.setVisible(true);
     }//GEN-LAST:event_jMenuItemMostrarInformacionTallerActionPerformed
 
+    private void jButtonReporteTallerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReporteTallerActionPerformed
+        // TODO add your handling code here:
+        JTable tabla = jTableMostrarTaller;
+        GenerarPdf generarPDF = new GenerarPdf();
+        generarPDF.generarPDFTaller(tabla);
+        JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
+    }//GEN-LAST:event_jButtonReporteTallerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,5 +254,65 @@ public class FormTaller extends javax.swing.JDialog {
     public void llenarTablaTaller(){
         DefaultTableModel modelo = mostrarTablaTaller.obtenerTaller();
         jTableMostrarTaller.setModel(modelo);
+    }
+    
+    private void createPopupMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem enviarAlTaller = new JMenuItem("Poner Omnibus Disponible");
+
+        enviarAlTaller.addActionListener(e -> enviarOmnibusAlTaller());
+
+        popupMenu.add(enviarAlTaller);
+
+        jTableMostrarTaller.setComponentPopupMenu(popupMenu);
+    }
+    
+    private void enviarOmnibusAlTaller() {
+        int selectedRow = jTableMostrarTaller.getSelectedRow();
+        if (selectedRow != -1) {
+            String matricula = (String) jTableMostrarTaller.getValueAt(selectedRow, 0);
+
+            boolean exito = iServiciosTaller.ponerDisponible(matricula);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Ómnibus disponible nuevamente.");
+                    llenarTablaTaller();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo un problema al poner el omnibus operativo. Inténtalo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ómnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public void mouseLister(){ 
+        jTableMostrarTaller.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            int selectedRow = jTableMostrarTaller.getSelectedRow();
+            if (selectedRow != -1) {
+                // Obtener el valor de la primera columna (por ejemplo, la matrícula del ómnibus)
+                String matricula = jTableMostrarTaller.getValueAt(selectedRow, 0).toString();
+
+                // Confirmar la eliminación
+                int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este objeto?",
+                        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+                if (response == JOptionPane.YES_OPTION) {
+                    // Llamar al método eliminarOmnibus en la clase ServiciosOmnibus
+                    boolean eliminado = iServiciosTaller.eliminarOmnibus(matricula);
+                    if (eliminado) {
+                        JOptionPane.showMessageDialog(null, "Ómnibus eliminado correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró el ómnibus con la matrícula especificada.");
+                    }
+
+                    // Actualizar la tabla después de eliminar
+                    llenarTablaTaller();
+                }
+            }
+        }
+        });
     }
 }

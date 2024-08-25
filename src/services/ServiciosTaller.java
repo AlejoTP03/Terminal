@@ -67,4 +67,20 @@ public class ServiciosTaller implements IServiciosTaller{
         }
         return false;
     }
+    
+    
+    public boolean eliminarOmnibus(String matricula) {
+        try (Connection conn = conexion.getConnection()) {
+            String sql = "DELETE FROM Omnibus WHERE matricula = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, matricula);
+                int filasAfectadas = pstmt.executeUpdate();
+                return filasAfectadas > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
 }

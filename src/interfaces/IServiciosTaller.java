@@ -13,4 +13,6 @@ import java.time.LocalDate;
 public interface IServiciosTaller {
     public boolean enviarAlTaller(String matricula);
     public boolean tieneTicketsPendientes(String matricula, LocalDate fechaActual);
+    public boolean eliminarOmnibus(String matricula);
+    public boolean ponerDisponible(String matricula);
 }
