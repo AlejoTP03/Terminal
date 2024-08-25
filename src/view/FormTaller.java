@@ -4,6 +4,11 @@
  */
 package view;
 
+import utils.MostrarTablaTaller;
+import java.sql.Connection;
+import javax.swing.table.DefaultTableModel;
+import persistence.ConexionDataBase;
+
 /**
  *
  * @author PC
@@ -13,9 +18,13 @@ public class FormTaller extends javax.swing.JDialog {
     /**
      * Creates new form FormTaller
      */
+    private MostrarTablaTaller mostrarTablaTaller;
+    private Connection conectar = ConexionDataBase.getConnection();
     public FormTaller(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mostrarTablaTaller = new MostrarTablaTaller(conectar);
+        llenarTablaTaller();
     }
 
     /**
@@ -30,16 +39,19 @@ public class FormTaller extends javax.swing.JDialog {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableMostrarTaller = new javax.swing.JTable();
         jButtonReporteTaller = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItemMostrarInformacionTaller = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión del Taller");
 
         jPanel1.setOpaque(false);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMostrarTaller.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableMostrarTaller.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -76,7 +88,7 @@ public class FormTaller extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableMostrarTaller);
 
         jButtonReporteTaller.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonReporteTaller.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_archive_icon_181539.png"))); // NOI18N
@@ -95,10 +107,10 @@ public class FormTaller extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonReporteTaller)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -111,8 +123,30 @@ public class FormTaller extends javax.swing.JDialog {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("Informacion");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        jMenuItemMostrarInformacionTaller.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItemMostrarInformacionTaller.setText("Informacion del Taller");
+        jMenuItemMostrarInformacionTaller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemMostrarInformacionTallerActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemMostrarInformacionTaller);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,6 +162,17 @@ public class FormTaller extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItemMostrarInformacionTallerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMostrarInformacionTallerActionPerformed
+        // TODO add your handling code here:
+        FormInformacionTaller formInformacionTaller = new FormInformacionTaller(this, true);
+        formInformacionTaller.setVisible(true);
+    }//GEN-LAST:event_jMenuItemMostrarInformacionTallerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,8 +219,17 @@ public class FormTaller extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonReporteTaller;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemMostrarInformacionTaller;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableMostrarTaller;
     // End of variables declaration//GEN-END:variables
+
+
+    public void llenarTablaTaller(){
+        DefaultTableModel modelo = mostrarTablaTaller.obtenerTaller();
+        jTableMostrarTaller.setModel(modelo);
+    }
 }

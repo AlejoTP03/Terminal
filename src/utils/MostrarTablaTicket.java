@@ -108,5 +108,46 @@ public class MostrarTablaTicket {
     }
     
     
-    
+    public DefaultTableModel obtenerTicketsBuscados(String destino, Date fecha, String matricula) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String sql = "SELECT id_ticket AS \"ID Ticket\", \n" +
+                     "nombre_pasajero AS \"Nombre del Pasajero\",\n" +
+                     "apellidos_pasajero AS \"Apellidos del Pasajero\",\n" +
+                     "ci_pasajero AS \"Carnet de Identidad\",\n" +
+                     "fecha_salida AS \"Fecha de Salida\",\n" +
+                     "destino AS \"Destino\",\n" +
+                     "matricula AS \"Matricula\"\n" +
+                     "FROM \"Ticket\"\n" +
+                     "WHERE destino = ? AND fecha_salida = ? AND matricula = ?\n" +
+                     "ORDER BY id_ticket ASC";
+
+        try (PreparedStatement pst = conexion.prepareStatement(sql)) {
+            // Establece los parámetros de la consulta
+            pst.setString(1, destino);
+            pst.setDate(2, new java.sql.Date(fecha.getTime())); // Convertir java.util.Date a java.sql.Date
+            pst.setString(3, matricula);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                // Obtén el número de columnas y sus nombres
+                int columnCount = rs.getMetaData().getColumnCount();
+                for (int i = 1; i <= columnCount; i++) {
+                    modelo.addColumn(rs.getMetaData().getColumnName(i));
+                }
+
+                // Agrega cada fila de la base de datos al modelo de la tabla
+                while (rs.next()) {
+                    Object[] fila = new Object[columnCount];
+                    for (int i = 1; i <= columnCount; i++) {
+                        fila[i - 1] = rs.getObject(i);
+                    }
+                    modelo.addRow(fila);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return modelo;
+    }
 }

@@ -18,6 +18,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import java.sql.Time;
 import java.sql.Types;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -178,5 +179,5 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
         return false;
     }
     
-  
+        
 }

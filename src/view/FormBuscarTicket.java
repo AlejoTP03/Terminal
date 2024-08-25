@@ -51,6 +51,8 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         jLabelFecha = new javax.swing.JLabel();
         jTextFieldFecha = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabelMatricula = new javax.swing.JLabel();
+        jTextFieldMatricula = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Ticket");
@@ -148,46 +150,59 @@ public class FormBuscarTicket extends javax.swing.JDialog {
             }
         });
 
+        jLabelMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelMatricula.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelMatricula.setText("Matricula:");
+
+        jTextFieldMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldMatricula.setForeground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(350, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonCancelar)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonReporte)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
                 .addGap(18, 18, 18))
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelDestino)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBoxDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
                 .addComponent(jLabelFecha)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addComponent(jLabelMatricula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDestino)
                     .addComponent(jComboBoxDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelFecha)
                     .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jLabelMatricula)
+                    .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCancelar)
                     .addComponent(jButtonReporte)
-                    .addComponent(jButtonCancelar))
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18))
         );
 
@@ -226,9 +241,9 @@ public class FormBuscarTicket extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         // Obtener los valores del JComboBox y JTextField
         String destino = (String) jComboBoxDestino.getSelectedItem();
         String fechaTexto = jTextFieldFecha.getText();
+        String matricula = jTextFieldMatricula.getText();
 
         // Convertir el texto de la fecha a un objeto Date
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -240,11 +255,16 @@ public class FormBuscarTicket extends javax.swing.JDialog {
             return;
         }
 
-        // Crear una instancia de MostrarTablaTicket y obtener el modelo de datos
-        DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha);
+        if(matricula.length() == 0){
+            DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha);
 
-        // Actualizar el JTable con el modelo de datos
-        jTableMostrarTicketsBuscados.setModel(modelo);
+            jTableMostrarTicketsBuscados.setModel(modelo);
+        }else{
+            DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha, matricula);
+
+            jTableMostrarTicketsBuscados.setModel(modelo);
+        }
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -253,6 +273,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         JTable tabla = jTableMostrarTicketsBuscados;
         GenerarPdf generarPDF = new GenerarPdf();
         generarPDF.generarPDFTicket(tabla);
+        JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
     }//GEN-LAST:event_jButtonReporteActionPerformed
 
     /**
@@ -306,10 +327,12 @@ public class FormBuscarTicket extends javax.swing.JDialog {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelDestino;
     private javax.swing.JLabel jLabelFecha;
+    private javax.swing.JLabel jLabelMatricula;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableMostrarTicketsBuscados;
     private javax.swing.JTextField jTextFieldFecha;
+    private javax.swing.JTextField jTextFieldMatricula;
     // End of variables declaration//GEN-END:variables
 
 

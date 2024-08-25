@@ -19,9 +19,10 @@ public class Omnibus {
     private Time horaSalida;
     private String paisProcedencia;
     private int idTaller;
+    private boolean disponible;
 
     Taller taller = new Taller();
-    public Omnibus(String matricula, String marca, String modelo, String destino, int capacidad, Time horaSalida, String paisProcedencia, int idTaller) {
+    public Omnibus(String matricula, String marca, String modelo, String destino, int capacidad, Time horaSalida, String paisProcedencia, int idTaller, boolean disponible) {
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
@@ -30,6 +31,7 @@ public class Omnibus {
         this.horaSalida = horaSalida;
         this.paisProcedencia = paisProcedencia;
         this.idTaller = idTaller;
+        this.disponible = disponible;
     }
 
     
@@ -100,6 +102,14 @@ public class Omnibus {
 
     public void setIdTaller(int idTaller) {
         this.idTaller = idTaller;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
 
     

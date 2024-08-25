@@ -13,10 +13,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
-import java.awt.HeadlessException;
+import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
@@ -25,12 +25,25 @@ import java.util.Date;
  */
 public class GenerarPdf {
     public void generarPDFTicket(JTable table) {
-        // Crear un documento en formato Carta y en orientación horizontal
         Document documento = new Document(PageSize.LETTER.rotate());
 
         try {
-            String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Tickets.pdf"));
+            String ruta = System.getProperty("user.home") + "/Desktop/";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaActual = sdf.format(new Date());
+
+            String nombreArchivo = "Reporte Tickets " + fechaActual + ".pdf";
+            File archivo = new File(ruta + nombreArchivo);
+
+            // Verificar si existe un archivo con el mismo nombre y añadir un número al nombre si es necesario
+            int contador = 1;
+            while (archivo.exists()) {
+                nombreArchivo = "Reporte Tickets " + fechaActual + "(" + contador + ").pdf";
+                archivo = new File(ruta + nombreArchivo);
+                contador++;
+            }
+
+            PdfWriter.getInstance(documento, new FileOutputStream(archivo));
             documento.open();
 
             // Ajustar márgenes del documento
@@ -41,8 +54,7 @@ public class GenerarPdf {
             encabezado.setSpacingAfter(20);
             documento.add(encabezado);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Paragraph fecha = new Paragraph("Fecha de generación: " + sdf.format(new Date()));
+            Paragraph fecha = new Paragraph("Fecha de generación: " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
             fecha.setSpacingAfter(20);
             documento.add(fecha);
 
@@ -75,18 +87,31 @@ public class GenerarPdf {
                 documento.close();
             }
         }
+        
     }
 
     
     
-    
     public void generarPDFOmnibus(JTable table) {
-        // Crear un documento en formato Carta y en orientación horizontal
         Document documento = new Document(PageSize.LETTER.rotate());
 
         try {
-            String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Omnibus.pdf"));
+            String ruta = System.getProperty("user.home") + "/Desktop/";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaActual = sdf.format(new Date());
+
+            String nombreArchivo = "Reporte Omnibus " + fechaActual + ".pdf";
+            File archivo = new File(ruta + nombreArchivo);
+
+            // Verificar si existe un archivo con el mismo nombre y añadir un número al nombre si es necesario
+            int contador = 1;
+            while (archivo.exists()) {
+                nombreArchivo = "Reporte Omnibus " + fechaActual + "(" + contador + ").pdf";
+                archivo = new File(ruta + nombreArchivo);
+                contador++;
+            }
+
+            PdfWriter.getInstance(documento, new FileOutputStream(archivo));
             documento.open();
 
             // Ajustar márgenes del documento
@@ -97,8 +122,7 @@ public class GenerarPdf {
             encabezado.setSpacingAfter(20);
             documento.add(encabezado);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Paragraph fecha = new Paragraph("Fecha de generación: " + sdf.format(new Date()));
+            Paragraph fecha = new Paragraph("Fecha de generación: " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
             fecha.setSpacingAfter(20);
             documento.add(fecha);
 
@@ -136,12 +160,25 @@ public class GenerarPdf {
     
     
     public void generarPDFConductor(JTable table) {
-        // Crear un documento en formato Carta y en orientación horizontal
         Document documento = new Document(PageSize.LETTER.rotate());
 
         try {
-            String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Conductor.pdf"));
+            String ruta = System.getProperty("user.home") + "/Desktop/";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaActual = sdf.format(new Date());
+
+            String nombreArchivo = "Reporte Conductor " + fechaActual + ".pdf";
+            File archivo = new File(ruta + nombreArchivo);
+
+            // Verificar si existe un archivo con el mismo nombre y añadir un número al nombre si es necesario
+            int contador = 1;
+            while (archivo.exists()) {
+                nombreArchivo = "Reporte Conductor " + fechaActual + "(" + contador + ").pdf";
+                archivo = new File(ruta + nombreArchivo);
+                contador++;
+            }
+
+            PdfWriter.getInstance(documento, new FileOutputStream(archivo));
             documento.open();
 
             // Ajustar márgenes del documento
@@ -152,8 +189,7 @@ public class GenerarPdf {
             encabezado.setSpacingAfter(20);
             documento.add(encabezado);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Paragraph fecha = new Paragraph("Fecha de generación: " + sdf.format(new Date()));
+            Paragraph fecha = new Paragraph("Fecha de generación: " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
             fecha.setSpacingAfter(20);
             documento.add(fecha);
 

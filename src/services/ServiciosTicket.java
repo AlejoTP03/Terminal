@@ -123,7 +123,7 @@ public class ServiciosTicket implements IServiciosTicket{
     // Método para obtener los ómnibus que cumplen con destino y hora de salida
     public List<Omnibus> obtenerOmnibusPorDestino(String destino){
     List<Omnibus> omnibusList = new ArrayList<>();
-    String sql = "SELECT * FROM \"Omnibus\" WHERE destino = ?";
+    String sql = "SELECT * FROM \"Omnibus\" WHERE disponible = TRUE AND destino = ?";
 
     try (Connection conn = ConexionDataBase.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {

@@ -296,9 +296,10 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         String paisProcedencia = jTextFieldPaisProcedencia.getText();
 
         int idTaller = traerIdTaller.obtenerIdTaller();
+        boolean disponible = false;
         
             if (jTextFieldMatricula.getText().length() == 7) {
-                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller);
+                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
 
                 IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
 

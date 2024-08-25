@@ -5,6 +5,7 @@
 package view;
 
 import interfaces.IServiciosOmnibus;
+import interfaces.IServiciosTaller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -17,7 +18,11 @@ import persistence.ConexionDataBase;
 import services.ServiciosOmnibus;
 import utils.MostrarTablaOmnibus;
 import java.sql.Time;
+import java.time.LocalDate;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import services.ServiciosTaller;
 import utils.GenerarPdf;
 
 /**
@@ -38,6 +43,7 @@ public class FormOmnibus extends javax.swing.JDialog {
         initComponents();
         mostrarTablaOmnibus = new MostrarTablaOmnibus(conectar);
         llenarTablaOmnibus();
+        createPopupMenu();
         jTableMostrarOmnibus.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -96,6 +102,7 @@ public class FormOmnibus extends javax.swing.JDialog {
         jButtonAgregarOmnibus = new javax.swing.JButton();
         jButtonEliminarOmnibus = new javax.swing.JButton();
         jButtonReporteOmnibus = new javax.swing.JButton();
+        jButtonBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión de Ómnibus");
@@ -176,6 +183,15 @@ public class FormOmnibus extends javax.swing.JDialog {
             }
         });
 
+        jButtonBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/48search_locate_find_icon-icons.com_67287.png"))); // NOI18N
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -183,6 +199,8 @@ public class FormOmnibus extends javax.swing.JDialog {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonBuscar)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonReporteOmnibus)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonEliminarOmnibus)
@@ -198,7 +216,8 @@ public class FormOmnibus extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAgregarOmnibus)
                     .addComponent(jButtonEliminarOmnibus)
-                    .addComponent(jButtonReporteOmnibus))
+                    .addComponent(jButtonReporteOmnibus)
+                    .addComponent(jButtonBuscar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -268,6 +287,12 @@ public class FormOmnibus extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
     }//GEN-LAST:event_jButtonReporteOmnibusActionPerformed
 
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        // TODO add your handling code here:
+        FormBuscarOmnibus formBuscarOmnibus = new FormBuscarOmnibus(this, true);
+        formBuscarOmnibus.setVisible(true);
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,6 +337,7 @@ public class FormOmnibus extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAgregarOmnibus;
+    private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEliminarOmnibus;
     private javax.swing.JButton jButtonReporteOmnibus;
     private javax.swing.JDesktopPane jDesktopPane1;
@@ -326,5 +352,43 @@ public class FormOmnibus extends javax.swing.JDialog {
         jTableMostrarOmnibus.setModel(modelo);
     }
     
-   
+    private void createPopupMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem enviarAlTaller = new JMenuItem("Enviar al taller");
+
+        enviarAlTaller.addActionListener(e -> enviarOmnibusAlTaller());
+
+        popupMenu.add(enviarAlTaller);
+
+        jTableMostrarOmnibus.setComponentPopupMenu(popupMenu);
+    }
+    
+    private void enviarOmnibusAlTaller() {
+        IServiciosTaller iServiciosTaller = new ServiciosTaller();
+        int selectedRow = jTableMostrarOmnibus.getSelectedRow();
+        if (selectedRow != -1) {
+            String matricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0);
+
+            // Obtener la fecha actual para la verificación
+            LocalDate fechaActual = LocalDate.now();
+
+            // Comprobar si hay tickets pendientes para esa matrícula en fechas posteriores
+            boolean tieneTicketsPendientes = iServiciosTaller.tieneTicketsPendientes(matricula, fechaActual);
+
+            if (tieneTicketsPendientes) {
+                JOptionPane.showMessageDialog(this, "No se puede enviar al taller. El ómnibus tiene tickets pendientes en fechas futuras.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            } else {
+                boolean exito = iServiciosTaller.enviarAlTaller(matricula);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Ómnibus enviado al taller exitosamente.");
+                    llenarTablaOmnibus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo un problema al enviar el ómnibus al taller. Inténtalo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ómnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 }
