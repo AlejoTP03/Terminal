@@ -33,8 +33,8 @@ public class MostrarTablaTaller {
                      "id_taller AS \"ID Taller\"\n" +
                      "FROM \"Omnibus\" WHERE disponible = FALSE ORDER BY matricula ASC";
 
-        Connection conexion = ConexionDataBase.getConnection();  // Suponiendo que este método obtiene una nueva conexión
-        try (Statement stmt = conexion.createStatement();
+        try (Connection conexion = ConexionDataBase.getConnection();  // Suponiendo que este método obtiene una nueva conexión
+             Statement stmt = conexion.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             // Obtén el número de columnas y sus nombres

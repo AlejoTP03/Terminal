@@ -51,6 +51,7 @@ public class FormTaller extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableMostrarTaller = new javax.swing.JTable();
         jButtonReporteTaller = new javax.swing.JButton();
+        jButtonEliminar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemMostrarInformacionTaller = new javax.swing.JMenuItem();
@@ -109,6 +110,15 @@ public class FormTaller extends javax.swing.JDialog {
             }
         });
 
+        jButtonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete_remove_close_icon_181533.png"))); // NOI18N
+        jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,6 +126,8 @@ public class FormTaller extends javax.swing.JDialog {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonEliminar)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonReporteTaller)
                 .addGap(18, 18, 18))
         );
@@ -124,7 +136,9 @@ public class FormTaller extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonReporteTaller)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonReporteTaller)
+                    .addComponent(jButtonEliminar))
                 .addGap(0, 8, Short.MAX_VALUE))
         );
 
@@ -197,6 +211,39 @@ public class FormTaller extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
     }//GEN-LAST:event_jButtonReporteTallerActionPerformed
 
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // TODO add your handling code here:
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            int selectedRow = jTableMostrarTaller.getSelectedRow();
+            if (selectedRow != -1) {
+                // Obtener el valor de la primera columna (por ejemplo, la matrícula del ómnibus)
+                String matricula = jTableMostrarTaller.getValueAt(selectedRow, 0).toString();
+
+                // Confirmar la eliminación
+                int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este objeto?",
+                        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+                if (response == JOptionPane.YES_OPTION) {
+                    // Llamar al método eliminarOmnibus en la clase ServiciosOmnibus
+                    boolean eliminado = iServiciosTaller.eliminarOmnibus(matricula);
+                    if (eliminado) {
+                        JOptionPane.showMessageDialog(null, "Ómnibus eliminado correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró el ómnibus con la matrícula especificada.");
+                    }
+
+                    // Actualizar la tabla después de eliminar
+                    llenarTablaTaller();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila primero.");
+            }
+        }
+    });
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,6 +287,7 @@ public class FormTaller extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonReporteTaller;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;

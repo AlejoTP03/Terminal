@@ -179,5 +179,23 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
         return false;
     }
     
+    
+    public boolean matriculaAsociadaAConductor(String matricula) {
+        String sql = "SELECT COUNT(*) FROM \"Conductor\" WHERE matricula = ?";
+        Connection conn = conexion.getConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, matricula);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0; // True si hay conductores asociados a la matrícula
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
         
 }

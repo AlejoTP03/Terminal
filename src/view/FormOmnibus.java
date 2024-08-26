@@ -251,11 +251,26 @@ public class FormOmnibus extends javax.swing.JDialog {
 
     private void jButtonEliminarOmnibusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarOmnibusActionPerformed
         // TODO add your handling code here:
+        IServiciosTaller iServiciosTaller = new ServiciosTaller();
         int selectedRow = jTableMostrarOmnibus.getSelectedRow();
         if (selectedRow != -1) {
             // Obtén la matrícula del ómnibus seleccionado
             String selectedMatricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0); // Suponiendo que la matrícula está en la primera columna
+            LocalDate fechaActual = LocalDate.now(); // Suponiendo que usas la fecha actual como referencia
 
+            // Verifica si la matrícula tiene tickets pendientes
+            if (iServiciosTaller.tieneTicketsPendientes(selectedMatricula, fechaActual)) {
+                JOptionPane.showMessageDialog(this, "No se puede eliminar el ómnibus porque tiene tickets pendientes.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Verifica si la matrícula está asociada a algún conductor
+            if (iServiciosOmnibus.matriculaAsociadaAConductor(selectedMatricula)) {
+                JOptionPane.showMessageDialog(this, "No se puede eliminar el ómnibus porque está asociado a un conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Confirmación de eliminación
             int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ómnibus?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 boolean exito = iServiciosOmnibus.eliminarOmnibus(selectedMatricula);

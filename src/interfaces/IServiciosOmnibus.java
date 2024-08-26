@@ -16,5 +16,6 @@ public interface IServiciosOmnibus {
     public boolean agregarOmnibus(Omnibus omnibus);
     public boolean eliminarOmnibus(String matricula);
     public void actualizarOmnibus(String matricula, String nombreColumna, Object dato);
+    public boolean matriculaAsociadaAConductor(String matricula);
     
 }
