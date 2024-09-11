@@ -31,6 +31,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         llenarJTextFieldModelo();
         llenarJComboBoxDestino();
         llenarJTextFieldCapacidad();
+        llenarJTextFieldHoraSalida();
         llenarJTextFieldPaisProcedencia();
     }
 
@@ -386,8 +387,9 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
     
     private void llenarJTextFieldHoraSalida(){
         String matricula = FormModificarOmnibus.matricula;
-        int capacidad = iServiciosOmnibus.obtenerCapacidadPorMatricula(matricula);
-        jTextFieldCapacidad.setText(String.valueOf(capacidad));
+        String horaSalida = iServiciosOmnibus.obtenerHoraSalidaPorMatricula(matricula);
+        jTextFieldHoraSalida.setText(horaSalida);
+        System.out.println(horaSalida);
     }
     
     private void llenarJTextFieldPaisProcedencia(){

@@ -257,7 +257,30 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
 
     @Override
     public String obtenerHoraSalidaPorMatricula(String matricula) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String horaSalida = null;
+        String sql = "SELECT hora_salida FROM \"Omnibus\" WHERE matricula = ?";
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+            
+            pstmt.setString(1, matricula);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Time time = rs.getTime("hora_salida");
+                    if (time != null) {
+                        // Convierte el Time a formato HH:mm:ss
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        horaSalida = sdf.format(time);
+                    }
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return horaSalida;
     }
 
     @Override
