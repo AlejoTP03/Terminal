@@ -8,7 +8,9 @@ import interfaces.IServiciosTicket;
 import persistence.ConexionDataBase;
 import utils.MostrarTablaTicket;
 import java.sql.Connection;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
@@ -36,6 +38,7 @@ public class FormTicket extends javax.swing.JDialog {
         initComponents();
         mostrarTablaTicket = new MostrarTablaTicket(conectar);
         llenarTablaTickets();
+        createPopupMenu();
         // Agregar el TableModelListener para actualizar la base de datos al modificar una celda
         jTableMostrarTicket.getModel().addTableModelListener(e -> {
         if (e.getType() == TableModelEvent.UPDATE) {
@@ -343,10 +346,41 @@ public class FormTicket extends javax.swing.JDialog {
     private javax.swing.JTable jTableMostrarTicket;
     // End of variables declaration//GEN-END:variables
 
-
+    
     public void llenarTablaTickets() {
         DefaultTableModel modelo = mostrarTablaTicket.obtenerTickets();
         jTableMostrarTicket.setModel(modelo);
+    }
+    
+    private void abrirJDialogModificarTicket() {
+        int selectedRow = jTableMostrarTicket.getSelectedRow();
+
+        if (selectedRow != -1) {
+            try {
+                int idTicket = (int) jTableMostrarTicket.getValueAt(selectedRow, 0);
+                System.out.println(idTicket);
+
+                FormModificarTicket formModificarTicket = new FormModificarTicket(this, true, idTicket);
+                formModificarTicket.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ticket de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    } 
+    
+    
+    
+    private void createPopupMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem modificarTicket = new JMenuItem("Modificar informacion");
+
+        modificarTicket.addActionListener(e -> abrirJDialogModificarTicket());
+
+        popupMenu.add(modificarTicket);
+
+        jTableMostrarTicket.setComponentPopupMenu(popupMenu);
     }
     
     

@@ -178,8 +178,9 @@ public class ServiciosTicket implements IServiciosTicket{
 
         return false;
     }
-    
 
+    
+    
     public int obtenerCapacidadOmnibus(String matricula) {
         int capacidad = 0;
         Connection con = null;
@@ -213,4 +214,97 @@ public class ServiciosTicket implements IServiciosTicket{
 
         return capacidad;
     }
+    
+    
+    public String obtenerNombrePorIdTicket(int idTicket) {
+        String nombre = null; 
+        String sql = "SELECT nombre_pasajero FROM \"Ticket\" WHERE id_ticket = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idTicket);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    nombre = rs.getString("nombre_pasajero");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el nombre: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return nombre;
+    }
+
+    public String obtenerApellidoPorIdTicket(int idTicket) {
+        String apellido = null; 
+        String sql = "SELECT apellidos_pasajero FROM \"Ticket\" WHERE id_ticket = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idTicket);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    apellido = rs.getString("apellidos_pasajero");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el apellido: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return apellido;
+    }
+    
+    public String obtenerCIPorIdTicket(int idTicket) {
+        String ci = null; 
+        String sql = "SELECT ci_pasajero FROM \"Ticket\" WHERE id_ticket = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idTicket);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    ci = rs.getString("ci_pasajero");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el nombre: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return ci;
+    }
+    
+    public String obtenerFechaPorIdTicket(int idTicket) {
+        String fechaFormato = null;
+        String query = "SELECT fecha_salida FROM \"Ticket\" WHERE id_ticket = ?"; // Ajusta el nombre de la columna y la tabla según sea necesario
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement statement = conexion.prepareStatement(query)) {
+            
+            statement.setInt(1, idTicket);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Date fecha = resultSet.getDate("fecha_salida"); // Cambia "fecha" por el nombre correcto de la columna en la tabla
+                    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                    fechaFormato = formato.format(fecha);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return fechaFormato;
+    }
+    
 }

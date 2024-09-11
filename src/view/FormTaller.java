@@ -4,6 +4,7 @@
  */
 package view;
 
+import interfaces.IServiciosOmnibus;
 import interfaces.IServiciosTaller;
 import utils.MostrarTablaTaller;
 import java.sql.Connection;
@@ -14,6 +15,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
+import services.ServiciosOmnibus;
 import services.ServiciosTaller;
 import utils.GenerarPdf;
 
@@ -213,35 +215,37 @@ public class FormTaller extends javax.swing.JDialog {
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
-        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            int selectedRow = jTableMostrarTaller.getSelectedRow();
-            if (selectedRow != -1) {
-                // Obtener el valor de la primera columna (por ejemplo, la matrícula del ómnibus)
-                String matricula = jTableMostrarTaller.getValueAt(selectedRow, 0).toString();
+        int selectedRow = jTableMostrarTaller.getSelectedRow();
+        if (selectedRow != -1) {
+            // Obtener el valor de la primera columna (por ejemplo, la matrícula del ómnibus)
+            String matricula = jTableMostrarTaller.getValueAt(selectedRow, 0).toString();
 
-                // Confirmar la eliminación
-                int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este objeto?",
-                        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-
-                if (response == JOptionPane.YES_OPTION) {
-                    // Llamar al método eliminarOmnibus en la clase ServiciosOmnibus
-                    boolean eliminado = iServiciosTaller.eliminarOmnibus(matricula);
-                    if (eliminado) {
-                        JOptionPane.showMessageDialog(null, "Ómnibus eliminado correctamente.");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se encontró el ómnibus con la matrícula especificada.");
-                    }
-
-                    // Actualizar la tabla después de eliminar
-                    llenarTablaTaller();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila primero.");
+            // Verificar si la matrícula está asociada a algún conductor
+            IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+            if (iServiciosOmnibus.matriculaAsociadaAConductor(matricula)) {
+                JOptionPane.showMessageDialog(null, "No se puede eliminar el ómnibus porque está asociado a un conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
             }
+
+            // Confirmar la eliminación
+            int response = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este objeto?",
+                    "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+            if (response == JOptionPane.YES_OPTION) {
+                // Llamar al método eliminarOmnibus en la clase ServiciosOmnibus
+                boolean eliminado = iServiciosTaller.eliminarOmnibus(matricula);
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(null, "Ómnibus eliminado correctamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró el ómnibus con la matrícula especificada.");
+                }
+
+                // Actualizar la tabla después de eliminar
+                llenarTablaTaller();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila primero.");
         }
-    });
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     /**
