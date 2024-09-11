@@ -158,8 +158,132 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
     }
     
 
+    @Override
+    public String obtenerMarcaPorMatricula(String matricula) {
+        String marca = null;
+        String sql = "SELECT marca FROM \"Omnibus\" WHERE matricula = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setString(1, matricula);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    marca = rs.getString("marca");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la marca: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return marca;
+    }
     
 
+    @Override
+    public String obtenerModeloPorMatricula(String matricula) {
+        String modelo = null;
+        String sql = "SELECT modelo FROM \"Omnibus\" WHERE matricula = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setString(1, matricula);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    modelo = rs.getString("modelo");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la modelo: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return modelo;
+    }
+
+    @Override
+    public String obtenerDestinoPorMatricula(String matricula) {
+        String destino = null;
+        String sql = "SELECT destino FROM \"Omnibus\" WHERE matricula = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setString(1, matricula);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    destino = rs.getString("destino");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la destino: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return destino;
+    }
+
+    @Override
+    public int obtenerCapacidadPorMatricula(String matricula) {
+        int capacidad = -1;
+        String sql = "SELECT capacidad FROM \"Omnibus\" WHERE matricula = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setString(1, matricula);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    capacidad = rs.getInt("capacidad");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la capacidad: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return capacidad;
+    }
+
+    @Override
+    public String obtenerHoraSalidaPorMatricula(String matricula) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String obtenerPaisProcedenciaPorMatricula(String matricula) {
+        String paisProcedencia = null;
+        String sql = "SELECT pais_procedencia FROM \"Omnibus\" WHERE matricula = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setString(1, matricula);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    paisProcedencia = rs.getString("pais_procedencia");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el Pais de procedencia: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return paisProcedencia;
+    }
+    
     
     private boolean isMatriculaExists(String matricula) {
         String sql = "SELECT COUNT(*) FROM \"Omnibus\" WHERE matricula = ?";

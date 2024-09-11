@@ -4,7 +4,9 @@
  */
 package view;
 
+import interfaces.IServiciosOmnibus;
 import java.awt.Color;
+import services.ServiciosOmnibus;
 import utils.VerificarEntradaDeHora;
 
 /**
@@ -17,11 +19,19 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
      * Creates new form FormModificarOmnibus
      */
     VerificarEntradaDeHora entradaHora = new VerificarEntradaDeHora();
+    IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
     private static String matricula;
     public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, String matricula) {
         super(parent, modal);
         initComponents();
         this.matricula = matricula;
+        llenarJTextFieldMatricula();
+        llenarJTextFieldMarca();
+        llenarJTextFieldModelo();
+        llenarJTextFieldModelo();
+        llenarJComboBoxDestino();
+        llenarJTextFieldCapacidad();
+        llenarJTextFieldPaisProcedencia();
     }
 
     /**
@@ -46,8 +56,8 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         jTextFieldMarca = new javax.swing.JTextField();
         jTextFieldModelo = new javax.swing.JTextField();
         jComboBoxDestino = new javax.swing.JComboBox<>();
-        jTextFieldCapacidad = new javax.swing.JTextField();
         jTextFieldHoraSalida = new javax.swing.JTextField();
+        jTextFieldCapacidad = new javax.swing.JTextField();
         jTextFieldPaisProcedencia = new javax.swing.JTextField();
         jButtonCancelar = new javax.swing.JButton();
         jButtonAceptar = new javax.swing.JButton();
@@ -108,17 +118,17 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
             }
         });
 
-        jTextFieldCapacidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTextFieldCapacidad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldCapacidadKeyTyped(evt);
-            }
-        });
-
         jTextFieldHoraSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldHoraSalida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHoraSalidaKeyTyped(evt);
+            }
+        });
+
+        jTextFieldCapacidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldCapacidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldCapacidadKeyTyped(evt);
             }
         });
 
@@ -157,8 +167,8 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                     .addComponent(jTextFieldMarca)
                     .addComponent(jTextFieldModelo)
                     .addComponent(jComboBoxDestino, javax.swing.GroupLayout.Alignment.TRAILING, 0, 200, Short.MAX_VALUE)
-                    .addComponent(jTextFieldCapacidad)
-                    .addComponent(jTextFieldHoraSalida, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldHoraSalida)
+                    .addComponent(jTextFieldCapacidad, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextFieldPaisProcedencia))
                 .addContainerGap(238, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -190,11 +200,11 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCapacidad)
-                    .addComponent(jTextFieldHoraSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelHoraSalida)
-                    .addComponent(jTextFieldCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldHoraSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPaisProcedencia)
@@ -260,21 +270,21 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxDestinoActionPerformed
 
-    private void jTextFieldCapacidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCapacidadKeyTyped
+    private void jTextFieldHoraSalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHoraSalidaKeyTyped
         // TODO add your handling code here:
         char car = evt.getKeyChar();
         if((car<'0' || car>'9'))
         evt.consume();
-    }//GEN-LAST:event_jTextFieldCapacidadKeyTyped
+    }//GEN-LAST:event_jTextFieldHoraSalidaKeyTyped
 
-    private void jTextFieldHoraSalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHoraSalidaKeyTyped
+    private void jTextFieldCapacidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCapacidadKeyTyped
         // TODO add your handling code here:
-        jTextFieldHoraSalida.setInputVerifier(entradaHora);
+        jTextFieldCapacidad.setInputVerifier(entradaHora);
 
         char car = evt.getKeyChar();
         if ((car < '0' || car > '9') && car != ':')
         evt.consume();
-    }//GEN-LAST:event_jTextFieldHoraSalidaKeyTyped
+    }//GEN-LAST:event_jTextFieldCapacidadKeyTyped
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
@@ -343,4 +353,46 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldModelo;
     private javax.swing.JTextField jTextFieldPaisProcedencia;
     // End of variables declaration//GEN-END:variables
+
+
+    private void llenarJTextFieldMatricula(){
+        String matricula = FormModificarOmnibus.matricula;
+        jTextFieldMatricula.setText(matricula);
+    }
+    
+    private void llenarJTextFieldMarca(){
+        String matricula = FormModificarOmnibus.matricula;
+        String marca = iServiciosOmnibus.obtenerMarcaPorMatricula(matricula);
+        jTextFieldMarca.setText(marca);
+    }
+    
+    private void llenarJTextFieldModelo(){
+        String matricula = FormModificarOmnibus.matricula;
+        String modelo = iServiciosOmnibus.obtenerModeloPorMatricula(matricula);
+        jTextFieldModelo.setText(modelo);
+    }
+    
+    private void llenarJComboBoxDestino(){
+        String matricula = FormModificarOmnibus.matricula;
+        String destino = iServiciosOmnibus.obtenerDestinoPorMatricula(matricula);
+        jComboBoxDestino.setSelectedItem(destino);
+    }
+    
+    private void llenarJTextFieldCapacidad(){
+        String matricula = FormModificarOmnibus.matricula;
+        int capacidad = iServiciosOmnibus.obtenerCapacidadPorMatricula(matricula);
+        jTextFieldCapacidad.setText(String.valueOf(capacidad));
+    }
+    
+    private void llenarJTextFieldHoraSalida(){
+        String matricula = FormModificarOmnibus.matricula;
+        int capacidad = iServiciosOmnibus.obtenerCapacidadPorMatricula(matricula);
+        jTextFieldCapacidad.setText(String.valueOf(capacidad));
+    }
+    
+    private void llenarJTextFieldPaisProcedencia(){
+        String matricula = FormModificarOmnibus.matricula;
+        String paisProcedencia = iServiciosOmnibus.obtenerPaisProcedenciaPorMatricula(matricula);
+        jTextFieldPaisProcedencia.setText(paisProcedencia);
+    }
 }

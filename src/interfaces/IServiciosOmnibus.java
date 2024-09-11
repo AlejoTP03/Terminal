@@ -17,5 +17,10 @@ public interface IServiciosOmnibus {
     public boolean eliminarOmnibus(String matricula);
     public void actualizarOmnibus(String matricula, String nombreColumna, Object dato);
     public boolean matriculaAsociadaAConductor(String matricula);
-    
+    public String obtenerMarcaPorMatricula(String matricula);
+    public String obtenerModeloPorMatricula(String matricula);
+    public String obtenerDestinoPorMatricula(String matricula);
+    public int obtenerCapacidadPorMatricula(String matricula);
+    public String obtenerHoraSalidaPorMatricula(String matricula);
+    public String obtenerPaisProcedenciaPorMatricula(String matricula);
 }

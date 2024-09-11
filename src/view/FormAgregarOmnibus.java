@@ -414,4 +414,6 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         jTextFieldPaisProcedencia.setText("");
      
     }
+    
+    
 }
