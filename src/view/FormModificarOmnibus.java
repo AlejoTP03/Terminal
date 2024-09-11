@@ -27,12 +27,28 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
     IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
     private MostrarTablaOmnibus mostrarTablaOmnibus;
     private static FormOmnibus formOmnibus;
+    private static FormBuscarOmnibus formBuscarOmnibus;
     TraerIdTaller traerIdTaller = new TraerIdTaller();
     private static String matricula;
     public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormOmnibus formOmnibus, String matricula) {
         super(parent, modal);
         initComponents();
         this.formOmnibus = formOmnibus;
+        this.matricula = matricula;
+        llenarJTextFieldMatricula();
+        llenarJTextFieldMarca();
+        llenarJTextFieldModelo();
+        llenarJTextFieldModelo();
+        llenarJComboBoxDestino();
+        llenarJTextFieldCapacidad();
+        llenarJTextFieldHoraSalida();
+        llenarJTextFieldPaisProcedencia();
+    }
+    
+    public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormBuscarOmnibus formBuscarOmnibus, String matricula) {
+        super(parent, modal);
+        initComponents();
+        this.formBuscarOmnibus = formBuscarOmnibus;
         this.matricula = matricula;
         llenarJTextFieldMatricula();
         llenarJTextFieldMarca();

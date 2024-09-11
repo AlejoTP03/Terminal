@@ -150,4 +150,127 @@ public class ServiciosConductor implements IServiciosConductor{
 
         return matriculas;
     }
+
+    @Override
+    public String obtenerNombrePorIdConductor(int idConductor) {
+        String nombre = null; 
+        String sql = "SELECT nombre FROM \"Conductor\" WHERE id_conductor = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idConductor);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    nombre = rs.getString("nombre");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el nombre: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return nombre;
+    }
+
+
+    @Override
+    public String obtenerApellidoPorIdConductor(int idConductor) {
+        String apellido = null; 
+        String sql = "SELECT apellido FROM \"Conductor\" WHERE id_conductor = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idConductor);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    apellido = rs.getString("apellido");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el apellido: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return apellido;
+    }
+
+    @Override
+    public String obtenerDireccionPorIdConductor(int idConductor) {
+        String direccion = null; 
+        String sql = "SELECT direccion FROM \"Conductor\" WHERE id_conductor = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idConductor);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    direccion = rs.getString("direccion");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el direccion: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return direccion;
+    }
+
+    @Override
+    public String obtenerTelefonoPorIdConductor(int idConductor) {
+        String telefono = null; 
+        String sql = "SELECT telefono FROM \"Conductor\" WHERE id_conductor = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idConductor);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    telefono = rs.getString("telefono");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el telefono: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return telefono;
+    }
+
+    @Override
+    public String obtenerMatriculaPorIdConductor(int idConductor) {
+        String matricula = null; 
+        String sql = "SELECT matricula FROM \"Conductor\" WHERE id_conductor = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idConductor);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    matricula = rs.getString("matricula");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener la matricula: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return matricula;
+    }
+    
+    
 }

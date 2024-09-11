@@ -16,4 +16,9 @@ public interface IServiciosConductor {
     public boolean eliminarConductor(Object idConductor);
     public void actualizarConductor(int idConductor, String nombreColumna, Object dato);
     public List<String> obtenerMatriculasDisponibles();
+    public String obtenerNombrePorIdConductor(int idConductor);
+    public String obtenerApellidoPorIdConductor(int idConductor);
+    public String obtenerDireccionPorIdConductor(int idConductor);
+    public String obtenerTelefonoPorIdConductor(int idConductor);
+    public String obtenerMatriculaPorIdConductor(int idConductor);
 }

@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
@@ -29,6 +31,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
     public FormBuscarTicket(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        createPopupMenu();
     }
 
     /**
@@ -336,5 +339,32 @@ public class FormBuscarTicket extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
-    
+   private void abrirJDialogModificarTicket() {
+        int selectedRow = jTableMostrarTicketsBuscados.getSelectedRow();
+
+        if (selectedRow != -1) {
+            try {
+                int idTicket = (int) jTableMostrarTicketsBuscados.getValueAt(selectedRow, 0);
+                System.out.println(idTicket);
+
+                FormModificarTicket formModificarTicket = new FormModificarTicket(this, true, idTicket);
+                formModificarTicket.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ticket de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+   
+   private void createPopupMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem modificarTicket = new JMenuItem("Modificar informacion");
+
+        modificarTicket.addActionListener(e -> abrirJDialogModificarTicket());
+
+        popupMenu.add(modificarTicket);
+
+        jTableMostrarTicketsBuscados.setComponentPopupMenu(popupMenu);
+    }
 }

@@ -457,5 +457,6 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     for (Omnibus omnibus : listaOmnibus) {
         comboBox.addItem(omnibus.getMatricula());
     }
+    
     }
 }

@@ -5,7 +5,9 @@
 package view;
 
 import java.sql.Connection;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import persistence.ConexionDataBase;
@@ -23,9 +25,11 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
      */
     private Connection conectar = ConexionDataBase.getConnection();
     MostrarTablaOmnibus mostrarTablaOmnibus = new MostrarTablaOmnibus(conectar);
+    
     public FormBuscarOmnibus(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        createPopupMenu();
     }
 
     /**
@@ -276,4 +280,34 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableMostrarOmnibusBuscados;
     // End of variables declaration//GEN-END:variables
+
+
+    private void abrirJDialogModificarOmnibus() {
+        int selectedRow = jTableMostrarOmnibusBuscados.getSelectedRow();
+
+        if (selectedRow != -1) {
+            try {
+                String matricula = (String) jTableMostrarOmnibusBuscados.getValueAt(selectedRow, 0);
+                System.out.println(matricula);
+
+                FormModificarOmnibus formModificarOmnibus = new FormModificarOmnibus(this, true, this, matricula);
+                formModificarOmnibus.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un omnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+   
+   private void createPopupMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem modificarTicket = new JMenuItem("Modificar informacion");
+
+        modificarTicket.addActionListener(e -> abrirJDialogModificarOmnibus());
+
+        popupMenu.add(modificarTicket);
+
+        jTableMostrarOmnibusBuscados.setComponentPopupMenu(popupMenu);
+    }
 }

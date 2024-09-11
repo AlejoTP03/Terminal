@@ -6,7 +6,9 @@ package view;
 
 import interfaces.IServiciosConductor;
 import java.sql.Connection;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
@@ -33,6 +35,7 @@ public class FormConductor extends javax.swing.JDialog {
         initComponents();
         mostrarTablaConductor = new MostrarTablaConductor(conectar);
         llenarTablaConductor();
+        createPopupMenu();
         
         jButtonEliminarConductor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,9 +130,16 @@ public class FormConductor extends javax.swing.JDialog {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTableMostrarConductor);
@@ -308,5 +318,34 @@ public class FormConductor extends javax.swing.JDialog {
     public void llenarTablaConductor() {
         DefaultTableModel modelo = mostrarTablaConductor.obtenerConductores();
         jTableMostrarConductor.setModel(modelo);
+    }
+    
+    private void createPopupMenu() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem modificarTicket = new JMenuItem("Modificar informacion");
+
+        modificarTicket.addActionListener(e -> abrirJDialogModificarTicket());
+
+        popupMenu.add(modificarTicket);
+
+        jTableMostrarConductor.setComponentPopupMenu(popupMenu);
+    }
+    
+    private void abrirJDialogModificarTicket() {
+        int selectedRow = jTableMostrarConductor.getSelectedRow();
+
+        if (selectedRow != -1) {
+            try {
+                int idConductor = (int)jTableMostrarConductor.getValueAt(selectedRow, 0);
+                System.out.println(idConductor);
+
+                FormModificarConductor formModificarConductor = new FormModificarConductor(this, true, this, idConductor);
+                formModificarConductor.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un omnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

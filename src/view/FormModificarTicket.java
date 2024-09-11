@@ -8,6 +8,7 @@ import domain.Omnibus;
 import interfaces.IServiciosTicket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -396,22 +397,22 @@ public class FormModificarTicket extends javax.swing.JDialog {
             && jComboBoxDestino.getSelectedItem() != null
             && jComboBoxMatricula.getSelectedItem() != null;
     }
-     
-    public void clear(){
-        jTextFieldNombrePasajero.setText("");
-        jTextFieldApellidoPasajero.setText("");
-        jTextFieldCiPasajero.setText("");
-        jTextFieldFechasalida.setText("");
-        jComboBoxMatricula.setSelectedIndex(-1);
-     
-    }
     
-    public void llenarComboBoxMatricula(JComboBox<String> comboBox, String destino) {
+    public List<String> llenarComboBoxMatricula(JComboBox<String> comboBox, String destino) {
         comboBox.removeAllItems();
+        String matriculas;
+        List<String> listaMatricula = new ArrayList<>();
         List<Omnibus> listaOmnibus = iServiciosTicket.obtenerOmnibusPorDestino(destino);
         for (Omnibus omnibus : listaOmnibus) {
             comboBox.addItem(omnibus.getMatricula());
+            matriculas = omnibus.getMatricula();
+            listaMatricula.add(matriculas);
         }
+        
+        String matriculaActual = llenarJComboBoxMatricula2();
+        listaMatricula.addFirst(matriculaActual);
+        
+        return listaMatricula;
     }
     
     
@@ -445,9 +446,9 @@ public class FormModificarTicket extends javax.swing.JDialog {
         jComboBoxDestino.setSelectedItem(destino);
     }
     
-    public void llenarJComboBoxMatricula2(){
+    public String llenarJComboBoxMatricula2(){
         int idTicket = FormModificarTicket.idTicket;
         String matricula = iServiciosTicket.obtenerMatriculaPorIdTicket(idTicket);
-        jComboBoxDestino.setSelectedItem(matricula);
+        return matricula;
     }
 }

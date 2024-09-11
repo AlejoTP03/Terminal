@@ -129,7 +129,7 @@ public class FormTicket extends javax.swing.JDialog {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

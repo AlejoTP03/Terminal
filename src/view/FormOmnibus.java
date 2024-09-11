@@ -115,7 +115,7 @@ public class FormOmnibus extends javax.swing.JDialog {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -396,7 +396,7 @@ public class FormOmnibus extends javax.swing.JDialog {
                 e.printStackTrace();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ticket de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un omnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     } 
 }

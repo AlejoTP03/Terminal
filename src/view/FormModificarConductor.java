@@ -4,6 +4,11 @@
  */
 package view;
 
+import interfaces.IServiciosConductor;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import services.ServiciosConductor;
+
 /**
  *
  * @author Lenovo
@@ -13,9 +18,19 @@ public class FormModificarConductor extends javax.swing.JDialog {
     /**
      * Creates new form FormModificarConductor
      */
-    public FormModificarConductor(java.awt.Frame parent, boolean modal) {
+    private static int idConductor;
+    private static FormConductor formConductor;
+    IServiciosConductor iServiciosConductor = new ServiciosConductor();
+    public FormModificarConductor(javax.swing.JDialog parent, boolean modal, FormConductor formConductor, int idConductor) {
         super(parent, modal);
         initComponents();
+        this.idConductor = idConductor;
+        this.formConductor = formConductor;
+        llenarJTextFieldNombre();
+        llenarJTextFieldApellido();
+        llenarJTextFieldDireccion();
+        llenarJTextFieldTelefono();
+        actualizarComboBoxMatricula();
     }
 
     /**
@@ -39,6 +54,8 @@ public class FormModificarConductor extends javax.swing.JDialog {
         jTextFieldTelefono = new javax.swing.JTextField();
         jLabelMatricula = new javax.swing.JLabel();
         jComboBoxMatricula = new javax.swing.JComboBox<>();
+        jButtonAceptar = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar Informacion");
@@ -76,6 +93,19 @@ public class FormModificarConductor extends javax.swing.JDialog {
 
         jComboBoxMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
+        jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
+        jButtonAceptar.setText("Aceptar");
+
+        jButtonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forceexit_103817.png"))); // NOI18N
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -96,6 +126,12 @@ public class FormModificarConductor extends javax.swing.JDialog {
                     .addComponent(jComboBoxMatricula, javax.swing.GroupLayout.Alignment.LEADING, 0, 200, Short.MAX_VALUE)
                     .addComponent(jTextFieldNombre))
                 .addContainerGap(286, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonCancelar)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonAceptar)
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +156,11 @@ public class FormModificarConductor extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMatricula)
                     .addComponent(jComboBoxMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAceptar)
+                    .addComponent(jButtonCancelar))
+                .addGap(30, 30, 30))
         );
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -161,6 +201,11 @@ public class FormModificarConductor extends javax.swing.JDialog {
         evt.consume();
     }//GEN-LAST:event_jTextFieldTelefonoKeyTyped
 
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -191,7 +236,7 @@ public class FormModificarConductor extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormModificarConductor dialog = new FormModificarConductor(new javax.swing.JFrame(), true);
+                FormModificarConductor dialog = new FormModificarConductor(new javax.swing.JDialog(), true, formConductor, idConductor);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -204,6 +249,8 @@ public class FormModificarConductor extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JComboBox<String> jComboBoxMatricula;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelApellido;
@@ -217,4 +264,42 @@ public class FormModificarConductor extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldTelefono;
     // End of variables declaration//GEN-END:variables
+
+
+    
+    public void llenarJTextFieldNombre(){
+        String nombre = iServiciosConductor.obtenerNombrePorIdConductor(idConductor);
+        jTextFieldNombre.setText(nombre);
+    }
+    
+    public void llenarJTextFieldApellido(){
+        String apellido = iServiciosConductor.obtenerApellidoPorIdConductor(idConductor);
+        jTextFieldApellido.setText(apellido);
+    }
+    
+    public void llenarJTextFieldDireccion(){
+        String direccion = iServiciosConductor.obtenerDireccionPorIdConductor(idConductor);
+        jTextFieldDireccion.setText(direccion);
+    }
+    
+    public void llenarJTextFieldTelefono(){
+        String telefono = iServiciosConductor.obtenerTelefonoPorIdConductor(idConductor);
+        jTextFieldTelefono.setText(telefono);
+    }
+    
+    public String llenarJComboBoxMatricula(){
+        String matricula = iServiciosConductor.obtenerMatriculaPorIdConductor(idConductor);
+        System.out.println(matricula);
+        return matricula;
+    }
+    
+    private void actualizarComboBoxMatricula() {
+        List<String> matriculas = iServiciosConductor.obtenerMatriculasDisponibles();
+        String noMatricula = "Sin Asignar";
+        String matriculaActual = llenarJComboBoxMatricula();
+        matriculas.addLast(noMatricula);
+        matriculas.addFirst(matriculaActual);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(matriculas.toArray(new String[0]));
+        jComboBoxMatricula.setModel(model);
+    }
 }
