@@ -72,13 +72,13 @@
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextFieldMatricula" max="32767" attributes="0"/>
                           <Component id="jTextFieldMarca" max="32767" attributes="0"/>
                           <Component id="jTextFieldModelo" max="32767" attributes="0"/>
                           <Component id="jTextFieldCapacidad" max="32767" attributes="0"/>
                           <Component id="jComboBoxDestino" pref="200" max="32767" attributes="0"/>
                           <Component id="jTextFieldHoraSalida" max="32767" attributes="0"/>
                           <Component id="jTextFieldPaisProcedencia" max="32767" attributes="0"/>
+                          <Component id="jTextFieldMatricula" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="238" max="32767" attributes="0"/>
                   </Group>

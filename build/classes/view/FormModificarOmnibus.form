@@ -40,7 +40,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+              <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -61,23 +61,25 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabelMatricula" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelHoraSalida" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelCapacidad" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelDestino" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaDeSalida" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelCiPasajero" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelApellidosPasajero" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelNombreDelPasajero" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelModelo" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMarca" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMatricula" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelPaisProcedencia" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextFieldNombrePasajero" pref="193" max="32767" attributes="0"/>
-                          <Component id="jTextFieldApellidoPasajero" max="32767" attributes="0"/>
-                          <Component id="jTextFieldCiPasajero" max="32767" attributes="0"/>
-                          <Component id="jTextFieldFechasalida" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBoxDestino" max="32767" attributes="0"/>
-                          <Component id="jComboBoxMatricula" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jTextFieldMatricula" max="32767" attributes="0"/>
+                          <Component id="jTextFieldMarca" max="32767" attributes="0"/>
+                          <Component id="jTextFieldModelo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBoxDestino" alignment="1" pref="200" max="32767" attributes="0"/>
+                          <Component id="jTextFieldCapacidad" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jTextFieldHoraSalida" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jTextFieldPaisProcedencia" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+                      <EmptySpace pref="238" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
@@ -90,26 +92,21 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelNombreDelPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldNombrePasajero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelApellidosPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldApellidoPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelCiPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldCiPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelFechaDeSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechasalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldModelo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -118,50 +115,60 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabelMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBoxMatricula" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelCapacidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldHoraSalida" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="45" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelHoraSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldCapacidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabelPaisProcedencia" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldPaisProcedencia" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="21" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabelNombreDelPasajero">
+            <Component class="javax.swing.JLabel" name="jLabelPaisProcedencia">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nombre del Pasajero:"/>
+                <Property name="text" type="java.lang.String" value="Pa&#xed;s de Procedencia:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabelApellidosPasajero">
+            <Component class="javax.swing.JLabel" name="jLabelMatricula">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Apellidos del Pasajero:"/>
+                <Property name="text" type="java.lang.String" value="Matricula:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabelCiPasajero">
+            <Component class="javax.swing.JLabel" name="jLabelMarca">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="CI:"/>
+                <Property name="text" type="java.lang.String" value="Marca:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabelFechaDeSalida">
+            <Component class="javax.swing.JLabel" name="jLabelModelo">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Fecha de Salida:"/>
+                <Property name="text" type="java.lang.String" value="Modelo:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDestino">
@@ -172,54 +179,49 @@
                 <Property name="text" type="java.lang.String" value="Destino:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabelMatricula">
+            <Component class="javax.swing.JLabel" name="jLabelCapacidad">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Matr&#xed;cula:"/>
+                <Property name="text" type="java.lang.String" value="Capacidad:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldNombrePasajero">
+            <Component class="javax.swing.JLabel" name="jLabelHoraSalida">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Hora de Salida:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldMatricula">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldNombrePasajeroKeyTyped"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldMatriculaActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldMatriculaKeyTyped"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldApellidoPasajero">
+            <Component class="javax.swing.JTextField" name="jTextFieldMarca">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldApellidoPasajeroKeyTyped"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldMarcaKeyTyped"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldCiPasajero">
+            <Component class="javax.swing.JTextField" name="jTextFieldModelo">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldCiPasajeroActionPerformed"/>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldCiPasajeroKeyTyped"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldFechasalida">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldFechasalidaKeyTyped"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxDestino">
               <Properties>
@@ -246,7 +248,6 @@
                     <StringItem index="15" value="Guant&#xe1;namo"/>
                   </StringArray>
                 </Property>
-                <Property name="selectedIndex" type="int" value="-1"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxDestinoActionPerformed"/>
@@ -255,35 +256,32 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBoxMatricula">
+            <Component class="javax.swing.JTextField" name="jTextFieldCapacidad">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMatriculaActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldCapacidadKeyTyped"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonAceptar">
+            <Component class="javax.swing.JTextField" name="jTextFieldHoraSalida">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/images/anydo_104098.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Aceptar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAceptarActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldHoraSalidaKeyTyped"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldPaisProcedencia">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="1"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonCancelar">
               <Properties>
@@ -298,6 +296,17 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelarActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonAceptar">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/anydo_104098.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Aceptar"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

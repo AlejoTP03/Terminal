@@ -42,6 +42,8 @@ public class FormModificarTicket extends javax.swing.JDialog {
             }
             
         });
+        
+        
     }
     
     /**
@@ -72,6 +74,7 @@ public class FormModificarTicket extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar Informacion");
+        setResizable(false);
 
         jPanel1.setOpaque(false);
 
@@ -306,6 +309,7 @@ public class FormModificarTicket extends javax.swing.JDialog {
 
     private void jComboBoxMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMatriculaActionPerformed
         // TODO add your handling code here:
+        llenarJComboBoxMatricula2();
     }//GEN-LAST:event_jComboBoxMatriculaActionPerformed
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
@@ -439,5 +443,11 @@ public class FormModificarTicket extends javax.swing.JDialog {
         int idTicket = FormModificarTicket.idTicket;
         String destino = iServiciosTicket.obtenerDestinoPorIdTicket(idTicket);
         jComboBoxDestino.setSelectedItem(destino);
+    }
+    
+    public void llenarJComboBoxMatricula2(){
+        int idTicket = FormModificarTicket.idTicket;
+        String matricula = iServiciosTicket.obtenerMatriculaPorIdTicket(idTicket);
+        jComboBoxDestino.setSelectedItem(matricula);
     }
 }

@@ -331,5 +331,26 @@ public class ServiciosTicket implements IServiciosTicket{
         return destino;
     }
     
-    
+    public String obtenerMatriculaPorIdTicket(int idTicket) {
+        String matricula = null; 
+        String sql = "SELECT matricula FROM \"Ticket\" WHERE id_ticket = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idTicket);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    matricula = rs.getString("matricula");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el matricula: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return matricula;
+    }
 }
