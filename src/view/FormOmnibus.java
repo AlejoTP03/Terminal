@@ -370,10 +370,13 @@ public class FormOmnibus extends javax.swing.JDialog {
     private void createPopupMenu() {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem enviarAlTaller = new JMenuItem("Enviar al taller");
+        JMenuItem modificarInformacion = new JMenuItem("Modificar Información");
 
         enviarAlTaller.addActionListener(e -> enviarOmnibusAlTaller());
+        modificarInformacion.addActionListener(e -> abrirJDialogModificarOmnibus());
 
         popupMenu.add(enviarAlTaller);
+        popupMenu.add(modificarInformacion);
 
         jTableMostrarOmnibus.setComponentPopupMenu(popupMenu);
     }
@@ -406,4 +409,22 @@ public class FormOmnibus extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un ómnibus de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
+    
+    private void abrirJDialogModificarOmnibus() {
+        int selectedRow = jTableMostrarOmnibus.getSelectedRow();
+
+        if (selectedRow != -1) {
+            try {
+                String matricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0);
+                System.out.println(matricula);
+
+                FormModificarOmnibus formModificarOmnibus = new FormModificarOmnibus(this, true, matricula);
+                formModificarOmnibus.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un ticket de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    } 
 }
