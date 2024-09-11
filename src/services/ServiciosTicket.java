@@ -306,5 +306,30 @@ public class ServiciosTicket implements IServiciosTicket{
 
         return fechaFormato;
     }
+
+    @Override
+    public String obtenerDestinoPorIdTicket(int idTicket) {
+        String destino = null; 
+        String sql = "SELECT destino FROM \"Ticket\" WHERE id_ticket = ?"; 
+
+        try (Connection conexion = ConexionDataBase.getConnection();
+             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idTicket);
+
+            try (ResultSet rs = pstmt.executeQuery()) { 
+                if (rs.next()) { 
+                    destino = rs.getString("destino");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el destino: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return destino;
+    }
+    
     
 }

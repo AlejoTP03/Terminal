@@ -33,6 +33,7 @@ public class FormModificarTicket extends javax.swing.JDialog {
         llenarJTextFieldApellido();
         llenarJTextFieldCI();
         llenarJTextFieldFechaSalida();
+        llenarJComboBoxDestino();
         jComboBoxDestino.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -432,5 +433,11 @@ public class FormModificarTicket extends javax.swing.JDialog {
         int idTicket = FormModificarTicket.idTicket;
         String fecha = iServiciosTicket.obtenerFechaPorIdTicket(idTicket);
         jTextFieldFechasalida.setText(fecha);
+    }
+    
+    public void llenarJComboBoxDestino(){
+        int idTicket = FormModificarTicket.idTicket;
+        String destino = iServiciosTicket.obtenerDestinoPorIdTicket(idTicket);
+        jComboBoxDestino.setSelectedItem(destino);
     }
 }

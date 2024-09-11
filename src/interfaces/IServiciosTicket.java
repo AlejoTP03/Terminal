@@ -24,4 +24,5 @@ public interface IServiciosTicket {
     public String obtenerApellidoPorIdTicket(int idTicket);
     public String obtenerCIPorIdTicket(int idTicket);
     public String obtenerFechaPorIdTicket(int idTicket);
+    public String obtenerDestinoPorIdTicket(int idTicket);
 }
