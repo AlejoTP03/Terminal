@@ -79,22 +79,45 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
     
     @Override
     public boolean actualizarOmnibus(Omnibus omnibus, String matriculaAntigua) {
-        String query = "UPDATE \"Omnibus\" SET matricula = ?, marca = ?, modelo = ?, destino = ?, capacidad = ?, hora_salida = ?, pais_procedencia = ? WHERE matricula = ?";
-    
-        try (Connection con = conexion.getConnection(); 
-             PreparedStatement pst = con.prepareStatement(query)) {
-            
-            pst.setString(1, omnibus.getMatricula());
-            pst.setString(2, omnibus.getMarca());
-            pst.setString(3, omnibus.getModelo());
-            pst.setString(4, omnibus.getDestino());
-            pst.setInt(5, omnibus.getCapacidad());
-            pst.setTime(6, omnibus.getHoraSalida());
-            pst.setString(7, omnibus.getPaisProcedencia());
-            pst.setString(8, matriculaAntigua);
+        String sqlOmnibus = "UPDATE \"Omnibus\" SET matricula = ?, marca = ?, modelo = ?, destino = ?, capacidad = ?, hora_salida = ?, pais_procedencia = ? WHERE matricula = ?";
+        String sqlTickets = "UPDATE \"Ticket\" SET matricula = ? WHERE matricula = ?";
 
-            int filasActualizadas = pst.executeUpdate();
-            return filasActualizadas > 0;
+        try (Connection con = conexion.getConnection()) {
+            con.setAutoCommit(false); // Desactiva el autocommit para manejar transacciones manualmente
+
+            try (PreparedStatement pstOmnibus = con.prepareStatement(sqlOmnibus);
+                 PreparedStatement pstTickets = con.prepareStatement(sqlTickets)) {
+
+                // Actualizar Omnibus
+                pstOmnibus.setString(1, omnibus.getMatricula());
+                pstOmnibus.setString(2, omnibus.getMarca());
+                pstOmnibus.setString(3, omnibus.getModelo());
+                pstOmnibus.setString(4, omnibus.getDestino());
+                pstOmnibus.setInt(5, omnibus.getCapacidad());
+                pstOmnibus.setTime(6, omnibus.getHoraSalida());
+                pstOmnibus.setString(7, omnibus.getPaisProcedencia());
+                pstOmnibus.setString(8, matriculaAntigua);
+
+                int filasActualizadasOmnibus = pstOmnibus.executeUpdate();
+
+                // Actualizar Tickets
+                pstTickets.setString(1, omnibus.getMatricula());
+                pstTickets.setString(2, matriculaAntigua);
+
+                int filasActualizadasTickets = pstTickets.executeUpdate();
+
+                if (filasActualizadasOmnibus > 0) {
+                    con.commit(); // Confirma ambas actualizaciones si la de Omnibus fue exitosa
+                    return true;
+                } else {
+                    con.rollback(); // Deshace ambas actualizaciones si algo falla
+                    return false;
+                }
+            } catch (SQLException e) {
+                con.rollback(); // Deshace ambas actualizaciones si ocurre una excepción
+                e.printStackTrace();
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

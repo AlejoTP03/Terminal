@@ -88,6 +88,7 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         });
 
         jComboBoxMatricula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBoxMatricula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin Asignar" }));
 
         jTextFieldNombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -212,23 +213,40 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         String matricula = jComboBoxMatricula.getSelectedItem().toString().trim();
 
         if (emptyFields()) {
-            Conductor conductor = new Conductor(nombre, apellido, direccion, telefono, matricula);
-            // Crear instancia de la clase de servicios
-            IServiciosConductor iServiciosConductor = new ServiciosConductor();
+            if("Sin Asignar".equals(matricula)){
+                matricula = null;
+                Conductor conductor = new Conductor(nombre, apellido, direccion, telefono, matricula);
+                
+                // Llamar al método para agregar el conductor
+                boolean exito = iServiciosConductor.agregarConductor(conductor);
 
-            // Llamar al método para agregar el conductor
-            boolean exito = iServiciosConductor.agregarConductor(conductor);
+                // Mostrar mensaje de éxito o error
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Conductor agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    // Limpiar campos o cerrar el formulario si es necesario
+                    clear();
+                    actualizarComboBoxMatricula();
+                    formConductor.llenarTablaConductor();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al agregar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }else {
+                Conductor conductor = new Conductor(nombre, apellido, direccion, telefono, matricula);
+                
+                // Llamar al método para agregar el conductor
+                boolean exito = iServiciosConductor.agregarConductor(conductor);
 
-            // Mostrar mensaje de éxito o error
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Conductor agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                // Limpiar campos o cerrar el formulario si es necesario
-                clear();
-                actualizarComboBoxMatricula();
-                formConductor.llenarTablaConductor();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al agregar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+                // Mostrar mensaje de éxito o error
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Conductor agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    // Limpiar campos o cerrar el formulario si es necesario
+                    clear();
+                    actualizarComboBoxMatricula();
+                    formConductor.llenarTablaConductor();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al agregar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }    
         
         }else{
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -309,6 +327,8 @@ public class FormAgregarConductor extends javax.swing.JDialog {
 
     private void actualizarComboBoxMatricula() {
         List<String> matriculas = iServiciosConductor.obtenerMatriculasDisponibles();
+        String noMatricula = "Sin Asignar";
+        matriculas.addFirst(noMatricula);
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(matriculas.toArray(new String[0]));
         jComboBoxMatricula.setModel(model);
     }

@@ -326,7 +326,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                 
                 String matriculaAntigua = FormModificarOmnibus.matricula;
                 boolean exito = iServiciosOmnibus.actualizarOmnibus(omnibus, matriculaAntigua);
-                System.out.println(exito);
+//                System.out.println(exito);
                 
                 
                 if (exito == true) {

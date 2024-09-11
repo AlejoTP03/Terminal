@@ -50,7 +50,8 @@ public class ServiciosConductor implements IServiciosConductor{
             return false;
         }
     }
-
+    
+    
     @Override
     public boolean eliminarConductor(Object idConductor) {
         String sql = "DELETE FROM \"Conductor\" WHERE id_conductor = ?";

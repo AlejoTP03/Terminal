@@ -24,6 +24,15 @@ public class Conductor {
         this.telefono = telefono;
         this.matricula = matricula;
     }
+
+    
+    public Conductor(String nombre, String apellido, String direccion, String telefono) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.telefono = telefono;
+    }
+    
     
     public int getIdConductor() {
         return idConductor;
