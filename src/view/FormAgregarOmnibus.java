@@ -287,32 +287,32 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         if (emptyFields()) {
-        String matricula = jTextFieldMatricula.getText();
-        String marca = jTextFieldMarca.getText();
-        String modelo = jTextFieldModelo.getText();
-        int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
-        String destino = jComboBoxDestino.getSelectedItem().toString();
-        java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
-        String paisProcedencia = jTextFieldPaisProcedencia.getText();
+            String matricula = jTextFieldMatricula.getText();
+            String marca = jTextFieldMarca.getText();
+            String modelo = jTextFieldModelo.getText();
+            int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
+            String destino = jComboBoxDestino.getSelectedItem().toString();
+            java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
+            String paisProcedencia = jTextFieldPaisProcedencia.getText();
 
-        int idTaller = traerIdTaller.obtenerIdTaller();
-        boolean disponible = false;
-        
-            if (jTextFieldMatricula.getText().length() == 7) {
-                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
+            int idTaller = traerIdTaller.obtenerIdTaller();
+            boolean disponible = false;
 
-                IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+                if (jTextFieldMatricula.getText().length() == 7) {
+                    Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
 
-                if (iServiciosOmnibus.agregarOmnibus(omnibus)) {
-                    JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
-                    clear();
-                    formOmnibus.llenarTablaOmnibus();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "La matrícula ya está en uso.");
-                    }
-            } else {
-                JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
-            }
+                    IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+
+                    if (iServiciosOmnibus.agregarOmnibus(omnibus)) {
+                        JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
+                        clear();
+                        formOmnibus.llenarTablaOmnibus();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "La matrícula ya está en uso.");
+                        }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
+                }
         } else {
             // Muestra un mensaje si alguno de los campos está vacío
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");

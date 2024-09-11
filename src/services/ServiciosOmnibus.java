@@ -78,82 +78,26 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
 
     
     @Override
-    public void actualizarOmnibus(String matricula, String nombreColumna, Object dato) {
-        // Mapeo de los nombres de columnas del JTable a los nombres reales en la base de datos
-        String dbColumnName;
-        int tipoDato;
-        switch (nombreColumna) {
-            case "ID Omnibus":
-                dbColumnName = "id_omnibus";
-                tipoDato = Types.INTEGER;  // Asume que es INTEGER
-                break;
-            case "Matrícula":
-                dbColumnName = "matricula";
-                tipoDato = Types.VARCHAR;  // Asume que es VARCHAR
-                break;
-            case "Marca":
-                dbColumnName = "marca";
-                tipoDato = Types.VARCHAR;  // Asume que es VARCHAR
-                break;
-            case "Modelo":
-                dbColumnName = "modelo";
-                tipoDato = Types.VARCHAR;  // Asume que es VARCHAR
-                break;
-            case "Capacidad":
-                dbColumnName = "capacidad";
-                tipoDato = Types.INTEGER;  // Asegúrate de que es INTEGER
-                break;
-            case "Destino":
-                dbColumnName = "destino";
-                tipoDato = Types.VARCHAR;  // Asume que es VARCHAR
-                break;
-            case "Hora de Salida":
-                dbColumnName = "hora_salida";
-                tipoDato = Types.TIME;  // Asume que es TIME
-                break;
-            case "País de Procedencia":
-                dbColumnName = "pais_procedencia";
-                tipoDato = Types.VARCHAR;  // Asume que es VARCHAR
-                break;
-            case "Número de Taller":
-                dbColumnName = "id_taller";
-                tipoDato = Types.INTEGER;  // Asume que es INTEGER
-                break;
-            default:
-                throw new IllegalArgumentException("Columna desconocida: " + nombreColumna);
-        }
+    public boolean actualizarOmnibus(Omnibus omnibus, String matriculaAntigua) {
+        String query = "UPDATE \"Omnibus\" SET matricula = ?, marca = ?, modelo = ?, destino = ?, capacidad = ?, hora_salida = ?, pais_procedencia = ? WHERE matricula = ?";
+    
+        try (Connection con = conexion.getConnection(); 
+             PreparedStatement pst = con.prepareStatement(query)) {
+            
+            pst.setString(1, omnibus.getMatricula());
+            pst.setString(2, omnibus.getMarca());
+            pst.setString(3, omnibus.getModelo());
+            pst.setString(4, omnibus.getDestino());
+            pst.setInt(5, omnibus.getCapacidad());
+            pst.setTime(6, omnibus.getHoraSalida());
+            pst.setString(7, omnibus.getPaisProcedencia());
+            pst.setString(8, matriculaAntigua);
 
-        String sql = "UPDATE \"Omnibus\" SET " + dbColumnName + " = ? WHERE matricula = ?";
-
-        try (Connection conexion = ConexionDataBase.getConnection();
-             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
-            // Establece el valor del nuevo dato según el tipo
-            switch (tipoDato) {
-                case Types.INTEGER:
-                    pstmt.setInt(1, (Integer) dato);
-                    break;
-                case Types.VARCHAR:
-                    pstmt.setString(1, (String) dato);
-                    break;
-                case Types.TIME:
-                    pstmt.setTime(1, (Time) dato);
-                    break;
-                // Añadir otros tipos si es necesario
-                default:
-                    throw new IllegalArgumentException("Tipo de dato desconocido: " + tipoDato);
-            }
-
-            pstmt.setString(2, matricula);  // Usa matricula en lugar de idOmnibus
-
-            // Ejecuta la actualización
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("El registro con matricula " + matricula + " fue actualizado.");
-            }
-
+            int filasActualizadas = pst.executeUpdate();
+            return filasActualizadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
     

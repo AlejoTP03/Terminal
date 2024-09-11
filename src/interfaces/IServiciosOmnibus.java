@@ -15,7 +15,7 @@ import java.util.Date;
 public interface IServiciosOmnibus {
     public boolean agregarOmnibus(Omnibus omnibus);
     public boolean eliminarOmnibus(String matricula);
-    public void actualizarOmnibus(String matricula, String nombreColumna, Object dato);
+    public boolean actualizarOmnibus(Omnibus omnibus, String matriculaAntigua);
     public boolean matriculaAsociadaAConductor(String matricula);
     public String obtenerMarcaPorMatricula(String matricula);
     public String obtenerModeloPorMatricula(String matricula);

@@ -4,9 +4,14 @@
  */
 package view;
 
+import domain.Omnibus;
 import interfaces.IServiciosOmnibus;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import services.ServiciosOmnibus;
+import utils.MostrarTablaOmnibus;
+import utils.TraerIdTaller;
 import utils.VerificarEntradaDeHora;
 
 /**
@@ -20,10 +25,14 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
      */
     VerificarEntradaDeHora entradaHora = new VerificarEntradaDeHora();
     IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+    private MostrarTablaOmnibus mostrarTablaOmnibus;
+    private static FormOmnibus formOmnibus;
+    TraerIdTaller traerIdTaller = new TraerIdTaller();
     private static String matricula;
-    public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, String matricula) {
+    public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormOmnibus formOmnibus, String matricula) {
         super(parent, modal);
         initComponents();
+        this.formOmnibus = formOmnibus;
         this.matricula = matricula;
         llenarJTextFieldMatricula();
         llenarJTextFieldMarca();
@@ -147,6 +156,11 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -273,17 +287,17 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
 
     private void jTextFieldHoraSalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHoraSalidaKeyTyped
         // TODO add your handling code here:
+        jTextFieldHoraSalida.setInputVerifier(entradaHora);
+
         char car = evt.getKeyChar();
-        if((car<'0' || car>'9'))
+        if ((car < '0' || car > '9') && car != ':')
         evt.consume();
     }//GEN-LAST:event_jTextFieldHoraSalidaKeyTyped
 
     private void jTextFieldCapacidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCapacidadKeyTyped
         // TODO add your handling code here:
-        jTextFieldCapacidad.setInputVerifier(entradaHora);
-
         char car = evt.getKeyChar();
-        if ((car < '0' || car > '9') && car != ':')
+        if((car<'0' || car>'9'))
         evt.consume();
     }//GEN-LAST:event_jTextFieldCapacidadKeyTyped
 
@@ -291,6 +305,46 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        // TODO add your handling code here:
+        if (emptyFields()) {
+            String matricula = jTextFieldMatricula.getText();
+            String marca = jTextFieldMarca.getText();
+            String modelo = jTextFieldModelo.getText();
+            int capacidad = Integer.parseInt(jTextFieldCapacidad.getText());
+            String destino = jComboBoxDestino.getSelectedItem().toString();
+            java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
+            String paisProcedencia = jTextFieldPaisProcedencia.getText();
+
+            int idTaller = traerIdTaller.obtenerIdTaller();
+            boolean disponible = false;
+
+            
+            if (jTextFieldMatricula.getText().length() == 7) {
+                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
+                
+                String matriculaAntigua = FormModificarOmnibus.matricula;
+                boolean exito = iServiciosOmnibus.actualizarOmnibus(omnibus, matriculaAntigua);
+                System.out.println(exito);
+                
+                
+                if (exito == true) {
+                    JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
+                    formOmnibus.llenarTablaOmnibus();
+                    
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo actualizar el ómnibus.");
+                }
+            }else {
+                    JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
+                }
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+        }
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -322,7 +376,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormModificarOmnibus dialog = new FormModificarOmnibus(new javax.swing.JDialog(), true, matricula);
+                FormModificarOmnibus dialog = new FormModificarOmnibus(new javax.swing.JDialog(), true, formOmnibus, matricula);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -397,4 +451,18 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         String paisProcedencia = iServiciosOmnibus.obtenerPaisProcedenciaPorMatricula(matricula);
         jTextFieldPaisProcedencia.setText(paisProcedencia);
     }
+    
+    private boolean emptyFields(){
+         
+        if(!jTextFieldMatricula.getText().equals("")
+            &&!jTextFieldMarca.getText().equals("")
+            &&!jTextFieldModelo.getText().equals("")
+            &&!jTextFieldCapacidad.getText().equals("")
+            &&!jTextFieldHoraSalida.getText().equals("")
+            &&!jTextFieldPaisProcedencia.getText().equals(""))
+            return true;
+        else 
+            return false;
+    }
+   
 }

@@ -55,35 +55,7 @@ public class FormOmnibus extends javax.swing.JDialog {
             }
         });
         
-        // Agregar el TableModelListener para actualizar la base de datos al modificar una celda
-        jTableMostrarOmnibus.getModel().addTableModelListener(e -> {
-        if (e.getType() == TableModelEvent.UPDATE) {
-            int row = e.getFirstRow();
-            int column = e.getColumn();
-            System.out.println("Se ha actualizado la fila " + row + " en la columna " + column);
-
-            DefaultTableModel model = (DefaultTableModel) jTableMostrarOmnibus.getModel();
-            String nombreColumna = model.getColumnName(column);
-            Object dato = model.getValueAt(row, column);
-
-            String matricula = (String) model.getValueAt(row, 0); // Asegúrate de que la primera columna es 'matricula'
-
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                @Override
-                protected Void doInBackground() throws Exception {
-                    iServiciosOmnibus.actualizarOmnibus(matricula, nombreColumna, dato);
-                    return null;
-                }
-
-                @Override
-                protected void done() {
-                    // Si es necesario, puedes hacer algo aquí después de que la base de datos haya sido actualizada.
-                }
-            };
-
-            worker.execute();
-        }
-    });
+        
     }
 
     /**
@@ -418,7 +390,7 @@ public class FormOmnibus extends javax.swing.JDialog {
                 String matricula = (String) jTableMostrarOmnibus.getValueAt(selectedRow, 0);
                 System.out.println(matricula);
 
-                FormModificarOmnibus formModificarOmnibus = new FormModificarOmnibus(this, true, matricula);
+                FormModificarOmnibus formModificarOmnibus = new FormModificarOmnibus(this, true, this, matricula);
                 formModificarOmnibus.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
