@@ -39,36 +39,7 @@ public class FormTicket extends javax.swing.JDialog {
         mostrarTablaTicket = new MostrarTablaTicket(conectar);
         llenarTablaTickets();
         createPopupMenu();
-        // Agregar el TableModelListener para actualizar la base de datos al modificar una celda
-        jTableMostrarTicket.getModel().addTableModelListener(e -> {
-        if (e.getType() == TableModelEvent.UPDATE) {
-            int row = e.getFirstRow();
-            int column = e.getColumn();
-
-            DefaultTableModel model = (DefaultTableModel) jTableMostrarTicket.getModel();
-            String nombreColumna = model.getColumnName(column);
-            Object dato = model.getValueAt(row, column);
-
-            // Obtén el ID del ticket de la primera columna de la fila
-            int idTicket = (int) model.getValueAt(row, 0); // Asegúrate de que la primera columna es 'id_ticket'
-
-            // Usa SwingWorker para actualizar la base de datos en un hilo separado
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                @Override
-                protected Void doInBackground() throws Exception {
-                    iServiciosTicket.actualizarTicket(idTicket, nombreColumna, dato);
-                    return null;
-                }
-
-                @Override
-                protected void done() {
-                    // Si es necesario, puedes hacer algo aquí después de que la base de datos haya sido actualizada.
-                }
-            };
-
-            worker.execute();
-        }
-        });
+        
     }
 
     /**

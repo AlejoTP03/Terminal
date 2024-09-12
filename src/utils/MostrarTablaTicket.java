@@ -27,7 +27,11 @@ public class MostrarTablaTicket {
     }
     
     public DefaultTableModel obtenerTickets() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        };
         String sql = "SELECT id_ticket AS \"ID Ticket\", \n" +
                      "nombre_pasajero AS \"Nombre del Pasajero\",\n" +
                      "apellidos_pasajero AS \"Apellidos del Pasajero\",\n" +

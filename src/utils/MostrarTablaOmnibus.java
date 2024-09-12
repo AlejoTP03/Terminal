@@ -24,7 +24,11 @@ public class MostrarTablaOmnibus {
     }
 
     public DefaultTableModel obtenerOmnibus() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        };;
         String sql = "SELECT matricula AS \"Matrícula\", \n" +
                      "marca AS \"Marca\",\n" +
                      "modelo AS \"Modelo\",\n" +
@@ -62,7 +66,11 @@ public class MostrarTablaOmnibus {
     }
     
     public DefaultTableModel obtenerOmnibusBuscador() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        };;
         String sql = "SELECT matricula AS \"Matrícula\", \n" +
                      "marca AS \"Marca\",\n" +
                      "modelo AS \"Modelo\",\n" +
@@ -101,7 +109,11 @@ public class MostrarTablaOmnibus {
     
     
     public DefaultTableModel obtenerOmnibusBuscados(String destino) {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        };;
         String sql = "SELECT matricula AS \"Matrícula\",\n" +
                      "marca AS \"Marca\",\n" +
                      "modelo AS \"Modelo\",\n" +

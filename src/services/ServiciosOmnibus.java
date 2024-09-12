@@ -311,5 +311,21 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
         }
         return false;
     }
-        
+    
+    public boolean verificarFechasFuturas(String matricula) {
+        String sql = "SELECT COUNT(*) FROM \"Ticket\" WHERE matricula = ? AND fecha_salida > CURRENT_DATE";
+        try (Connection con = conexion.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setString(1, matricula);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Hay tickets en fechas futuras
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // No hay tickets en fechas futuras
+    }
 }

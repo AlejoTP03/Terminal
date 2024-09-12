@@ -332,6 +332,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
             String destino = jComboBoxDestino.getSelectedItem().toString();
             java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
             String paisProcedencia = jTextFieldPaisProcedencia.getText();
+            String destinoActual = iServiciosOmnibus.obtenerDestinoPorMatricula(matricula);
 
             // Verificar si la matrícula tiene la longitud correcta
             if (matricula.length() == 7) {
@@ -339,6 +340,15 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                 if (!matricula.equals(FormModificarOmnibus.matricula) && iServiciosOmnibus.isMatriculaExists(matricula)) {
                     JOptionPane.showMessageDialog(this, "La matrícula ya existe. Por favor, ingrese una matrícula diferente.");
                     return; // Detener el proceso si la matrícula ya existe
+                }
+
+                // Verificar si se está cambiando el destino
+                if (!destino.equals(destinoActual)) {
+                    // Comprobar si el ómnibus tiene tickets en fechas futuras
+                    if (iServiciosOmnibus.verificarFechasFuturas(matricula)) {
+                        JOptionPane.showMessageDialog(this, "No se puede cambiar el destino. El ómnibus tiene tickets en fechas futuras.");
+                        return; // Detener el proceso si hay tickets en fechas futuras
+                    }
                 }
 
                 Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia);
@@ -479,5 +489,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         else 
             return false;
     }
+    
+        
    
 }

@@ -9,6 +9,7 @@ import domain.Ticket;
 import interfaces.IServiciosTicket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -98,6 +99,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         jLabelMatricula.setText("Matrícula:");
 
         jTextFieldNombrePasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldNombrePasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombrePasajeroActionPerformed(evt);
+            }
+        });
         jTextFieldNombrePasajero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldNombrePasajeroKeyTyped(evt);
@@ -105,6 +111,11 @@ public class FormAgregarTicket extends javax.swing.JDialog {
         });
 
         jTextFieldApellidoPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldApellidoPasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldApellidoPasajeroActionPerformed(evt);
+            }
+        });
         jTextFieldApellidoPasajero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldApellidoPasajeroKeyTyped(evt);
@@ -271,8 +282,9 @@ public class FormAgregarTicket extends javax.swing.JDialog {
 
         Date fechaSalida = null;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            fechaSalida = dateFormat.parse(jTextFieldFechasalida.getText());
+             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+             fechaSalida = dateFormat.parse(jTextFieldFechasalida.getText());
+            
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Fecha de salida inválida, la fecha debe cumplir el formato AAAA-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -318,6 +330,8 @@ public class FormAgregarTicket extends javax.swing.JDialog {
 
     private void jTextFieldCiPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroActionPerformed
         // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldFechasalida.requestFocus();// al presionar enter mandas el cursor a jTextField2
     }//GEN-LAST:event_jTextFieldCiPasajeroActionPerformed
 
     private void jComboBoxDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDestinoActionPerformed
@@ -372,6 +386,18 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private void jComboBoxMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMatriculaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxMatriculaActionPerformed
+
+    private void jTextFieldNombrePasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombrePasajeroActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldApellidoPasajero.requestFocus();// al presionar enter mandas el cursor a jTextField2
+    }//GEN-LAST:event_jTextFieldNombrePasajeroActionPerformed
+
+    private void jTextFieldApellidoPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApellidoPasajeroActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldCiPasajero.requestFocus();// al presionar enter mandas el cursor a jTextField2
+    }//GEN-LAST:event_jTextFieldApellidoPasajeroActionPerformed
 
     /**
      * @param args the command line arguments

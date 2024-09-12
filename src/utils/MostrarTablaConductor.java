@@ -20,8 +20,12 @@ public class MostrarTablaConductor {
         this.conexion = conexion;
     }
     
-    public DefaultTableModel obtenerConductores() {
-        DefaultTableModel modelo = new DefaultTableModel();
+    public DefaultTableModel obtenerConductores(){
+        DefaultTableModel modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        };;
         String sql = "SELECT id_conductor AS \"ID Conductor\", \n" +
                      "nombre AS \"Nombre\",\n" +
                      "apellido AS \"Apellido\",\n" +
