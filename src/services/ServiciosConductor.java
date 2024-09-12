@@ -68,9 +68,10 @@ public class ServiciosConductor implements IServiciosConductor{
     }
 
     @Override
-    public boolean actualizarConductor(Conductor conductor, int idCondctor) {
+    public boolean actualizarConductor(Conductor conductor, int idConductor) {
         // Sentencia SQL para actualizar la tabla "Conductor"
-        String sqlConductor = "UPDATE \"Conductor\" SET nombre = ?, apellido = ?, direccion = ?, telefono = ?, matricula = ? WHERE id_conductor = ?";
+        String sqlConductor = "UPDATE \"Conductor\" SET nombre = ?, apellido = ?, direccion = ?, telefono = ?, matricula = ? "
+                              + "WHERE id_conductor = ?";
 
         try (Connection con = conexion.getConnection()) {
             // Desactivar el autoCommit
@@ -78,13 +79,19 @@ public class ServiciosConductor implements IServiciosConductor{
 
             try (PreparedStatement pstmt = con.prepareStatement(sqlConductor)) {
 
-                // Establecer parámetros para la actualización de "Conductor"
                 pstmt.setString(1, conductor.getNombre());
                 pstmt.setString(2, conductor.getApellido());
                 pstmt.setString(3, conductor.getDireccion());
                 pstmt.setString(4, conductor.getTelefono());
-                pstmt.setString(5, conductor.getMatricula());
-                pstmt.setInt(6, idCondctor);
+
+                // Verificar si la matrícula es "Sin Asignar" y establecer el valor en consecuencia
+                if ("Sin Asignar".equals(conductor.getMatricula())) {
+                    pstmt.setNull(5, java.sql.Types.VARCHAR); // Asignar null al campo de la matrícula
+                } else {
+                    pstmt.setString(5, conductor.getMatricula());
+                }
+
+                pstmt.setInt(6, idConductor);
 
                 // Ejecutar la actualización en la tabla "Conductor"
                 int filasActualizadasConductor = pstmt.executeUpdate();
@@ -110,6 +117,7 @@ public class ServiciosConductor implements IServiciosConductor{
             return false;
         }
     }
+
 
     
     
