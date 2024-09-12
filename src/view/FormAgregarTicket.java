@@ -331,7 +331,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private void jTextFieldCiPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroActionPerformed
         // TODO add your handling code here:
         evt.setSource((char) KeyEvent.VK_CLEAR);
-        jTextFieldFechasalida.requestFocus();// al presionar enter mandas el cursor a jTextField2
+        jTextFieldFechasalida.requestFocus();
     }//GEN-LAST:event_jTextFieldCiPasajeroActionPerformed
 
     private void jComboBoxDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDestinoActionPerformed
@@ -341,6 +341,9 @@ public class FormAgregarTicket extends javax.swing.JDialog {
 
     private void jTextFieldFechasalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFechasalidaKeyTyped
         // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && car != '-') 
+            evt.consume();
     }//GEN-LAST:event_jTextFieldFechasalidaKeyTyped
 
     private void jTextFieldCiPasajeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroKeyTyped
@@ -390,13 +393,13 @@ public class FormAgregarTicket extends javax.swing.JDialog {
     private void jTextFieldNombrePasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombrePasajeroActionPerformed
         // TODO add your handling code here:
         evt.setSource((char) KeyEvent.VK_CLEAR);
-        jTextFieldApellidoPasajero.requestFocus();// al presionar enter mandas el cursor a jTextField2
+        jTextFieldApellidoPasajero.requestFocus();
     }//GEN-LAST:event_jTextFieldNombrePasajeroActionPerformed
 
     private void jTextFieldApellidoPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApellidoPasajeroActionPerformed
         // TODO add your handling code here:
         evt.setSource((char) KeyEvent.VK_CLEAR);
-        jTextFieldCiPasajero.requestFocus();// al presionar enter mandas el cursor a jTextField2
+        jTextFieldCiPasajero.requestFocus();
     }//GEN-LAST:event_jTextFieldApellidoPasajeroActionPerformed
 
     /**

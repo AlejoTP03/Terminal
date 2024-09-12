@@ -8,6 +8,7 @@ import domain.Omnibus;
 import interfaces.IServiciosTicket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -98,6 +99,11 @@ public class FormModificarTicket extends javax.swing.JDialog {
         jLabelMatricula.setText("Matrícula:");
 
         jTextFieldNombrePasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldNombrePasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombrePasajeroActionPerformed(evt);
+            }
+        });
         jTextFieldNombrePasajero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldNombrePasajeroKeyTyped(evt);
@@ -105,6 +111,11 @@ public class FormModificarTicket extends javax.swing.JDialog {
         });
 
         jTextFieldApellidoPasajero.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldApellidoPasajero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldApellidoPasajeroActionPerformed(evt);
+            }
+        });
         jTextFieldApellidoPasajero.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldApellidoPasajeroKeyTyped(evt);
@@ -287,6 +298,8 @@ public class FormModificarTicket extends javax.swing.JDialog {
 
     private void jTextFieldCiPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroActionPerformed
         // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldFechasalida.requestFocus();
     }//GEN-LAST:event_jTextFieldCiPasajeroActionPerformed
 
     private void jTextFieldCiPasajeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCiPasajeroKeyTyped
@@ -301,6 +314,9 @@ public class FormModificarTicket extends javax.swing.JDialog {
 
     private void jTextFieldFechasalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFechasalidaKeyTyped
         // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && car != '-') 
+            evt.consume();
     }//GEN-LAST:event_jTextFieldFechasalidaKeyTyped
 
     private void jComboBoxDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDestinoActionPerformed
@@ -323,6 +339,18 @@ public class FormModificarTicket extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jTextFieldNombrePasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombrePasajeroActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldApellidoPasajero.requestFocus();
+    }//GEN-LAST:event_jTextFieldNombrePasajeroActionPerformed
+
+    private void jTextFieldApellidoPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApellidoPasajeroActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldCiPasajero.requestFocus();
+    }//GEN-LAST:event_jTextFieldApellidoPasajeroActionPerformed
 
     /**
      * @param args the command line arguments

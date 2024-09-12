@@ -142,6 +142,11 @@ public class FormBuscarTicket extends javax.swing.JDialog {
 
         jTextFieldFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldFecha.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldFechaKeyTyped(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
@@ -278,6 +283,13 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         generarPDF.generarPDFTicket(tabla);
         JOptionPane.showMessageDialog(this, "Reporte generado con éxito");
     }//GEN-LAST:event_jButtonReporteActionPerformed
+
+    private void jTextFieldFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFechaKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && car != '-') 
+            evt.consume();
+    }//GEN-LAST:event_jTextFieldFechaKeyTyped
 
     /**
      * @param args the command line arguments
