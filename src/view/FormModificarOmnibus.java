@@ -333,31 +333,30 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
             java.sql.Time horaSalida = java.sql.Time.valueOf(jTextFieldHoraSalida.getText());
             String paisProcedencia = jTextFieldPaisProcedencia.getText();
 
-            int idTaller = traerIdTaller.obtenerIdTaller();
-            boolean disponible = false;
+            // Verificar si la matrícula tiene la longitud correcta
+            if (matricula.length() == 7) {
+                // Comprobar si la matrícula ya existe y no es la matrícula actual
+                if (!matricula.equals(FormModificarOmnibus.matricula) && iServiciosOmnibus.isMatriculaExists(matricula)) {
+                    JOptionPane.showMessageDialog(this, "La matrícula ya existe. Por favor, ingrese una matrícula diferente.");
+                    return; // Detener el proceso si la matrícula ya existe
+                }
 
-            
-            if (jTextFieldMatricula.getText().length() == 7) {
-                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
-                
+                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia);
                 String matriculaAntigua = FormModificarOmnibus.matricula;
+
+                // Intentar actualizar el ómnibus
                 boolean exito = iServiciosOmnibus.actualizarOmnibus(omnibus, matriculaAntigua);
-//                System.out.println(exito);
-                
-                
-                if (exito == true) {
+
+                if (exito) {
                     JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
                     formOmnibus.llenarTablaOmnibus();
-                    
                 } else {
                     JOptionPane.showMessageDialog(this, "No se pudo actualizar el ómnibus.");
                 }
-            }else {
-                    JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
-                }
-            
-            
-        }else{
+            } else {
+                JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed

@@ -14,7 +14,7 @@ import java.util.List;
 public interface IServiciosConductor {
     public boolean agregarConductor(Conductor conductor);
     public boolean eliminarConductor(Object idConductor);
-    public void actualizarConductor(int idConductor, String nombreColumna, Object dato);
+    public boolean actualizarConductor(Conductor conductor, int idConductor);
     public List<String> obtenerMatriculasDisponibles();
     public String obtenerNombrePorIdConductor(int idConductor);
     public String obtenerApellidoPorIdConductor(int idConductor);

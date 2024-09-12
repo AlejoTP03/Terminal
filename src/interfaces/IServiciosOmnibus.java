@@ -23,4 +23,5 @@ public interface IServiciosOmnibus {
     public int obtenerCapacidadPorMatricula(String matricula);
     public String obtenerHoraSalidaPorMatricula(String matricula);
     public String obtenerPaisProcedenciaPorMatricula(String matricula);
+    public boolean isMatriculaExists(String matricula);
 }

@@ -34,6 +34,16 @@ public class Omnibus {
         this.disponible = disponible;
     }
 
+    public Omnibus(String matricula, String marca, String modelo, String destino, int capacidad, Time horaSalida, String paisProcedencia) {
+        this.matricula = matricula;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.destino = destino;
+        this.capacidad = capacidad;
+        this.horaSalida = horaSalida;
+        this.paisProcedencia = paisProcedencia;
+    }
+
     
 
     public Omnibus() {

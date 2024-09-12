@@ -282,7 +282,12 @@ public class FormAgregarTicket extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un destino y una matrícula", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
+        if(jTextFieldCiPasajero.getText().length() != 11){
+            JOptionPane.showMessageDialog(this, "Faltan caracteres en el Ci");
+            return;
+        }
+        
         String destino = jComboBoxDestino.getSelectedItem().toString();
         String matricula = jComboBoxMatricula.getSelectedItem().toString();
 

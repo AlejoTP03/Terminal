@@ -18,10 +18,11 @@ public class FormMain extends javax.swing.JFrame {
     /**
      * Creates new form FormMain
      */
-    ImagenFondo fondo = new ImagenFondo();
     
+    ImagenFondo fondo = new ImagenFondo();
     public FormMain() {
         initComponents();
+        
     }
 
     /**
@@ -41,7 +42,6 @@ public class FormMain extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion Terminal de Omnibus");
@@ -106,7 +106,7 @@ public class FormMain extends javax.swing.JFrame {
                 .addContainerGap(364, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Salir");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu1ActionPerformed(evt);
@@ -124,9 +124,6 @@ public class FormMain extends javax.swing.JFrame {
         jMenu1.add(jMenuItemSalir);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -219,7 +216,6 @@ public class FormMain extends javax.swing.JFrame {
     private javax.swing.JButton jButtonTaller;
     private javax.swing.JButton jButtonTicket;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JPanel jPanel1;
@@ -227,15 +223,17 @@ public class FormMain extends javax.swing.JFrame {
 
 
     public class ImagenFondo extends JPanel{
-    //Atributos
-    private Image imagen;
-                
-    //Metodos
-    public void paint(Graphics g){
-        imagen = new ImageIcon(getClass().getResource("fondoPrincipal.jpg")).getImage();
-        g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
-        setOpaque(false);
-        super.paint(g);
+        //Atributos
+        private Image imagen;
+
+        //Metodos
+        public void paint(Graphics g){
+            imagen = new ImageIcon(getClass().getResource("fondoPrincipal.jpg")).getImage();
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+            setOpaque(false);
+            super.paint(g);
+        }
     }
-}
+    
+    
 }

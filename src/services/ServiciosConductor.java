@@ -5,6 +5,7 @@
 package services;
 
 import domain.Conductor;
+import domain.Omnibus;
 import interfaces.IServiciosConductor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -67,51 +68,49 @@ public class ServiciosConductor implements IServiciosConductor{
     }
 
     @Override
-    public void actualizarConductor(int idConductor, String nombreColumna, Object dato) {
-        // Mapeo de los nombres de columnas del JTable a los nombres reales en la base de datos
-        String dbColumnName;
-        switch (nombreColumna) {
-            case "ID Conductor":
-                dbColumnName = "id_conductor";
-                break;
-            case "Nombre":
-                dbColumnName = "nombre";
-                break;
-            case "Apellido":
-                dbColumnName = "apellido";
-                break;
-            case "Dirección":
-                dbColumnName = "direccion";
-                break;
-            case "Teléfono":
-                dbColumnName = "telefono";
-                break;
-            case "Matricula":
-                dbColumnName = "matricula";
-                break;
-            default:
-                throw new IllegalArgumentException("Columna desconocida: " + nombreColumna);
-        }
+    public boolean actualizarConductor(Conductor conductor, int idCondctor) {
+        // Sentencia SQL para actualizar la tabla "Conductor"
+        String sqlConductor = "UPDATE \"Conductor\" SET nombre = ?, apellido = ?, direccion = ?, telefono = ?, matricula = ? WHERE id_conductor = ?";
 
-        String sql = "UPDATE \"Conductor\" SET " + dbColumnName + " = ? WHERE id_conductor = ?";
+        try (Connection con = conexion.getConnection()) {
+            // Desactivar el autoCommit
+            con.setAutoCommit(false);
 
-        try (Connection conexion = ConexionDataBase.getConnection();
-             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+            try (PreparedStatement pstmt = con.prepareStatement(sqlConductor)) {
 
-            // Establece el valor del nuevo dato
-            pstmt.setObject(1, dato);
-            pstmt.setInt(2, idConductor);
+                // Establecer parámetros para la actualización de "Conductor"
+                pstmt.setString(1, conductor.getNombre());
+                pstmt.setString(2, conductor.getApellido());
+                pstmt.setString(3, conductor.getDireccion());
+                pstmt.setString(4, conductor.getTelefono());
+                pstmt.setString(5, conductor.getMatricula());
+                pstmt.setInt(6, idCondctor);
 
-            // Ejecuta la actualización
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("El registro con id_conductor " + idConductor + " fue actualizado.");
+                // Ejecutar la actualización en la tabla "Conductor"
+                int filasActualizadasConductor = pstmt.executeUpdate();
+
+                // Si se actualizó al menos un registro en la tabla "Conductor"
+                if (filasActualizadasConductor > 0) {
+                    con.commit(); // Confirmar la actualización
+                    return true;  // Indicar que la operación fue exitosa
+                } else {
+                    con.rollback(); // Revertir la actualización si no se actualizó nada
+                    return false;  // Indicar que la operación falló
+                }
+            } catch (SQLException e) {
+                con.rollback(); // Revertir la actualización en caso de excepción
+                e.printStackTrace();
+                return false;
+            } finally {
+                // Volver a activar el autoCommit
+                con.setAutoCommit(true);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
+
     
     
     @Override

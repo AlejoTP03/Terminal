@@ -134,7 +134,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
 
         jComboBoxDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jComboBoxDestino.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
+        jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Rio", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
 
         jLabelFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelFecha.setForeground(new java.awt.Color(255, 255, 255));

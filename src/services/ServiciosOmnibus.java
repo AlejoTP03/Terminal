@@ -275,7 +275,7 @@ public class ServiciosOmnibus implements IServiciosOmnibus{
     }
     
     
-    private boolean isMatriculaExists(String matricula) {
+    public boolean isMatriculaExists(String matricula) {
         String sql = "SELECT COUNT(*) FROM \"Omnibus\" WHERE matricula = ?";
         
         try (Connection conn = conexion.getConnection();
