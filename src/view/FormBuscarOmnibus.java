@@ -25,11 +25,12 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
      */
     private Connection conectar = ConexionDataBase.getConnection();
     MostrarTablaOmnibus mostrarTablaOmnibus = new MostrarTablaOmnibus(conectar);
-    
-    public FormBuscarOmnibus(javax.swing.JDialog parent, boolean modal) {
+    public static FormOmnibus formOmnibus;
+    public FormBuscarOmnibus(javax.swing.JDialog parent, boolean modal, FormOmnibus formOmnibus) {
         super(parent, modal);
         initComponents();
         createPopupMenu();
+        this.formOmnibus = formOmnibus;
     }
 
     /**
@@ -206,6 +207,7 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
+        formOmnibus.llenarTablaOmnibus();
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
@@ -257,7 +259,7 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormBuscarOmnibus dialog = new FormBuscarOmnibus(new javax.swing.JDialog(), true);
+                FormBuscarOmnibus dialog = new FormBuscarOmnibus(new javax.swing.JDialog(), true, formOmnibus);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -282,15 +284,21 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
+    public void llenarTablaOmnibusBuscados(String destino) {
+        DefaultTableModel modelo = mostrarTablaOmnibus.obtenerOmnibusBuscados(destino);
+        jTableMostrarOmnibusBuscados.setModel(modelo);
+    }
+    
     private void abrirJDialogModificarOmnibus() {
         int selectedRow = jTableMostrarOmnibusBuscados.getSelectedRow();
 
         if (selectedRow != -1) {
             try {
                 String matricula = (String) jTableMostrarOmnibusBuscados.getValueAt(selectedRow, 0);
+                String destino = (String) jTableMostrarOmnibusBuscados.getValueAt(selectedRow, 4);
                 System.out.println(matricula);
 
-                FormModificarOmnibus formModificarOmnibus = new FormModificarOmnibus(this, true, this, matricula);
+                FormModificarOmnibus formModificarOmnibus = new FormModificarOmnibus(this, true, this, matricula, destino);
                 formModificarOmnibus.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

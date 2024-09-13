@@ -14,7 +14,7 @@ import java.sql.Statement;
  * @author PC
  */
 public class MostrarTablaConductor {
-    private final Connection conexion;
+    public final Connection conexion;
 
     public MostrarTablaConductor(Connection conexion) {
         this.conexion = conexion;
@@ -25,7 +25,7 @@ public class MostrarTablaConductor {
             public boolean isCellEditable(int row, int col){
                 return false;
             }
-        };;
+        };
         String sql = "SELECT id_conductor AS \"ID Conductor\", \n" +
                      "nombre AS \"Nombre\",\n" +
                      "apellido AS \"Apellido\",\n" +

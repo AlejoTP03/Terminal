@@ -8,6 +8,7 @@ import domain.Omnibus;
 import domain.Taller;
 import interfaces.IServiciosOmnibus;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import services.ServiciosOmnibus;
 import utils.TraerIdTaller;
@@ -98,6 +99,11 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldMarca.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMarcaActionPerformed(evt);
+            }
+        });
         jTextFieldMarca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldMarcaKeyTyped(evt);
@@ -105,8 +111,18 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldModelo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldModeloActionPerformed(evt);
+            }
+        });
 
         jTextFieldCapacidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldCapacidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCapacidadActionPerformed(evt);
+            }
+        });
         jTextFieldCapacidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldCapacidadKeyTyped(evt);
@@ -122,6 +138,11 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldHoraSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldHoraSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldHoraSalidaActionPerformed(evt);
+            }
+        });
         jTextFieldHoraSalida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHoraSalidaKeyTyped(evt);
@@ -298,21 +319,25 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
             int idTaller = traerIdTaller.obtenerIdTaller();
             boolean disponible = false;
 
-                if (jTextFieldMatricula.getText().length() == 7) {
-                    Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
+                if(jTextFieldHoraSalida.getText().length() == 8){
+                    if (jTextFieldMatricula.getText().length() == 7) {
+                        Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia, idTaller, disponible);
 
-                    IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
+                        IServiciosOmnibus iServiciosOmnibus = new ServiciosOmnibus();
 
-                    if (iServiciosOmnibus.agregarOmnibus(omnibus)) {
-                        JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
-                        clear();
-                        formOmnibus.llenarTablaOmnibus();
-                        } else {
-                            JOptionPane.showMessageDialog(this, "La matrícula ya está en uso.");
-                        }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
-                }
+                        if (iServiciosOmnibus.agregarOmnibus(omnibus)) {
+                            JOptionPane.showMessageDialog(this, "Ómnibus insertado con éxito.");
+                            clear();
+                            formOmnibus.llenarTablaOmnibus();
+                            } else {
+                                JOptionPane.showMessageDialog(this, "La matrícula ya está en uso.");
+                            }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Compruebe que la hora este en formato HH:MM:SS", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }    
         } else {
             // Muestra un mensaje si alguno de los campos está vacío
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
@@ -321,11 +346,37 @@ public class FormAgregarOmnibus extends javax.swing.JDialog {
 
     private void jTextFieldMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMatriculaActionPerformed
         // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldMarca.requestFocus();
     }//GEN-LAST:event_jTextFieldMatriculaActionPerformed
 
     private void jTextFieldMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMarcaKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldMarcaKeyTyped
+
+    private void jTextFieldMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMarcaActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldModelo.requestFocus();
+    }//GEN-LAST:event_jTextFieldMarcaActionPerformed
+
+    private void jTextFieldModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldModeloActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldCapacidad.requestFocus();
+    }//GEN-LAST:event_jTextFieldModeloActionPerformed
+
+    private void jTextFieldCapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCapacidadActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldHoraSalida.requestFocus();
+    }//GEN-LAST:event_jTextFieldCapacidadActionPerformed
+
+    private void jTextFieldHoraSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHoraSalidaActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldPaisProcedencia.requestFocus();
+    }//GEN-LAST:event_jTextFieldHoraSalidaActionPerformed
 
     /**
      * @param args the command line arguments

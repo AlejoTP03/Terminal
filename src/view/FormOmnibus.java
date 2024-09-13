@@ -276,7 +276,7 @@ public class FormOmnibus extends javax.swing.JDialog {
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        FormBuscarOmnibus formBuscarOmnibus = new FormBuscarOmnibus(this, true);
+        FormBuscarOmnibus formBuscarOmnibus = new FormBuscarOmnibus(this, true, this);
         formBuscarOmnibus.setVisible(true);
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 

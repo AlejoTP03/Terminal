@@ -6,6 +6,7 @@ package view;
 
 import domain.Conductor;
 import interfaces.IServiciosConductor;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -77,8 +78,18 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         jLabelNombreConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jTextFieldApellido.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldApellidoActionPerformed(evt);
+            }
+        });
 
         jTextFieldDireccion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDireccionActionPerformed(evt);
+            }
+        });
 
         jTextFieldTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -91,6 +102,11 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         jComboBoxMatricula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin Asignar" }));
 
         jTextFieldNombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreActionPerformed(evt);
+            }
+        });
 
         jButtonAceptar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButtonAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anydo_104098.png"))); // NOI18N
@@ -263,6 +279,24 @@ public class FormAgregarConductor extends javax.swing.JDialog {
         if(jTextFieldTelefono.getText().length() > 7)
             evt.consume();
     }//GEN-LAST:event_jTextFieldTelefonoKeyTyped
+
+    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldApellido.requestFocus();
+    }//GEN-LAST:event_jTextFieldNombreActionPerformed
+
+    private void jTextFieldApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApellidoActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldDireccion.requestFocus();
+    }//GEN-LAST:event_jTextFieldApellidoActionPerformed
+
+    private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldTelefono.requestFocus();
+    }//GEN-LAST:event_jTextFieldDireccionActionPerformed
 
     /**
      * @param args the command line arguments

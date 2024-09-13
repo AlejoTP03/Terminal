@@ -7,6 +7,7 @@ package view;
 import domain.Omnibus;
 import interfaces.IServiciosOmnibus;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.ServiciosOmnibus;
@@ -30,6 +31,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
     private static FormBuscarOmnibus formBuscarOmnibus;
     TraerIdTaller traerIdTaller = new TraerIdTaller();
     private static String matricula;
+    public static String destino;
     public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormOmnibus formOmnibus, String matricula) {
         super(parent, modal);
         initComponents();
@@ -45,11 +47,12 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         llenarJTextFieldPaisProcedencia();
     }
     
-    public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormBuscarOmnibus formBuscarOmnibus, String matricula) {
+    public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormBuscarOmnibus formBuscarOmnibus, String matricula, String destino) {
         super(parent, modal);
         initComponents();
         this.formBuscarOmnibus = formBuscarOmnibus;
         this.matricula = matricula;
+        this.destino = destino;
         llenarJTextFieldMatricula();
         llenarJTextFieldMarca();
         llenarJTextFieldModelo();
@@ -128,6 +131,11 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldMarca.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMarcaActionPerformed(evt);
+            }
+        });
         jTextFieldMarca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldMarcaKeyTyped(evt);
@@ -135,6 +143,11 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldModelo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldModeloActionPerformed(evt);
+            }
+        });
 
         jComboBoxDestino.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jComboBoxDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pinar del Río", "Artemisa", "La Habana", "Mayabeque", "Matanzas", "Isla de la Juventud", "Cienfuegos", "Villa Clara", "Sancti Spíritus", "Ciego de Ávila", "Camagüey", "Las Tunas", "Granma", "Holguín", "Santiago de Cuba", "Guantánamo" }));
@@ -145,6 +158,11 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldHoraSalida.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldHoraSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldHoraSalidaActionPerformed(evt);
+            }
+        });
         jTextFieldHoraSalida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHoraSalidaKeyTyped(evt);
@@ -152,6 +170,11 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         });
 
         jTextFieldCapacidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldCapacidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCapacidadActionPerformed(evt);
+            }
+        });
         jTextFieldCapacidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldCapacidadKeyTyped(evt);
@@ -277,6 +300,8 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
 
     private void jTextFieldMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMatriculaActionPerformed
         // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldMarca.requestFocus();
     }//GEN-LAST:event_jTextFieldMatriculaActionPerformed
 
     private void jTextFieldMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMatriculaKeyTyped
@@ -350,19 +375,23 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                         return; // Detener el proceso si hay tickets en fechas futuras
                     }
                 }
+                
+                if(jTextFieldHoraSalida.getText().length() == 8){
+                    Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia);
+                    String matriculaAntigua = FormModificarOmnibus.matricula;
 
-                Omnibus omnibus = new Omnibus(matricula, marca, modelo, destino, capacidad, horaSalida, paisProcedencia);
-                String matriculaAntigua = FormModificarOmnibus.matricula;
+                    // Intentar actualizar el ómnibus
+                    boolean exito = iServiciosOmnibus.actualizarOmnibus(omnibus, matriculaAntigua);
 
-                // Intentar actualizar el ómnibus
-                boolean exito = iServiciosOmnibus.actualizarOmnibus(omnibus, matriculaAntigua);
-
-                if (exito) {
-                    JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
-                    formOmnibus.llenarTablaOmnibus();
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se pudo actualizar el ómnibus.");
-                }
+                    if (exito) {
+                        JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
+                        formBuscarOmnibus.llenarTablaOmnibusBuscados(destino);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se pudo actualizar el ómnibus.");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "El formato de la hora debe ser HH:MM:SS", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }    
             } else {
                 JOptionPane.showMessageDialog(this, "Faltan caracteres en la matrícula.");
             }
@@ -370,6 +399,30 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jTextFieldMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMarcaActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldModelo.requestFocus();
+    }//GEN-LAST:event_jTextFieldMarcaActionPerformed
+
+    private void jTextFieldModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldModeloActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldCapacidad.requestFocus();
+    }//GEN-LAST:event_jTextFieldModeloActionPerformed
+
+    private void jTextFieldCapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCapacidadActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldHoraSalida.requestFocus();
+    }//GEN-LAST:event_jTextFieldCapacidadActionPerformed
+
+    private void jTextFieldHoraSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHoraSalidaActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldPaisProcedencia.requestFocus();
+    }//GEN-LAST:event_jTextFieldHoraSalidaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -434,7 +487,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldPaisProcedencia;
     // End of variables declaration//GEN-END:variables
 
-
+    
     private void llenarJTextFieldMatricula(){
         String matricula = FormModificarOmnibus.matricula;
         jTextFieldMatricula.setText(matricula);

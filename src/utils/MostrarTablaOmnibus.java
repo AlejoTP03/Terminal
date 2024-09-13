@@ -113,7 +113,7 @@ public class MostrarTablaOmnibus {
             public boolean isCellEditable(int row, int col){
                 return false;
             }
-        };;
+        };
         String sql = "SELECT matricula AS \"Matrícula\",\n" +
                      "marca AS \"Marca\",\n" +
                      "modelo AS \"Modelo\",\n" +
@@ -126,6 +126,7 @@ public class MostrarTablaOmnibus {
                      "WHERE destino = ?\n" +
                      "ORDER BY matricula ASC";
 
+        Connection conexion = ConexionDataBase.getConnection();
         try (PreparedStatement pst = conexion.prepareStatement(sql)) {
             // Establece el parámetro de la consulta
             pst.setString(1, destino);

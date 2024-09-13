@@ -292,7 +292,7 @@ public class FormConductor extends javax.swing.JDialog {
     
     private void createPopupMenu() {
         JPopupMenu popupMenu = new JPopupMenu();
-        JMenuItem modificarTicket = new JMenuItem("Modificar informacion");
+        JMenuItem modificarTicket = new JMenuItem("Modificar información");
 
         modificarTicket.addActionListener(e -> abrirJDialogModificarTicket());
 

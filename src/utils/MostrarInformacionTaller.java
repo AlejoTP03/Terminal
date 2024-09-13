@@ -22,7 +22,11 @@ public class MostrarInformacionTaller {
     }
 
     public DefaultTableModel obtenerInformacionTaller() {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        };
         String sql = "SELECT id_taller AS \"ID Taller\",\n" +
                         "nombre AS \"Nombre\",\n" +
                         "direccion AS \"Direccion\",\n" +

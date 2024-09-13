@@ -6,6 +6,7 @@ package view;
 
 import domain.Conductor;
 import interfaces.IServiciosConductor;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -78,10 +79,25 @@ public class FormModificarConductor extends javax.swing.JDialog {
         jLabelTelefono.setText("Teléfono:");
 
         jTextFieldNombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreActionPerformed(evt);
+            }
+        });
 
         jTextFieldApellido.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldApellidoActionPerformed(evt);
+            }
+        });
 
         jTextFieldDireccion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextFieldDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDireccionActionPerformed(evt);
+            }
+        });
 
         jTextFieldTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -228,11 +244,30 @@ public class FormModificarConductor extends javax.swing.JDialog {
             boolean exito = iServiciosConductor.actualizarConductor(conductor, idConductor);
             if(exito == true){
                 JOptionPane.showMessageDialog(this, "Actualizacion exitosa");
+                formConductor.llenarTablaConductor();
             }else{
                 JOptionPane.showMessageDialog(this, "Fallo la actualizacion");
             }
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
+
+    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldApellido.requestFocus();
+    }//GEN-LAST:event_jTextFieldNombreActionPerformed
+
+    private void jTextFieldApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApellidoActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldDireccion.requestFocus();
+    }//GEN-LAST:event_jTextFieldApellidoActionPerformed
+
+    private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
+        // TODO add your handling code here:
+        evt.setSource((char) KeyEvent.VK_CLEAR);
+        jTextFieldTelefono.requestFocus();
+    }//GEN-LAST:event_jTextFieldDireccionActionPerformed
 
     /**
      * @param args the command line arguments
