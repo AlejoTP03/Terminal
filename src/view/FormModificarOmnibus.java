@@ -391,6 +391,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                             JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
                             formBuscarOmnibus.llenarTablaOmnibusBuscados(destino);
                         }else{
+                            JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
                             formOmnibus.llenarTablaOmnibus();
                         }    
                     } else {

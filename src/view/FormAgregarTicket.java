@@ -35,7 +35,7 @@ public class FormAgregarTicket extends javax.swing.JDialog {
      * Creates new form FormAgregarTicket
      */
     
-    private FormTicket formTicket;
+    private static FormTicket formTicket;
     IServiciosTicket iServiciosTicket = new ServiciosTicket();
     public FormAgregarTicket(FormTicket formTicket, javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);

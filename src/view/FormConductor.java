@@ -70,28 +70,7 @@ public class FormConductor extends javax.swing.JDialog {
         jTableMostrarConductor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTableMostrarConductor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "idConductor", "Nombre", "Apellido", "Dirección", "Teléfono", "Matricula"
@@ -204,23 +183,29 @@ public class FormConductor extends javax.swing.JDialog {
     private void jButtonEliminarConductorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarConductorActionPerformed
         // TODO add your handling code here:
         DefaultTableModel modelo = (DefaultTableModel) jTableMostrarConductor.getModel();
+    
+        // Obtener la fila seleccionada
         int selectedRow = jTableMostrarConductor.getSelectedRow();
-
         System.out.println("Fila seleccionada: " + selectedRow); // Línea de depuración
 
-        if (selectedRow != -1) {
-            Object idConductor = modelo.getValueAt(selectedRow, 0); // Ajusta el índice de la columna si es necesario
-
-            boolean exito = iServiciosConductor.eliminarConductor(idConductor);
-            
-            if (exito) {
-                modelo.removeRow(selectedRow);
-                JOptionPane.showMessageDialog(this, "Conductor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al eliminar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
+        // Verificar si se seleccionó una fila
+        if (selectedRow == -1) {
 //            JOptionPane.showMessageDialog(this, "Por favor, seleccione algún conductor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return; // Salir del método si no hay fila seleccionada
+        }
+
+        // Obtener el ID del conductor de la fila seleccionada
+        Object idConductor = modelo.getValueAt(selectedRow, 0); // Ajusta el índice de la columna si es necesario
+
+        // Intentar eliminar el conductor
+        boolean exito = iServiciosConductor.eliminarConductor(idConductor);
+
+        // Mostrar el resultado de la operación
+        if (exito) {
+            modelo.removeRow(selectedRow);
+            JOptionPane.showMessageDialog(this, "Conductor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el conductor.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonEliminarConductorActionPerformed
 

@@ -28,10 +28,12 @@ public class FormBuscarTicket extends javax.swing.JDialog {
      */
     private Connection conectar = ConexionDataBase.getConnection();
     MostrarTablaTicket mostrarTablaTicket = new MostrarTablaTicket(conectar);
-    public FormBuscarTicket(javax.swing.JDialog parent, boolean modal) {
+    public static FormTicket formTicket;
+    public FormBuscarTicket(javax.swing.JDialog parent, boolean modal, FormTicket formTicket) {
         super(parent, modal);
         initComponents();
         createPopupMenu();
+        this.formTicket = formTicket;
     }
 
     /**
@@ -223,6 +225,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
+        formTicket.llenarTablaTickets();
         dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
@@ -241,7 +244,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use AAAA-MM-DD.");
             return;
         }
-
+        
         if(matricula.length() == 0){
             DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha);
 
@@ -301,7 +304,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormBuscarTicket dialog = new FormBuscarTicket(new javax.swing.JDialog(), true);
+                FormBuscarTicket dialog = new FormBuscarTicket(new javax.swing.JDialog(), true, formTicket);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -330,7 +333,17 @@ public class FormBuscarTicket extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
-   private void abrirJDialogModificarTicket() {
+    public void llenarTablaTicketsBuscados(String destino, Date fecha) {
+        DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha);
+        jTableMostrarTicketsBuscados.setModel(modelo);
+    }
+    
+    public void llenarTablaTicketsBuscados(String destino, Date fecha, String matricula) {
+        DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha, matricula);
+        jTableMostrarTicketsBuscados.setModel(modelo);
+    }
+    
+    private void abrirJDialogModificarTicket() {
         int selectedRow = jTableMostrarTicketsBuscados.getSelectedRow();
 
         if (selectedRow != -1) {
@@ -338,7 +351,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
                 int idTicket = (int) jTableMostrarTicketsBuscados.getValueAt(selectedRow, 0);
                 System.out.println(idTicket);
 
-                FormModificarTicket formModificarTicket = new FormModificarTicket(this, true, idTicket);
+                FormModificarTicket formModificarTicket = new FormModificarTicket(this, true, idTicket, this);
                 formModificarTicket.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();

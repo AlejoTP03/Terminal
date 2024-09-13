@@ -42,9 +42,10 @@ public class MostrarTablaTicket {
                      "FROM \"Ticket\" ORDER BY id_ticket ASC";
 
         // Abre una nueva conexión
-        try (Connection conexion = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
-             Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        Connection conexion = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
+        try (Statement stmt = conexion.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+              
 
             // Obtén el número de columnas y sus nombres
             int columnCount = rs.getMetaData().getColumnCount();
@@ -82,7 +83,8 @@ public class MostrarTablaTicket {
                      "WHERE destino = ? AND fecha_salida = ?\n" +
                      "ORDER BY id_ticket ASC";
 
-        try (PreparedStatement pst = conexion.prepareStatement(sql)) {
+        Connection conexion2 = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
+        try (PreparedStatement pst = conexion2.prepareStatement(sql)) {
             // Establece los parámetros de la consulta
             pst.setString(1, destino);
             pst.setDate(2, new java.sql.Date(fecha.getTime())); // Convertir java.util.Date a java.sql.Date
@@ -125,7 +127,8 @@ public class MostrarTablaTicket {
                      "WHERE destino = ? AND fecha_salida = ? AND matricula = ?\n" +
                      "ORDER BY id_ticket ASC";
 
-        try (PreparedStatement pst = conexion.prepareStatement(sql)) {
+        Connection conexion2 = ConexionDataBase.getConnection(); // Suponiendo que este método obtiene una nueva conexión
+        try (PreparedStatement pst = conexion2.prepareStatement(sql)) {
             // Establece los parámetros de la consulta
             pst.setString(1, destino);
             pst.setDate(2, new java.sql.Date(fecha.getTime())); // Convertir java.util.Date a java.sql.Date

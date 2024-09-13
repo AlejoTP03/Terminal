@@ -5,14 +5,19 @@
 package view;
 
 import domain.Omnibus;
+import domain.Ticket;
 import interfaces.IServiciosTicket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import services.ServiciosTicket;
 
 /**
@@ -27,10 +32,15 @@ public class FormModificarTicket extends javax.swing.JDialog {
     
     IServiciosTicket iServiciosTicket = new ServiciosTicket();
     private static int idTicket;
-    public FormModificarTicket(javax.swing.JDialog parent, boolean modal, int idTicket) {
+    public static FormTicket formTicket;
+    public static FormBuscarTicket formBuscarTicket;
+    private boolean constructorFormTicket;
+    public FormModificarTicket(javax.swing.JDialog parent, boolean modal, int idTicket, FormTicket formTicket) {
         super(parent, modal);
         initComponents();
         this.idTicket = idTicket;
+        this.formTicket = formTicket;
+        constructorFormTicket = true;
         llenarJTextFieldNombre();
         llenarJTextFieldApellido();
         llenarJTextFieldCI();
@@ -45,6 +55,27 @@ public class FormModificarTicket extends javax.swing.JDialog {
             
         });
         
+    }
+    
+    public FormModificarTicket(javax.swing.JDialog parent, boolean modal, int idTicket, FormBuscarTicket formBuscarTicket) {
+        super(parent, modal);
+        initComponents();
+        this.idTicket = idTicket;
+        this.formBuscarTicket = formBuscarTicket;
+        constructorFormTicket = false;
+        llenarJTextFieldNombre();
+        llenarJTextFieldApellido();
+        llenarJTextFieldCI();
+        llenarJTextFieldFechaSalida();
+        llenarJComboBoxDestino();
+        jComboBoxDestino.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            String destinoSeleccionado = jComboBoxDestino.getSelectedItem().toString();
+            llenarComboBoxMatricula(jComboBoxMatricula, destinoSeleccionado);
+            }
+            
+        });
         
     }
     
@@ -331,8 +362,78 @@ public class FormModificarTicket extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         // TODO add your handling code here:
+        String nombrePasajero = jTextFieldNombrePasajero.getText().trim();
+        String apellidoPasajero = jTextFieldApellidoPasajero.getText().trim();
+        String ciPasajero = jTextFieldCiPasajero.getText().trim();
         
+        String fechaSalidaTexto = jTextFieldFechasalida.getText().trim();
 
+        // Verificar que la fecha tenga una longitud de 10 caracteres
+        if (fechaSalidaTexto.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Fecha de salida inválida, la fecha debe cumplir el formato AAAA-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validación del formato de la fecha de salida
+        Date fechaSalida = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            fechaSalida = dateFormat.parse(jTextFieldFechasalida.getText().trim());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Fecha de salida inválida, la fecha debe cumplir el formato AAAA-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        
+        // Verificar si se seleccionó un destino y una matrícula
+        if (jComboBoxDestino.getSelectedItem() == null || jComboBoxMatricula.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un destino y una matrícula", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar la longitud del CI
+        if (ciPasajero.length() != 11) {
+            JOptionPane.showMessageDialog(this, "Faltan caracteres en el CI", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener valores seleccionados del JComboBox
+        String destino = jComboBoxDestino.getSelectedItem().toString();
+        String matricula = jComboBoxMatricula.getSelectedItem().toString();
+
+        // Verificar la capacidad del ómnibus
+        if (!iServiciosTicket.verificarCapacidadOmnibus(fechaSalida, matricula)) {
+            JOptionPane.showMessageDialog(this, "La cantidad de tickets emitidos para este día excede la capacidad del ómnibus", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar si hay campos vacíos
+        if (!emptyFields()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear objeto Ticket con los datos obtenidos
+        Ticket ticket = new Ticket(idTicket, nombrePasajero, apellidoPasajero, ciPasajero, fechaSalida, destino, matricula);
+
+        // Llamar al método para actualizar el ticket en la base de datos
+        IServiciosTicket iServiciosTicket = new ServiciosTicket();
+        boolean resultado = iServiciosTicket.actualizarTicket(ticket);
+
+        // Mostrar mensaje de éxito o error
+        if (resultado) {
+            if(constructorFormTicket){
+                JOptionPane.showMessageDialog(this, "Ticket actualizado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                clear();
+                formTicket.llenarTablaTickets(); // Actualizar la tabla de tickets
+            }else{
+                JOptionPane.showMessageDialog(this, "Ticket actualizado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                formBuscarTicket.llenarTablaTicketsBuscados(destino, fechaSalida);// Actualizar la tabla de tickets
+            }    
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el ticket", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -382,7 +483,7 @@ public class FormModificarTicket extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormModificarTicket dialog = new FormModificarTicket(new javax.swing.JDialog(), true,idTicket);
+                FormModificarTicket dialog = new FormModificarTicket(new javax.swing.JDialog(), true, idTicket, formTicket);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -424,6 +525,16 @@ public class FormModificarTicket extends javax.swing.JDialog {
             // Verifica que se haya seleccionado un valor en los JComboBox
             && jComboBoxDestino.getSelectedItem() != null
             && jComboBoxMatricula.getSelectedItem() != null;
+    }
+    
+     
+    public void clear(){
+        jTextFieldNombrePasajero.setText("");
+        jTextFieldApellidoPasajero.setText("");
+        jTextFieldCiPasajero.setText("");
+        jTextFieldFechasalida.setText("");
+        jComboBoxMatricula.setSelectedIndex(-1);
+     
     }
     
     public List<String> llenarComboBoxMatricula(JComboBox<String> comboBox, String destino) {

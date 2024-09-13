@@ -69,52 +69,30 @@ public class ServiciosTicket implements IServiciosTicket{
     }
 
     @Override
-    public void actualizarTicket(int idTicket, String nombreColumna, Object dato) {
-        // Mapeo de los nombres de columnas del JTable a los nombres reales en la base de datos
-        String dbColumnName;
-        switch (nombreColumna) {
-            case "ID Ticket":
-                dbColumnName = "id_ticket";
-                break;
-            case "Nombre del Pasajero":
-                dbColumnName = "nombre_pasajero";
-                break;
-            case "Apellidos del Pasajero":
-                dbColumnName = "apellidos_pasajero";
-                break;
-            case "Carnet de Identidad":
-                dbColumnName = "ci_pasajero";
-                break;
-            case "Fecha de Salida":
-                dbColumnName = "fecha_salida";
-                break;
-            case "Destino":
-                dbColumnName = "destino";
-                break;
-            case "Matricula":
-                dbColumnName = "matricula";
-                break;
-            default:
-                throw new IllegalArgumentException("Columna desconocida: " + nombreColumna);
-        }
+    public boolean actualizarTicket(Ticket ticket) {
+        String sql = "UPDATE \"Ticket\" SET nombre_pasajero = ?, apellidos_pasajero = ?, ci_pasajero = ?, fecha_salida= ?, destino = ?, matricula = ? WHERE id_ticket = ?";
 
-        String sql = "UPDATE \"Ticket\" SET " + dbColumnName + " = ? WHERE id_ticket = ?";
+        Connection con = conexion.getConnection();
+        try (
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-        try (Connection conexion = ConexionDataBase.getConnection();
-             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+            // Establecer parámetros para la actualización de "Ticket"
+            pstmt.setString(1, ticket.getNombePasajero());
+            pstmt.setString(2, ticket.getApellidosPasajero());
+            pstmt.setString(3, ticket.getCiPasajero());
+            pstmt.setDate(4, new java.sql.Date(ticket.getFechaSalida().getTime()));
+            pstmt.setString(5, ticket.getDestino());
+            pstmt.setString(6, ticket.getMatricula());
+            pstmt.setInt(7, ticket.getIdTicket());
 
-            // Establece el valor del nuevo dato
-            pstmt.setObject(1, dato);
-            pstmt.setInt(2, idTicket);
+            // Ejecutar la actualización en la tabla "Ticket"
+            int filasActualizadas = pstmt.executeUpdate();
 
-            // Ejecuta la actualización
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("El registro con id_ticket " + idTicket + " fue actualizado.");
-            }
-
+            // Comprobar si se actualizó al menos un registro
+            return filasActualizadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
     

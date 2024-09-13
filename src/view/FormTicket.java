@@ -239,7 +239,7 @@ public class FormTicket extends javax.swing.JDialog {
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        FormBuscarTicket formbuscarticket = new FormBuscarTicket(this, true);
+        FormBuscarTicket formbuscarticket = new FormBuscarTicket(this, true, this);
         formbuscarticket.setVisible(true);
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
@@ -310,7 +310,7 @@ public class FormTicket extends javax.swing.JDialog {
                 int idTicket = (int) jTableMostrarTicket.getValueAt(selectedRow, 0);
                 System.out.println(idTicket);
 
-                FormModificarTicket formModificarTicket = new FormModificarTicket(this, true, idTicket);
+                FormModificarTicket formModificarTicket = new FormModificarTicket(this, true, idTicket, this);
                 formModificarTicket.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
