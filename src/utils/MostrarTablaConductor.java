@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import persistence.ConexionDataBase;
 /**
  *
  * @author PC
@@ -34,7 +35,8 @@ public class MostrarTablaConductor {
                      "matricula AS \"Matrícula\"\n" +
                      "FROM \"Conductor\" ORDER BY id_conductor ASC";
 
-        try (Statement stmt = conexion.createStatement();
+        Connection conexion2 = ConexionDataBase.getConnection();
+        try (Statement stmt = conexion2.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             // Obtén el número de columnas y sus nombres

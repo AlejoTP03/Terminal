@@ -119,7 +119,55 @@ public class ServiciosConductor implements IServiciosConductor{
     }
 
 
-    
+    public boolean actualizarConductorSinMatricula(Conductor conductor, int idConductor) {
+        // Sentencia SQL para actualizar la tabla "Conductor"
+        String sqlConductor = "UPDATE \"Conductor\" SET nombre = ?, apellido = ?, direccion = ?, telefono = ?, matricula = ? "
+                              + "WHERE id_conductor = ?";
+
+        try (Connection con = conexion.getConnection()) {
+            // Desactivar el autoCommit
+            con.setAutoCommit(false);
+
+            try (PreparedStatement pstmt = con.prepareStatement(sqlConductor)) {
+
+                pstmt.setString(1, conductor.getNombre());
+                pstmt.setString(2, conductor.getApellido());
+                pstmt.setString(3, conductor.getDireccion());
+                pstmt.setString(4, conductor.getTelefono());
+
+                // Verificar si la matrícula es "Sin Asignar" y establecer el valor en consecuencia
+                if ("Sin Asignar".equals(conductor.getMatricula())) {
+                    pstmt.setNull(5, java.sql.Types.VARCHAR); // Asignar null al campo de la matrícula
+                } else {
+                    pstmt.setString(5, conductor.getMatricula());
+                }
+
+                pstmt.setInt(6, idConductor);
+
+                // Ejecutar la actualización en la tabla "Conductor"
+                int filasActualizadasConductor = pstmt.executeUpdate();
+
+                // Si se actualizó al menos un registro en la tabla "Conductor"
+                if (filasActualizadasConductor > 0) {
+                    con.commit(); // Confirmar la actualización
+                    return true;  // Indicar que la operación fue exitosa
+                } else {
+                    con.rollback(); // Revertir la actualización si no se actualizó nada
+                    return false;  // Indicar que la operación falló
+                }
+            } catch (SQLException e) {
+                con.rollback(); // Revertir la actualización en caso de excepción
+                e.printStackTrace();
+                return false;
+            } finally {
+                // Volver a activar el autoCommit
+                con.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     
     @Override
     public List<String> obtenerMatriculasDisponibles() {

@@ -238,17 +238,21 @@ public class FormModificarConductor extends javax.swing.JDialog {
             String telefono = jTextFieldTelefono.getText();
             String matricula = jComboBoxMatricula.getSelectedItem().toString();
             
-            int idConductor = FormModificarConductor.idConductor;
-            Conductor conductor = new Conductor(nombre, apellido, direccion, telefono, matricula);
             
-            boolean exito = iServiciosConductor.actualizarConductor(conductor, idConductor);
-            if(exito == true){
-                JOptionPane.showMessageDialog(this, "Actualizacion exitosa");
-                formConductor.llenarTablaConductor();
-            }else{
-                JOptionPane.showMessageDialog(this, "Fallo la actualizacion");
-            }
-        }
+            int idConductor = FormModificarConductor.idConductor;
+            
+            Conductor conductor = new Conductor(nombre, apellido, direccion, telefono, matricula);
+            if(jTextFieldTelefono.getText().length() == 8){
+                boolean exito = iServiciosConductor.actualizarConductor(conductor, idConductor);
+                if(exito == true){
+                    JOptionPane.showMessageDialog(this, "Actualizacion exitosa");
+                    formConductor.llenarTablaConductor();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Fallo la actualizacion");
+                }
+            }    
+            
+        }    
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
@@ -370,7 +374,7 @@ public class FormModificarConductor extends javax.swing.JDialog {
 
         // Agregar las opciones al listado
         matriculas.add(noMatricula); // Agregar 'Sin Asignar' al final de la lista
-        matriculas.add(0, matriculaActual); // Agregar la matrícula actual al inicio de la lista
+        matriculas.addFirst(matriculaActual); // Agregar la matrícula actual al inicio de la lista
 
         // Crear el modelo para el JComboBox
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(matriculas.toArray(new String[0]));
@@ -379,6 +383,7 @@ public class FormModificarConductor extends javax.swing.JDialog {
         // Verificar si la matrícula actual es null o no
         if (matriculaActual == null || matriculaActual.trim().isEmpty()) {
             jComboBoxMatricula.setSelectedItem(noMatricula); // Seleccionar "Sin Asignar" si la matrícula es null o está vacía
+            jComboBoxMatricula.removeItemAt(0);
         } else {
             jComboBoxMatricula.setSelectedItem(matriculaActual); // Seleccionar la matrícula actual si no es null
         }

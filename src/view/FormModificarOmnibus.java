@@ -32,11 +32,13 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
     TraerIdTaller traerIdTaller = new TraerIdTaller();
     private static String matricula;
     public static String destino;
+    private boolean constructorDesdeFormOmnibus;
     public FormModificarOmnibus(javax.swing.JDialog parent, boolean modal, FormOmnibus formOmnibus, String matricula) {
         super(parent, modal);
         initComponents();
         this.formOmnibus = formOmnibus;
         this.matricula = matricula;
+        constructorDesdeFormOmnibus = true;
         llenarJTextFieldMatricula();
         llenarJTextFieldMarca();
         llenarJTextFieldModelo();
@@ -53,6 +55,7 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
         this.formBuscarOmnibus = formBuscarOmnibus;
         this.matricula = matricula;
         this.destino = destino;
+        constructorDesdeFormOmnibus = false;
         llenarJTextFieldMatricula();
         llenarJTextFieldMarca();
         llenarJTextFieldModelo();
@@ -384,8 +387,12 @@ public class FormModificarOmnibus extends javax.swing.JDialog {
                     boolean exito = iServiciosOmnibus.actualizarOmnibus(omnibus, matriculaAntigua);
 
                     if (exito) {
-                        JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
-                        formBuscarOmnibus.llenarTablaOmnibusBuscados(destino);
+                        if(!constructorDesdeFormOmnibus){
+                            JOptionPane.showMessageDialog(this, "Ómnibus actualizado con éxito.");
+                            formBuscarOmnibus.llenarTablaOmnibusBuscados(destino);
+                        }else{
+                            formOmnibus.llenarTablaOmnibus();
+                        }    
                     } else {
                         JOptionPane.showMessageDialog(this, "No se pudo actualizar el ómnibus.");
                     }
