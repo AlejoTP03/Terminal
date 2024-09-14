@@ -100,13 +100,13 @@ public class GenerarPdf {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String fechaActual = sdf.format(new Date());
 
-            String nombreArchivo = "Reporte Omnibus " + fechaActual + ".pdf";
+            String nombreArchivo = "Reporte Ómnibus " + fechaActual + ".pdf";
             File archivo = new File(ruta + nombreArchivo);
 
             // Verificar si existe un archivo con el mismo nombre y añadir un número al nombre si es necesario
             int contador = 1;
             while (archivo.exists()) {
-                nombreArchivo = "Reporte Omnibus " + fechaActual + "(" + contador + ").pdf";
+                nombreArchivo = "Reporte Ómnibus " + fechaActual + "(" + contador + ").pdf";
                 archivo = new File(ruta + nombreArchivo);
                 contador++;
             }

@@ -33,7 +33,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="Gestion Terminal de Omnibus"/>
+    <Property name="title" type="java.lang.String" value="Gesti&#xf3;n Terminal de &#xd3;mnibus"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>

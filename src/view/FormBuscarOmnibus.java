@@ -4,6 +4,8 @@
  */
 package view;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -31,6 +33,13 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
         initComponents();
         createPopupMenu();
         this.formOmnibus = formOmnibus;
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                formOmnibus.llenarTablaOmnibus();
+            }
+        });
     }
 
     /**
@@ -53,7 +62,7 @@ public class FormBuscarOmnibus extends javax.swing.JDialog {
         jTableMostrarOmnibusBuscados = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar Omnibus");
+        setTitle("Buscar Ómnibus");
 
         jPanel1.setOpaque(false);
 

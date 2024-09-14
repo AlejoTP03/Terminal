@@ -4,41 +4,15 @@
  */
 package domain;
 
-import interfaces.IServiciosTicket;
-import persistence.ConexionDataBase;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import services.ServiciosTicket;
-import utils.TraerIdTaller;
+import view.FormMain;
 
 /**
  *
- * @author PC
+ * @author Lenovo
  */
 public class Main {
     public static void main(String[] args) {
-//        Taller taller = new Taller();
-//        
-//        System.out.println(taller.getIdTaller());
-//        
-//        
-//        ConexionDataBase conectar = new ConexionDataBase();
-//        conectar.getConnection();
-//        //conectar.closeConnection();;
-////        conectar.comprobarConexion();
-//        
-//        
-//        TraerIdTaller pepe = new TraerIdTaller();
-//        int consulta = pepe.obtenerIdTaller();
-//        System.out.println(consulta);
-
-
-         
+        FormMain formMain = new FormMain();
+        formMain.setVisible(true);
     }
-       
-    
 }
-
- 

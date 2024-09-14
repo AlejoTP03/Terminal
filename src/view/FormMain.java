@@ -44,7 +44,7 @@ public class FormMain extends javax.swing.JFrame {
         jMenuItemSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestion Terminal de Omnibus");
+        setTitle("Gestión Terminal de Ómnibus");
         setResizable(false);
 
         jButtonTicket.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -228,7 +228,7 @@ public class FormMain extends javax.swing.JFrame {
 
         //Metodos
         public void paint(Graphics g){
-            imagen = new ImageIcon(getClass().getResource("fondoPrincipal.jpg")).getImage();
+            imagen = new ImageIcon(getClass().getResource("ViaZul.jpg")).getImage();
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
             super.paint(g);

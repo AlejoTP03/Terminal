@@ -42,7 +42,8 @@ public class FormInformacionTaller extends javax.swing.JDialog {
         jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Informacion del Taller");
+        setTitle("Información del Taller");
+        setResizable(false);
 
         jPanel1.setOpaque(false);
 

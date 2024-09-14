@@ -4,6 +4,9 @@
  */
 package view;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +37,13 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         initComponents();
         createPopupMenu();
         this.formTicket = formTicket;
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                formTicket.llenarTablaTickets();
+            }
+        });
     }
 
     /**
@@ -123,6 +133,11 @@ public class FormBuscarTicket extends javax.swing.JDialog {
 
         jTextFieldFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextFieldFecha.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFechaActionPerformed(evt);
+            }
+        });
         jTextFieldFecha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFechaKeyTyped(evt);
@@ -245,6 +260,7 @@ public class FormBuscarTicket extends javax.swing.JDialog {
             return;
         }
         
+        
         if(matricula.length() == 0){
             DefaultTableModel modelo = mostrarTablaTicket.obtenerTicketsBuscados(destino, fecha);
 
@@ -272,6 +288,10 @@ public class FormBuscarTicket extends javax.swing.JDialog {
         if ((car < '0' || car > '9') && car != '-') 
             evt.consume();
     }//GEN-LAST:event_jTextFieldFechaKeyTyped
+
+    private void jTextFieldFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFechaActionPerformed
 
     /**
      * @param args the command line arguments
